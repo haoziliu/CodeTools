@@ -2,6 +2,7 @@ package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
 import com.example.codetools.GraphCode
+import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -82,9 +83,9 @@ class ExampleUnitTest {
 //
 
 
-//        println(
-//            HardArrayCode.shortestSubarray(intArrayOf(-34,37,51,3,-12,-50,51,100,-47,99,34,14,-13,89,31,-14,-44,23,-38,6) , 151)
-//        )
+        println(
+            HardArrayCode.minimumObstacles(parseToIntArray("[[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0]]"))
+        )
 
 //        println(
 //            ArrayCode.shortestDistanceAfterQueries(50, parseToIntArray("[[0,2],[2,4],[4,6],[6,8],[8,10],[10,12],[12,14],[14,16],[16,18],[18,20],[20,22],[22,24],[24,26],[26,28],[28,30],[30,32],[32,34],[34,36],[36,38],[38,40],[40,42],[42,44],[44,46],[46,48],[48,50]]")).joinToString()

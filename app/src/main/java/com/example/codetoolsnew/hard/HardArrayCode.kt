@@ -571,7 +571,12 @@ object HardArrayCode {
         healths: IntArray,
         directions: String
     ): List<Int> {
-        data class Robot(val position: Int, var health: Int, val direction: Char, val originalIndex: Int)
+        data class Robot(
+            val position: Int,
+            var health: Int,
+            val direction: Char,
+            val originalIndex: Int
+        )
 
         val pq = PriorityQueue<Robot> { r1, r2 -> r1.position.compareTo(r2.position) }
         for (i in positions.indices) {
@@ -606,7 +611,11 @@ object HardArrayCode {
         return stack.sortedBy { it.originalIndex }.map { it.health }
     }
 
-    fun buildMatrix(k: Int, rowConditions: Array<IntArray>, colConditions: Array<IntArray>): Array<IntArray> {
+    fun buildMatrix(
+        k: Int,
+        rowConditions: Array<IntArray>,
+        colConditions: Array<IntArray>
+    ): Array<IntArray> {
         val belowRelations = Array(k + 1) { IntArray(k + 1) }
         for ((above, below) in rowConditions) {
             belowRelations[above][below] = 1
@@ -932,7 +941,8 @@ object HardArrayCode {
             // 尝试将 boxes[i] 连接到后面相同颜色的盒子
             for (m in i0 + 1..j) {
                 if (boxes[i0] == boxes[m]) {
-                    res = maxOf(res, removeBoxesSub(i0 + 1, m - 1, 0) + removeBoxesSub(m, j, k0 + 1))
+                    res =
+                        maxOf(res, removeBoxesSub(i0 + 1, m - 1, 0) + removeBoxesSub(m, j, k0 + 1))
                 }
             }
 
@@ -1048,7 +1058,11 @@ object HardArrayCode {
             while (pq.isNotEmpty()) {
                 val (node, curr) = pq.poll()!!
                 for ((neighbour, j) in graph[node] ?: listOf()) {
-                    if ((modify || edges[j][2] != -1) && dp[neighbour] > curr + maxOf(1, edges[j][2])) {
+                    if ((modify || edges[j][2] != -1) && dp[neighbour] > curr + maxOf(
+                            1,
+                            edges[j][2]
+                        )
+                    ) {
                         dp[neighbour] = curr + maxOf(1, edges[j][2])
                         modId[neighbour] = if (edges[j][2] == -1) j else modId[node]
                         pq.offer(Pair(neighbour, dp[neighbour]))
@@ -1485,7 +1499,10 @@ object HardArrayCode {
                     dist += abs(robotArray[i] - fac[0])
                     // i-1 是前一个机器人下标，dp[i - 1][facIndex]表示前面所有机器人和前面所有工厂的最优解
                     dp[robotIndex][facIndex + 1] =
-                        minOf(dp[robotIndex][facIndex + 1], dist + if (i == 0) 0L else dp[i - 1][facIndex])
+                        minOf(
+                            dp[robotIndex][facIndex + 1],
+                            dist + if (i == 0) 0L else dp[i - 1][facIndex]
+                        )
                 }
             }
         }
@@ -1554,6 +1571,57 @@ object HardArrayCode {
                 if (pattern !in seen) {
                     seen.add(pattern)
                     queue.offer(Triple(arrayCopy, neighbour, count + 1))
+                }
+            }
+        }
+        return -1
+    }
+
+    fun minimumObstacles(grid: Array<IntArray>): Int {
+        val m = grid.size
+        val n = grid[0].size
+        // dp with relaxation
+//        val dp = Array(m) { IntArray(n) { Int.MAX_VALUE } }
+//        dp[0][0] = 0
+//        var changed = true
+//        while (changed) {
+//            changed = false
+//            for (row in 0 until m) {
+//                for (col in 0 until n) {
+//                    if (row == 0 && col == 0) continue
+//                    val newValue = minOf(
+//                        if (row > 0) dp[row - 1][col] else Int.MAX_VALUE,
+//                        if (col > 0) dp[row][col - 1] else Int.MAX_VALUE,
+//                        if (row < m - 1) dp[row + 1][col] else Int.MAX_VALUE,
+//                        if (col < n - 1) dp[row][col + 1] else Int.MAX_VALUE,
+//                    ) + if (grid[row][col] == 1) 1 else 0
+//                    if (newValue < dp[row][col]) {
+//                        dp[row][col] = newValue
+//                        changed = true
+//                    }
+//                }
+//            }
+//        }
+//        return dp[m - 1][n - 1]
+
+        // Dijkstra
+        val DIRECTIONS = arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
+        val cost = Array(m) { IntArray(n) { Int.MAX_VALUE } }
+        cost[0][0] = 0
+        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third })
+        pq.offer(Triple(0, 0, 0))
+        while (pq.isNotEmpty()) {
+            val (row, col, current) = pq.poll()!!
+            if (row == m - 1 && col == n - 1) return current
+            for ((deltaX, deltaY) in DIRECTIONS) {
+                val newX = row + deltaX
+                val newY = col + deltaY
+                if (newX in 0 until m && newY in 0 until n) {
+                    val newCost = if (grid[newX][newY] == 1) current + 1 else current
+                    if (newCost < cost[newX][newY]) {
+                        cost[newX][newY] = newCost
+                        pq.offer(Triple(newX, newY, newCost))
+                    }
                 }
             }
         }
