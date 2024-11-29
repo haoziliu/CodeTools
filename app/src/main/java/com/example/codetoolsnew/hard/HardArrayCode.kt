@@ -1606,8 +1606,8 @@ object HardArrayCode {
 
         // Dijkstra
         val DIRECTIONS = arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
-        val cost = Array(m) { IntArray(n) { Int.MAX_VALUE } }
-        cost[0][0] = 0
+        val visited = Array(m) { BooleanArray(n) }
+        visited[0][0] = true
         val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third })
         pq.offer(Triple(0, 0, 0))
         while (pq.isNotEmpty()) {
@@ -1616,12 +1616,40 @@ object HardArrayCode {
             for ((deltaX, deltaY) in DIRECTIONS) {
                 val newX = row + deltaX
                 val newY = col + deltaY
-                if (newX in 0 until m && newY in 0 until n) {
+                if (newX in 0 until m && newY in 0 until n && !visited[newX][newY]) {
                     val newCost = if (grid[newX][newY] == 1) current + 1 else current
-                    if (newCost < cost[newX][newY]) {
-                        cost[newX][newY] = newCost
-                        pq.offer(Triple(newX, newY, newCost))
+                    visited[newX][newY] = true
+                    pq.offer(Triple(newX, newY, newCost))
+
+                }
+            }
+        }
+        return -1
+    }
+
+    fun minimumTime(grid: Array<IntArray>): Int {
+        if (grid[0][1] > 1 && grid[1][0] > 1) return -1
+        // Dijkstra
+        val DIRECTIONS = arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
+        val m = grid.size
+        val n = grid[0].size
+        val visited = Array (m) { BooleanArray(n) }
+        visited[0][0] = true
+        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third })
+        pq.offer(Triple(0, 0, 0))
+        while(pq.isNotEmpty()) {
+            val (row, col, currentTime) = pq.poll()!!
+            if (row == m - 1 && col == n - 1) return currentTime
+            for ((deltaX, deltaY) in DIRECTIONS) {
+                val newRow = row + deltaX
+                val newCol = col + deltaY
+                if (newRow in 0 until m && newCol in 0 until n && !visited[newRow][newCol]) {
+                    var newTime = currentTime + 1
+                    if (newTime < grid[newRow][newCol]) {
+                        newTime = grid[newRow][newCol] + (grid[newRow][newCol] - newTime) % 2
                     }
+                    visited[newRow][newCol] = true
+                    pq.offer(Triple(newRow, newCol, newTime))
                 }
             }
         }
