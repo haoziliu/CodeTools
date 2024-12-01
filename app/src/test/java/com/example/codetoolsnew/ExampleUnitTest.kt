@@ -2,6 +2,7 @@ package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
 import com.example.codetools.GraphCode
+import com.example.codetools.MatrixCode
 import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
 
@@ -83,9 +84,7 @@ class ExampleUnitTest {
 //
 
 
-        println(
-            HardArrayCode.minimumObstacles(parseToIntArray("[[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0]]"))
-        )
+//        HardArrayCode.validArrangement(parseToIntArray("[[5,1],[4,5],[11,9],[9,4]]")).forEach { println(it.joinToString()) }
 
 //        println(
 //            ArrayCode.shortestDistanceAfterQueries(50, parseToIntArray("[[0,2],[2,4],[4,6],[6,8],[8,10],[10,12],[12,14],[14,16],[16,18],[18,20],[20,22],[22,24],[24,26],[26,28],[28,30],[30,32],[32,34],[34,36],[36,38],[38,40],[40,42],[42,44],[44,46],[46,48],[48,50]]")).joinToString()
@@ -106,5 +105,9 @@ class ExampleUnitTest {
 //            GraphCode.findChampion(4, parseToIntArray("[[0,2],[1,3],[1,2]]")
 //            )
 //        )
+
+        println(MatrixCode.isValidSudoku(
+            parseToCharArray("[[.,.,.,.,5,.,.,1,.],[.,4,.,3,.,.,.,.,.],[.,.,.,.,.,3,.,.,1],[8,.,.,.,.,.,.,2,.],[.,.,2,.,7,.,.,.,.],[.,1,5,.,.,.,.,.,.],[.,.,.,.,.,2,.,.,.],[.,2,.,9,.,.,.,.,.],[.,.,4,.,.,.,.,.,.]]")
+        ))
     }
 }

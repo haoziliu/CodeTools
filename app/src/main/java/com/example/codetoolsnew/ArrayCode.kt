@@ -3362,8 +3362,14 @@ object ArrayCode {
     }
 
     fun nextPermutation(nums: IntArray): Unit {
-        val size = nums.size
-        if (size == 1) return
+        val n = nums.size
+        var target = -1
+        for (i in n - 2 downTo 0) {
+            if (nums[i] < nums[i + 1]) {
+                target = i
+                break
+            }
+        }
 
         fun swap(i: Int, j: Int) {
             val tmp = nums[i]
@@ -3371,42 +3377,28 @@ object ArrayCode {
             nums[j] = tmp
         }
 
-        fun sort(start: Int, end: Int) {
-            for (i in 0 until end - start) {
-                for (j in start until end - i) {
-                    if (nums[j] > nums[j + 1]) {
-                        swap(j, j + 1)
-                    }
+        if (target >= 0) {
+            // binary search for the right-most number bigger than target
+            var left = target + 1
+            var right = n - 1
+            while (left <= right) {
+                val mid = left + ((right - left) shr 1)
+                if (nums[mid] > nums[target]) {
+                    left = mid + 1
+                } else {
+                    right = mid - 1
                 }
             }
+            swap(target, right)
         }
 
-        // find start to sort
-        var start = 0
-        for (i in size - 1 downTo 1) {
-            if (nums[i] > nums[i - 1]) {
-                start = i
-                break
-            }
-        }
-
-        for (i in 0 until size - 1 - start) {
-            for (j in start until size - 1 - i) {
-                if (nums[j] > nums[j + 1]) {
-                    swap(j, j + 1)
-                }
-            }
-        }
-
-        if (start != 0) {
-            var toReplace = start
-            for (i in start until size) {
-                if (nums[i] > nums[start - 1]) {
-                    toReplace = i
-                    break
-                }
-            }
-            swap(toReplace, start - 1)
+        // reverse all starting from start + 1
+        var left = target + 1
+        var right = n - 1
+        while (left <= right) {
+            swap(left, right)
+            left++
+            right--
         }
     }
 
@@ -3980,10 +3972,11 @@ object ArrayCode {
         var right = height.lastIndex
         var maxArea = 0
         while (left < right) {
-            maxArea = maxOf(maxArea, (right - left) * minOf(height[left], height[right]))
             if (height[left] <= height[right]) {
+                maxArea = maxOf(maxArea, (right - left) * height[left])
                 left++
             } else {
+                maxArea = maxOf(maxArea, (right - left) * height[right])
                 right--
             }
         }

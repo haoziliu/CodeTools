@@ -1605,7 +1605,8 @@ object HardArrayCode {
 //        return dp[m - 1][n - 1]
 
         // Dijkstra
-        val DIRECTIONS = arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
+        val DIRECTIONS =
+            arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
         val visited = Array(m) { BooleanArray(n) }
         visited[0][0] = true
         val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third })
@@ -1630,14 +1631,15 @@ object HardArrayCode {
     fun minimumTime(grid: Array<IntArray>): Int {
         if (grid[0][1] > 1 && grid[1][0] > 1) return -1
         // Dijkstra
-        val DIRECTIONS = arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
+        val DIRECTIONS =
+            arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
         val m = grid.size
         val n = grid[0].size
-        val visited = Array (m) { BooleanArray(n) }
+        val visited = Array(m) { BooleanArray(n) }
         visited[0][0] = true
         val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third })
         pq.offer(Triple(0, 0, 0))
-        while(pq.isNotEmpty()) {
+        while (pq.isNotEmpty()) {
             val (row, col, currentTime) = pq.poll()!!
             if (row == m - 1 && col == n - 1) return currentTime
             for ((deltaX, deltaY) in DIRECTIONS) {
@@ -1654,5 +1656,51 @@ object HardArrayCode {
             }
         }
         return -1
+    }
+
+    fun validArrangement(pairs: Array<IntArray>): Array<IntArray> {
+        // Hierholzer 算法找 Eulerian 路径
+        val inDegree = mutableMapOf<Int, Int>()
+        val outDegree = mutableMapOf<Int, Int>()
+        val graph = mutableMapOf<Int, MutableList<Int>>()
+        for ((start, end) in pairs) {
+            graph.getOrPut(start) { mutableListOf() }.add(end)
+            outDegree[start] = outDegree.getOrDefault(start, 0) + 1
+            inDegree[end] = inDegree.getOrDefault(end, 0) + 1
+        }
+        val path = mutableListOf<Int>() // 倒序存储的路径
+        val result = mutableListOf<IntArray>()
+
+        fun dfs(start: Int) {
+            graph[start]?.let {
+                while (it.isNotEmpty()) {
+                    val v = it.removeAt(0)
+                    dfs(v)
+                }
+            }
+            path.add(start)
+        }
+
+        // 起点的入度比出度少1
+        var startNode = -1
+        for (node in outDegree.keys + inDegree.keys) {
+            val out = outDegree.getOrDefault(node, 0)
+            val inD = inDegree.getOrDefault(node, 0)
+            if (out - inD == 1) {
+                startNode = node
+                break
+            }
+        }
+        // 没有明确起点，欧拉回路，随便选一个点
+        if (startNode == -1) {
+            startNode = pairs[0][0]
+        }
+
+        dfs(startNode)
+
+        for (i in path.size - 2 downTo 0) {
+            result.add(intArrayOf(path[i + 1], path[i]))
+        }
+        return result.toTypedArray()
     }
 }

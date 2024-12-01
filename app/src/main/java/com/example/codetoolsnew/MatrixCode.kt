@@ -489,32 +489,49 @@ object MatrixCode {
 
     fun isValidSudoku(board: Array<CharArray>): Boolean {
         // Only the filled cells need to be validated
-        val columnSet = Array(9) { mutableSetOf<Int>() }
-        val boxSet = Array(9) { mutableSetOf<Int>() }
+//        val columnSet = Array(9) { mutableSetOf<Int>() }
+//        val boxSet = Array(9) { mutableSetOf<Int>() }
+//
+//        for (i in 0..8) {
+//            val rowSet = mutableSetOf<Int>()
+//            for (j in 0..8) {
+//                if (board[i][j] == '.') continue
+//                val num = board[i][j].digitToInt()
+//                if (rowSet.contains(num)) {
+//                    return false
+//                } else {
+//                    rowSet.add(num)
+//                }
+//
+//                if (columnSet[j].contains(num)) {
+//                    return false
+//                } else {
+//                    columnSet[j].add(num)
+//                }
+//
+//                val boxIndex = i / 3 * 3 + j / 3
+//                if (boxSet[boxIndex].contains(num)) {
+//                    return false
+//                } else {
+//                    boxSet[boxIndex].add(num)
+//                }
+//            }
+//        }
+//        return true
 
-        for (i in 0..8) {
-            val rowSet = mutableSetOf<Int>()
-            for (j in 0..8) {
-                if (board[i][j] == '.') continue
-                val num = board[i][j].digitToInt()
-                if (rowSet.contains(num)) {
-                    return false
-                } else {
-                    rowSet.add(num)
-                }
-
-                if (columnSet[j].contains(num)) {
-                    return false
-                } else {
-                    columnSet[j].add(num)
-                }
-
-                val boxIndex = i / 3 * 3 + j / 3
-                if (boxSet[boxIndex].contains(num)) {
-                    return false
-                } else {
-                    boxSet[boxIndex].add(num)
-                }
+        val rows = Array(9) { BooleanArray(9) }
+        val cols = Array(9) { BooleanArray(9) }
+        val boxes = Array(9) { BooleanArray(9) }
+        for (rowIndex in 0 until 9) {
+            for (colIndex in 0 until 9) {
+                val char = board[rowIndex][colIndex]
+                if (char == '.') continue
+                val num = char - '1'
+                val boxIndex = rowIndex / 3 * 3 + colIndex / 3
+                if (rows[rowIndex][num] || cols[colIndex][num] || boxes[boxIndex][num]) return false
+                rows[rowIndex][num] = true
+                cols[colIndex][num] = true
+                boxes[boxIndex][num] = true
             }
         }
         return true
