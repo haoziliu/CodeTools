@@ -1644,4 +1644,27 @@ object StringCode {
         }
         return if (maxRest == Int.MIN_VALUE) -1 else s.length - maxRest
     }
+
+    fun isPrefixOfWord(sentence: String, searchWord: String): Int {
+        var wordIndex = 1 // words are 1-indexed
+        var searchI = 0
+        val searchLength = searchWord.length
+        var valid = true
+        for (i in sentence.indices) {
+            if (sentence[i] == ' ') {
+                valid = true
+                searchI = 0
+                wordIndex++
+                continue
+            }
+            if (!valid) continue
+            if (sentence[i] == searchWord[searchI]) {
+                searchI++
+                if (searchI == searchLength) return wordIndex
+            } else {
+                valid = false
+            }
+        }
+        return -1
+    }
 }

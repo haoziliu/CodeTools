@@ -334,18 +334,28 @@ object TreeCode {
     }
 
     fun sortedArrayToBST(nums: IntArray): TreeNode? {
-        if (nums.isEmpty()) return null
-        val mid = (nums.size - 1) / 2
-        val root = TreeNode(nums[mid]).apply {
-            left = if (mid > 0) sortedArrayToBST(nums.copyOfRange(0, mid)) else null
-            right = if (nums.size > mid + 1) sortedArrayToBST(
-                nums.copyOfRange(
-                    mid + 1,
-                    nums.size
-                )
-            ) else null
+//        if (nums.isEmpty()) return null
+//        val mid = (nums.size - 1) / 2
+//        val root = TreeNode(nums[mid]).apply {
+//            left = if (mid > 0) sortedArrayToBST(nums.copyOfRange(0, mid)) else null
+//            right = if (nums.size > mid + 1) sortedArrayToBST(
+//                nums.copyOfRange(
+//                    mid + 1,
+//                    nums.size
+//                )
+//            ) else null
+//        }
+//        return root
+
+        fun buildTree(from: Int, to: Int) : TreeNode? {
+            if (from > to) return null
+            val mid = from + ((to - from) shr 1)
+            return TreeNode(nums[mid]).apply {
+                left = buildTree(from, mid - 1)
+                right = buildTree(mid + 1, to)
+            }
         }
-        return root
+        return buildTree(0, nums.size - 1)
     }
 
     fun isBalanced(root: TreeNode?): Boolean {

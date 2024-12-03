@@ -492,6 +492,35 @@ object GraphCode {
         return true
     }
 
+    fun findOrder(numCourses: Int, prerequisites: Array<IntArray>): IntArray {
+        val inDegree = IntArray(numCourses)
+        val graph = Array(numCourses) { mutableListOf<Int>() }
+        for ((a, b) in prerequisites) {
+            graph[a].add(b)
+            inDegree[b]++
+        }
+        val queue = LinkedList<Int>()
+        // 0 require courses can add to queue
+        for (i in 0 until numCourses) {
+            if (inDegree[i] == 0) {
+                queue.offer(i)
+            }
+        }
+        var index = numCourses - 1
+        val order = IntArray(numCourses)
+        while (queue.isNotEmpty()) {
+            val course = queue.poll()!!
+            order[index--] = course
+            for (next in graph[course]) {
+                inDegree[next]--
+                if (inDegree[next] == 0) {
+                    queue.offer(next)
+                }
+            }
+        }
+        return if (index == -1) order else intArrayOf()
+    }
+
     fun removeStones(stones: Array<IntArray>): Int {
         val adj = mutableMapOf<Int, MutableList<Int>>()
         val offset = 10001

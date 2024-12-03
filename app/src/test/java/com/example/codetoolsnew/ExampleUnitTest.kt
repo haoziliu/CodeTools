@@ -3,6 +3,7 @@ package com.example.codetoolsnew
 import com.example.codetools.ArrayCode
 import com.example.codetools.GraphCode
 import com.example.codetools.MatrixCode
+import com.example.codetools.StringCode
 import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
 
@@ -95,9 +96,9 @@ class ExampleUnitTest {
 //        )
 
 //        println(HardStringCode.calculate("-(-(2 + 3))"))
-//        println(
-//            StringCode.takeCharacters("aabaaaacaabc", 1)
-//        )
+        println(
+            StringCode.isPrefixOfWord("b bu bur burg burger", "burg")
+        )
 
 //        println(MathCode.fractionAddition("-1/3-1/2"))
 
@@ -106,8 +107,8 @@ class ExampleUnitTest {
 //            )
 //        )
 
-        println(MatrixCode.isValidSudoku(
-            parseToCharArray("[[.,.,.,.,5,.,.,1,.],[.,4,.,3,.,.,.,.,.],[.,.,.,.,.,3,.,.,1],[8,.,.,.,.,.,.,2,.],[.,.,2,.,7,.,.,.,.],[.,1,5,.,.,.,.,.,.],[.,.,.,.,.,2,.,.,.],[.,2,.,9,.,.,.,.,.],[.,.,4,.,.,.,.,.,.]]")
-        ))
+//        println(MatrixCode.isValidSudoku(
+//            parseToCharArray("[[.,.,.,.,5,.,.,1,.],[.,4,.,3,.,.,.,.,.],[.,.,.,.,.,3,.,.,1],[8,.,.,.,.,.,.,2,.],[.,.,2,.,7,.,.,.,.],[.,1,5,.,.,.,.,.,.],[.,.,.,.,.,2,.,.,.],[.,2,.,9,.,.,.,.,.],[.,.,4,.,.,.,.,.,.]]")
+//        ))
     }
 }
