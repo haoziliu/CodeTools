@@ -943,4 +943,61 @@ object MatrixCode {
         }
         return count
     }
+
+    fun totalNQueens(n: Int): Int {
+        var total = 0
+
+//        val taken = Array(n) { BooleanArray(n) }
+//        fun dfs(row: Int) {
+//            if (row == n) {
+//                total++
+//                return
+//            }
+//            for (col in 0 until n) {
+//                if (!taken[row][col]) {
+//                    taken[row][col] = true
+//                    for (delta in 1 until n - row) {
+//                        taken[row + delta][col] = true
+//                        if (col - delta >= 0) taken[row + delta][col - delta] = true
+//                        if (col + delta < n) taken[row + delta][col + delta] = true
+//                    }
+//                    dfs(row + 1)
+//                    taken[row][col] = false
+//                    for (delta in 1 until n - row) {
+//                        taken[row + delta][col] = false
+//                        if (col - delta >= 0) taken[row + delta][col - delta] = false
+//                        if (col + delta < n) taken[row + delta][col + delta] = false
+//                    }
+//                }
+//            }
+//        }
+
+        val diagN = (n shl 1) - 1
+        val cols = BooleanArray(n)
+        val ascDiag = BooleanArray(diagN)
+        val descDiag = BooleanArray(diagN)
+
+        fun dfs(row: Int) {
+            if (row == n) {
+                total++
+                return
+            }
+            for (col in 0 until n) {
+                val ascIndex = row + col
+                val descIndex = row + n - 1 - col
+                if (cols[col] || ascDiag[ascIndex] || descDiag[descIndex]) continue
+
+                cols[col] = true
+                ascDiag[ascIndex] = true
+                descDiag[descIndex] = true
+                dfs(row + 1)
+                cols[col] = false
+                ascDiag[ascIndex] = false
+                descDiag[descIndex] = false
+            }
+        }
+
+        dfs(0)
+        return total
+    }
 }

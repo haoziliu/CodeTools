@@ -96,9 +96,9 @@ class ExampleUnitTest {
 //        )
 
 //        println(HardStringCode.calculate("-(-(2 + 3))"))
-        println(
-            StringCode.isPrefixOfWord("b bu bur burg burger", "burg")
-        )
+//        println(
+//            StringCode.isPrefixOfWord("b bu bur burg burger", "burg")
+//        )
 
 //        println(MathCode.fractionAddition("-1/3-1/2"))
 
@@ -107,8 +107,6 @@ class ExampleUnitTest {
 //            )
 //        )
 
-//        println(MatrixCode.isValidSudoku(
-//            parseToCharArray("[[.,.,.,.,5,.,.,1,.],[.,4,.,3,.,.,.,.,.],[.,.,.,.,.,3,.,.,1],[8,.,.,.,.,.,.,2,.],[.,.,2,.,7,.,.,.,.],[.,1,5,.,.,.,.,.,.],[.,.,.,.,.,2,.,.,.],[.,2,.,9,.,.,.,.,.],[.,.,4,.,.,.,.,.,.]]")
-//        ))
+        println(MatrixCode.totalNQueens(4))
     }
 }
