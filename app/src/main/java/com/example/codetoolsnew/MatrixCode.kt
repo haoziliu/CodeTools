@@ -48,7 +48,8 @@ object MatrixCode {
     }
 
     fun searchWord(board: Array<CharArray>, i: Int, j: Int, word: String): Boolean {
-        val DIRECTIONS = arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
+        val DIRECTIONS =
+            arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
 
         if (word.isEmpty()) {
             return true
@@ -583,7 +584,8 @@ object MatrixCode {
         var index = 1
         var step = 0
         var direction = 0
-        val directions = arrayOf(intArrayOf(0, 1), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(-1, 0))
+        val directions =
+            arrayOf(intArrayOf(0, 1), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(-1, 0))
         var shouldAddStep = true
         while (index < total) {
             if (shouldAddStep) step++
@@ -606,7 +608,8 @@ object MatrixCode {
         var rows = matrix.size
         var cols = matrix[0].size
         val total = rows * cols
-        val directions = arrayOf(intArrayOf(0, 1), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(-1, 0))
+        val directions =
+            arrayOf(intArrayOf(0, 1), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(-1, 0))
         var direction = 0
         val result = mutableListOf<Int>()
         var count = 0
@@ -634,7 +637,8 @@ object MatrixCode {
     }
 
     fun spiralMatrix(m: Int, n: Int, head: ListCode.ListNode?): Array<IntArray> {
-        val directions = arrayOf(intArrayOf(0, 1), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(-1, 0))
+        val directions =
+            arrayOf(intArrayOf(0, 1), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(-1, 0))
         val matrix = Array(m) { IntArray(n) { -1 } }
         var current = head
         var i = 0
@@ -658,7 +662,8 @@ object MatrixCode {
     }
 
     fun generateSpiralMatrix(n: Int): Array<IntArray> {
-        val directions = arrayOf(intArrayOf(0, 1), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(-1, 0))
+        val directions =
+            arrayOf(intArrayOf(0, 1), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(-1, 0))
         val matrix = Array(n) { IntArray(n) }
         var direction = 0
         var i = 0
@@ -999,5 +1004,40 @@ object MatrixCode {
 
         dfs(0)
         return total
+    }
+
+    fun solveNQueens(n: Int): List<List<String>> {
+        val cols = BooleanArray(n)
+        val ascDiagnols = BooleanArray((n shl 1) - 1)
+        val descDiagnols = BooleanArray((n shl 1) - 1)
+        val result = mutableListOf<List<String>>()
+        val matrix = Array(n) { CharArray(n) { '.' } }
+
+        fun fillRow(row: Int) {
+            if (row == n) {
+                result.add(matrix.map { String(it) })
+                return
+            }
+            for (col in 0 until n) {
+                val ascIndex = row + col
+                val descIndex = row + n - 1 - col
+                if (cols[col] || ascDiagnols[ascIndex] || descDiagnols[descIndex]) continue
+
+                cols[col] = true
+                ascDiagnols[ascIndex] = true
+                descDiagnols[descIndex] = true
+                matrix[row][col] = 'Q'
+
+                fillRow(row + 1)
+
+                cols[col] = false
+                ascDiagnols[ascIndex] = false
+                descDiagnols[descIndex] = false
+                matrix[row][col] = '.'
+            }
+        }
+
+        fillRow(0)
+        return result
     }
 }
