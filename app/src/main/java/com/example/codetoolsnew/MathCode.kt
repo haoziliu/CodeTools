@@ -188,21 +188,16 @@ object MathCode {
     }
 
     fun mySqrt(x: Int): Int {
-        if (x == 0) return 0
-        if (x == 1) return 1
-        var low = 0
-        var high = x
-        var mid = 0
-        while (low < high) {
-            if (low == high - 1) return low
-            mid = low + (high - low) / 2
-            when {
-                mid == x / mid -> return mid
-                mid < x / mid -> low = mid
-                else -> high = mid
-            }
+        if (x == 0 || x == 1) return x
+        var left = 0
+        var right = x
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            if (mid == x / mid) return mid
+            else if (mid > x / mid) right = mid - 1
+            else left = mid + 1
         }
-        return low
+        return right
     }
 
     fun climbStairs(n: Int): Int {
