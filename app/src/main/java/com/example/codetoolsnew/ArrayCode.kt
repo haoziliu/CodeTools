@@ -4476,4 +4476,57 @@ object ArrayCode {
         }
         return result
     }
+
+    fun maxCount(banned: IntArray, n: Int, maxSum: Int): Int {
+//        val bannedSet = banned.toSet()
+//        var sum = 0
+//        var count = 0
+//        for (i in 1..n) {
+//            if (i in bannedSet) {
+//                continue
+//            }
+//            sum += i
+//            if (sum <= maxSum) {
+//                count++
+//            } else {
+//                break // !!! need this break to quit loop early
+//            }
+//        }
+//        return count
+
+        // prefix
+        fun sumUp(from: Int, to: Int): Int {
+            return (from + to) * (to - from + 1) shr 1
+        }
+        banned.sort()
+        val bannedPrefix = IntArray(n + 1)
+        val bannedCount = IntArray(n + 1)
+        var lastBanNum = 0
+        for (banNum in banned) {
+            if (banNum > n) break
+            if (banNum != lastBanNum) {
+                bannedPrefix[banNum] = bannedPrefix[lastBanNum] + banNum
+                bannedCount[banNum] = bannedCount[lastBanNum] + 1
+                lastBanNum = banNum
+            }
+        }
+        for (i in 1..n) {
+            if (bannedPrefix[i] == 0) {
+                bannedPrefix[i] = bannedPrefix[i - 1]
+                bannedCount[i] = bannedCount[i - 1]
+            }
+        }
+        var left = 1
+        var right = n
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            val testSum = sumUp(1, mid) - bannedPrefix[mid]
+            if (testSum <= maxSum) {
+                left = mid + 1
+            } else {
+                right = mid - 1
+            }
+        }
+        return right - bannedCount[right]
+    }
 }
