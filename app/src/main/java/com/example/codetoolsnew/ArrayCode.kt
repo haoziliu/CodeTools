@@ -4556,18 +4556,21 @@ object ArrayCode {
     }
 
     fun maxTwoEvents(events: Array<IntArray>): Int {
-        events.sortBy { it[0] }
-        val pq = PriorityQueue<Pair<Int, Int>>(compareBy { it.first }) // end, value
+        val startPQ = PriorityQueue<IntArray>(compareBy { it[0] })
+        val endPQ = PriorityQueue<IntArray>(compareBy { it[1] })
+        for (event in events) {
+            startPQ.offer(event)
+        }
         var currentMax = 0
         var result = 0
-        for ((eventStart, eventEnd, eventValue) in events) {
-            while (pq.isNotEmpty() && pq.peek()!!.first < eventStart) {
-                val (end, value) = pq.poll()!!
-                currentMax = maxOf(currentMax, value)
+        while (startPQ.isNotEmpty()) {
+            val currentEvent = startPQ.poll()!!
+            while (endPQ.isNotEmpty() && endPQ.peek()!![1] < currentEvent[0]) {
+                currentMax = maxOf(currentMax, endPQ.poll()!![2])
             }
-            result = maxOf(result, currentMax + eventValue)
-            if (eventValue > currentMax) {
-                pq.offer(eventEnd to eventValue)
+            result = maxOf(result, currentMax + currentEvent[2])
+            if (currentEvent[2] > currentMax) {
+                endPQ.offer(currentEvent)
             }
         }
         return result
