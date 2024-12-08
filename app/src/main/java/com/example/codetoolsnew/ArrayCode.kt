@@ -4533,7 +4533,7 @@ object ArrayCode {
     fun minimumSize(nums: IntArray, maxOperations: Int): Int {
         val totalBags = nums.size + maxOperations
 
-        fun countBags(maxEach: Int) : Int {
+        fun countBags(maxEach: Int): Int {
             var count = 0
             for (num in nums) {
                 count += num / maxEach + if (num % maxEach == 0) 0 else 1
@@ -4553,5 +4553,23 @@ object ArrayCode {
             }
         }
         return left
+    }
+
+    fun maxTwoEvents(events: Array<IntArray>): Int {
+        events.sortBy { it[0] }
+        val pq = PriorityQueue<Pair<Int, Int>>(compareBy { it.first }) // end, value
+        var currentMax = 0
+        var result = 0
+        for ((eventStart, eventEnd, eventValue) in events) {
+            while (pq.isNotEmpty() && pq.peek()!!.first < eventStart) {
+                val (end, value) = pq.poll()!!
+                currentMax = maxOf(currentMax, value)
+            }
+            result = maxOf(result, currentMax + eventValue)
+            if (eventValue > currentMax) {
+                pq.offer(eventEnd to eventValue)
+            }
+        }
+        return result
     }
 }
