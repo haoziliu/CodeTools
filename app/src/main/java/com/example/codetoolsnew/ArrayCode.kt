@@ -4575,4 +4575,20 @@ object ArrayCode {
         }
         return result
     }
+
+    fun isArrayAdjacentDifferentParity (nums: IntArray, queries: Array<IntArray>): BooleanArray {
+        val n = nums.size
+        val prefixCount = IntArray(n)
+        var previousEven = nums[0] % 2 == 0
+        for (i in 1 until n) {
+            val currentEven = nums[i] % 2 == 0
+            prefixCount[i] = prefixCount[i - 1] + if (previousEven xor currentEven) 1 else 0
+            previousEven = currentEven
+        }
+        val result = BooleanArray(queries.size)
+        for (i in queries.indices) {
+            result[i] = prefixCount[queries[i][1]] - prefixCount[queries[i][0]] == queries[i][1] - queries[i][0]
+        }
+        return result
+    }
 }

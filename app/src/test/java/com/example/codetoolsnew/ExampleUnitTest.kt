@@ -88,7 +88,7 @@ class ExampleUnitTest {
 //        HardArrayCode.validArrangement(parseToIntArray("[[5,1],[4,5],[11,9],[9,4]]")).forEach { println(it.joinToString()) }
 
         println(
-            ArrayCode.maxTwoEvents(parseToIntArray("[[91,100,42],[92,100,22],[1,77,50],[66,97,90],[98,98,68],[38,49,63],[64,72,97]]"))
+            ArrayCode.isArrayAdjacentDifferentParity(intArrayOf(4,3,1,6), parseToIntArray("[[0,2],[2,3]]"))
         )
 
 //        println(
