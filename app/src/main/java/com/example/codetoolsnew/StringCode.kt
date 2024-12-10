@@ -1563,7 +1563,6 @@ object StringCode {
     }
 
 
-
     fun minMutation(startGene: String, endGene: String, bank: Array<String>): Int {
         fun mutationCount(from: String, to: String): Int {
             var count = 0
@@ -1688,5 +1687,56 @@ object StringCode {
         while (i < n && start[i] == '_') i++
         while (j < n && target[j] == '_') j++
         return i == j
+    }
+
+    fun maximumLength(s: String): Int {
+//        val occurs = Array(26) { IntArray(51) }
+//        var start = 0
+//        var longest = -1
+//        var end = 0
+//        while (end <= s.length) {
+//            if (end == s.length || s[start] != s[end]) {
+//                // "aaaa"x1, "aaa"x2, "aa"x3, "a"x4
+//                val length = end - start
+//                for (i in 1 .. length) {
+//                    val charIndex = s[start] - 'a'
+//                    occurs[charIndex][i] += length - i + 1
+//
+//                    if (occurs[charIndex][i] >= 3) {
+//                        longest = maxOf(longest, i)
+//                    }
+//                }
+//                start = end
+//            }
+//            end++
+//        }
+//        return longest
+
+        fun isValid(length: Int) : Boolean {
+            val count = IntArray(26)
+            var start = 0
+            for (end in s.indices) {
+                while (s[start] != s[end]) start++
+                if (end - start + 1 >= length) {
+                    count[s[end] - 'a']++
+                }
+                if (count[s[end] - 'a'] > 2) return true
+            }
+            return false
+        }
+
+        if (!isValid(1)) return -1
+
+        var left = 2
+        var right = s.length
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            if (isValid(mid)) {
+                left = mid + 1
+            } else {
+                right = mid - 1
+            }
+        }
+        return right
     }
 }
