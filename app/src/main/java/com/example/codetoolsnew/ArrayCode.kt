@@ -4591,4 +4591,17 @@ object ArrayCode {
         }
         return result
     }
+
+    fun maximumOverlappingSubsequence(nums: IntArray, k: Int): Int {  // +-k
+        nums.sort()
+        var start = 0
+        var maxCount = 0
+        for (end in nums.indices) {
+            while (nums[start] + k < nums[end] - k) {
+                start++
+            }
+            maxCount = maxOf(maxCount, end - start + 1)
+        }
+        return maxCount
+    }
 }

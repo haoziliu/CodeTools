@@ -1690,7 +1690,7 @@ object StringCode {
     }
 
     fun maximumLength(s: String): Int {
-//        val occurs = Array(26) { IntArray(51) }
+//        val occurs = Array(26) { IntArray(s.length + 1) }
 //        var start = 0
 //        var longest = -1
 //        var end = 0

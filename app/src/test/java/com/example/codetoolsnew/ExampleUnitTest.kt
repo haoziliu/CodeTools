@@ -87,18 +87,18 @@ class ExampleUnitTest {
 
 //        HardArrayCode.validArrangement(parseToIntArray("[[5,1],[4,5],[11,9],[9,4]]")).forEach { println(it.joinToString()) }
 
-//        println(
-//            ArrayCode.isArrayAdjacentDifferentParity(intArrayOf(4,3,1,6), parseToIntArray("[[0,2],[2,3]]"))
-//        )
+        println(
+            ArrayCode.maximumOverlappingSubsequence(intArrayOf(100,97,61,93,66,6,77,81,42,28,77,84), 11)
+        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
 //        println(HardStringCode.calculate("-(-(2 + 3))"))
-        println(
-            StringCode.maximumLength("jinhhhtttttttefffffjjjjjjjjjfffffjjjjjjjjjzvvvvvvg")
-        )
+//        println(
+//            StringCode.maximumLength("jinhhhtttttttefffffjjjjjjjjjfffffjjjjjjjjjzvvvvvvg")
+//        )
 
 //        println(MathCode.fractionAddition("-1/3-1/2"))
 
