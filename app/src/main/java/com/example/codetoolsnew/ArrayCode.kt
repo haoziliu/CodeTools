@@ -4604,4 +4604,37 @@ object ArrayCode {
         }
         return maxCount
     }
+
+    fun findScore(nums: IntArray): Long {
+        //        // find descending segments
+        //        val n = nums.size
+        //        var result = 0L
+        //        var start = 0
+        //        while (start < n) {
+        //            var end = start
+        //            while (end < n - 1 && nums[end] > nums[end + 1]) {
+        //                end++
+        //            }
+        //            for (i in end downTo start step 2) {
+        //                result += nums[i]
+        //            }
+        //            start = end + 2
+        //        }
+        //        return result
+
+        // find ascending segments
+        var result = 0L
+        var end = nums.size - 1
+        while (end >= 0) {
+            var i = end
+            while (i - 1 >= 0 && nums[i] >= nums[i - 1]) {
+                i--
+            }
+            for (j in i .. end step 2) {
+                result += nums[j]
+            }
+            end = i - 2
+        }
+        return result
+    }
 }

@@ -88,7 +88,7 @@ class ExampleUnitTest {
 //        HardArrayCode.validArrangement(parseToIntArray("[[5,1],[4,5],[11,9],[9,4]]")).forEach { println(it.joinToString()) }
 
         println(
-            ArrayCode.maximumOverlappingSubsequence(intArrayOf(100,97,61,93,66,6,77,81,42,28,77,84), 11)
+            ArrayCode.findScore(intArrayOf(2,1,3,4,5,2))
         )
 
 //        println(
