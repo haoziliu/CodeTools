@@ -4576,7 +4576,7 @@ object ArrayCode {
         return result
     }
 
-    fun isArrayAdjacentDifferentParity (nums: IntArray, queries: Array<IntArray>): BooleanArray {
+    fun isArrayAdjacentDifferentParity(nums: IntArray, queries: Array<IntArray>): BooleanArray {
         val n = nums.size
         val prefixCount = IntArray(n)
         var previousEven = nums[0] % 2 == 0
@@ -4587,7 +4587,8 @@ object ArrayCode {
         }
         val result = BooleanArray(queries.size)
         for (i in queries.indices) {
-            result[i] = prefixCount[queries[i][1]] - prefixCount[queries[i][0]] == queries[i][1] - queries[i][0]
+            result[i] =
+                prefixCount[queries[i][1]] - prefixCount[queries[i][0]] == queries[i][1] - queries[i][0]
         }
         return result
     }
@@ -4630,11 +4631,45 @@ object ArrayCode {
             while (i - 1 >= 0 && nums[i] >= nums[i - 1]) {
                 i--
             }
-            for (j in i .. end step 2) {
+            for (j in i..end step 2) {
                 result += nums[j]
             }
             end = i - 2
         }
+        return result
+    }
+
+    fun continuousSubarrays(nums: IntArray): Long {
+        val maxDeque = LinkedList<Int>()
+        val minDeque = LinkedList<Int>()
+        var start = 0
+        var result = 0L
+
+        for (end in nums.indices) {
+            while (!maxDeque.isEmpty() && maxDeque.last < nums[end]) {
+                maxDeque.removeLast()
+            }
+            while (!minDeque.isEmpty() && minDeque.last > nums[end]) {
+                minDeque.removeLast()
+            }
+            maxDeque.addLast(nums[end])
+            minDeque.addLast(nums[end])
+
+            while (start < end && maxDeque.first - minDeque.first > 2) {
+                if (nums[start] == maxDeque.first) {
+                    maxDeque.removeFirst()
+                }
+                if (nums[start] == minDeque.first) {
+                    minDeque.removeFirst()
+                }
+                start++
+            }
+
+            if (end >= start) {
+                result += end - start + 1
+            }
+        }
+
         return result
     }
 }

@@ -88,7 +88,7 @@ class ExampleUnitTest {
 //        HardArrayCode.validArrangement(parseToIntArray("[[5,1],[4,5],[11,9],[9,4]]")).forEach { println(it.joinToString()) }
 
         println(
-            ArrayCode.findScore(intArrayOf(2,1,3,4,5,2))
+            ArrayCode.continuousSubarrays(intArrayOf(4,5,3,7,2))
         )
 
 //        println(
