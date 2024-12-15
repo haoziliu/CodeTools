@@ -88,7 +88,7 @@ class ExampleUnitTest {
 //        HardArrayCode.validArrangement(parseToIntArray("[[5,1],[4,5],[11,9],[9,4]]")).forEach { println(it.joinToString()) }
 
         println(
-            ArrayCode.continuousSubarrays(intArrayOf(4,5,3,7,2))
+            ArrayCode.maxAverageRatio(parseToIntArray("[[2,4],[3,9],[4,5],[2,10]]"),4)
         )
 
 //        println(
