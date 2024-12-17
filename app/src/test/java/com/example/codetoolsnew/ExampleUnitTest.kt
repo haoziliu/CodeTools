@@ -87,18 +87,18 @@ class ExampleUnitTest {
 
 //        HardArrayCode.validArrangement(parseToIntArray("[[5,1],[4,5],[11,9],[9,4]]")).forEach { println(it.joinToString()) }
 
-        println(
-            ArrayCode.maxAverageRatio(parseToIntArray("[[2,4],[3,9],[4,5],[2,10]]"),4)
-        )
+//        println(
+//            ArrayCode.maxAverageRatio(parseToIntArray("[[2,4],[3,9],[4,5],[2,10]]"),4)
+//        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
 //        println(HardStringCode.calculate("-(-(2 + 3))"))
-//        println(
-//            StringCode.maximumLength("jinhhhtttttttefffffjjjjjjjjjfffffjjjjjjjjjzvvvvvvg")
-//        )
+        println(
+            StringCode.repeatLimitedString("mzptvecynjfohbwduxown", 1)
+        )
 
 //        println(MathCode.fractionAddition("-1/3-1/2"))
 

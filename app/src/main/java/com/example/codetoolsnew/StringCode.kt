@@ -1739,4 +1739,29 @@ object StringCode {
         }
         return right
     }
+
+    fun repeatLimitedString(s: String, repeatLimit: Int): String {
+        val freq = IntArray(26)
+        for (char in s) {
+            freq[char - 'a']++
+        }
+        val sb = StringBuilder()
+        var right = 25
+        var left = 24
+        while (right >= 0) {
+            while (left >= 0 && freq[left] == 0) left--
+            if (freq[right] > repeatLimit) {
+                sb.append(CharArray(repeatLimit) { 'a' + right })
+                freq[right] -= repeatLimit
+                if (left < 0) break
+                sb.append('a' + left)
+                freq[left]--
+            } else {
+                sb.append(CharArray(freq[right]) { 'a' + right })
+                right = left
+                left--
+            }
+        }
+        return sb.toString()
+    }
 }
