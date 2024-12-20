@@ -4,6 +4,7 @@ import com.example.codetools.ArrayCode
 import com.example.codetools.GraphCode
 import com.example.codetools.MatrixCode
 import com.example.codetools.StringCode
+import com.example.codetools.TreeCode
 import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
 
@@ -57,20 +58,29 @@ class ExampleUnitTest {
 
     @Test
     fun test() {
-//        val tree1 = TreeCode.TreeNode(5).apply {
-//            left = TreeCode.TreeNode(8).apply {
-//                left = TreeCode.TreeNode(2).apply {
-//                    left = TreeCode.TreeNode(4)
-//                    right = TreeCode.TreeNode(6)
-//                }
-//                right = TreeCode.TreeNode(1)
-//            }
-//            right = TreeCode.TreeNode(9).apply {
-//                left = TreeCode.TreeNode(3)
-//                right = TreeCode.TreeNode(7)
-//            }
-//        }
-//        println(TreeCode.treeQueries(tree1, intArrayOf(3, 2, 4, 8)).joinToString())
+        val tree1 = TreeCode.TreeNode(1).apply {
+            left = TreeCode.TreeNode(2).apply {
+                left = TreeCode.TreeNode(4).apply {
+                    left = TreeCode.TreeNode(8)
+                    right = TreeCode.TreeNode(9)
+                }
+                right = TreeCode.TreeNode(5).apply {
+                    left = TreeCode.TreeNode(10)
+                    right = TreeCode.TreeNode(11)
+                }
+            }
+            right = TreeCode.TreeNode(3).apply {
+                left = TreeCode.TreeNode(6).apply {
+                    left = TreeCode.TreeNode(12)
+                    right = TreeCode.TreeNode(13)
+                }
+                right = TreeCode.TreeNode(7).apply {
+                    left = TreeCode.TreeNode(14)
+                    right = TreeCode.TreeNode(15)
+                }
+            }
+        }
+        println(TreeCode.reverseOddLevels(tree1))
 
 //
 //        val head = ListCode.ListNode(4).apply {
@@ -88,7 +98,7 @@ class ExampleUnitTest {
 //        HardArrayCode.validArrangement(parseToIntArray("[[5,1],[4,5],[11,9],[9,4]]")).forEach { println(it.joinToString()) }
 
 //        println(
-//            ArrayCode.maxAverageRatio(parseToIntArray("[[2,4],[3,9],[4,5],[2,10]]"),4)
+//            ArrayCode.finalPrices(intArrayOf(10,2,5,2,8))
 //        )
 
 //        println(
@@ -96,9 +106,9 @@ class ExampleUnitTest {
 //        )
 
 //        println(HardStringCode.calculate("-(-(2 + 3))"))
-        println(
-            StringCode.repeatLimitedString("mzptvecynjfohbwduxown", 1)
-        )
+//        println(
+//            StringCode.repeatLimitedString("mzptvecynjfohbwduxown", 1)
+//        )
 
 //        println(MathCode.fractionAddition("-1/3-1/2"))
 

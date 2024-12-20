@@ -4697,4 +4697,17 @@ object ArrayCode {
         }
         return pq.sumOf { it.ratio() } / pq.size
     }
+
+    fun finalPrices(prices: IntArray): IntArray {
+        val result = IntArray(prices.size)
+        val stack = LinkedList<Int>()
+        for (i in prices.indices.reversed()) {
+            while (stack.isNotEmpty() && stack.peek()!! > prices[i]) {
+                stack.poll()
+            }
+            result[i] = prices[i] - (stack.peek() ?: 0)
+            stack.push(prices[i])
+        }
+        return result
+    }
 }

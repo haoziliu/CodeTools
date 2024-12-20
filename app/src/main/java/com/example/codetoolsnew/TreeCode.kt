@@ -1568,4 +1568,47 @@ object TreeCode {
         }
 
     }
+
+
+    fun reverseOddLevels(root: TreeNode?): TreeNode? {
+        // BFS
+//        if (root == null) return root
+//        val queue = LinkedList<TreeNode>()
+//        var reverse = false
+//        val nodeValues = LinkedList<Int>()
+//        queue.offer(root)
+//        while (queue.isNotEmpty()) {
+//            val size = queue.size
+//            for (i in 0 until size) {
+//                val current = queue.poll()!!
+//                if (reverse) {
+//                    current.`val` = nodeValues.pop()
+//                }
+//                current.left?.let {
+//                    queue.offer(it)
+//                    if (!reverse) nodeValues.push(it.`val`)
+//                }
+//                current.right?.let {
+//                    queue.offer(it)
+//                    if (!reverse) nodeValues.push(it.`val`)
+//                }
+//            }
+//            reverse = !reverse
+//        }
+//        return root
+
+        fun dfs(left: TreeNode?, right: TreeNode?, depth: Int) {
+            if (left == null || right == null) return
+            if (depth % 2 == 1) {
+                val tmp = right.`val`
+                right.`val` = left.`val`
+                left.`val` = tmp
+            }
+            dfs(left.left, right.right, depth + 1)
+            dfs(left.right, right.left, depth + 1)
+        }
+
+        dfs(root!!.left, root.right, 1)
+        return root
+    }
 }
