@@ -1703,4 +1703,59 @@ object HardArrayCode {
         }
         return result.toTypedArray()
     }
+
+    fun maxKDivisibleComponents(n: Int, edges: Array<IntArray>, values: IntArray, k: Int): Int {
+        if (n == 1) return 1
+        var split = 0
+        val graph = Array(n) { mutableListOf<Int>() }
+        for ((a, b) in edges) {
+            graph[a].add(b)
+            graph[b].add(a)
+        }
+
+        //        val leaves = LinkedList<Int>()
+        //        for (i in 0 until n) {
+        //            if (graph[i].size == 1) {
+        //                leaves.offer(i)
+        //            }
+        //        }
+        //        while (leaves.isNotEmpty()) {
+        //            val size = leaves.size
+        //            repeat(size) {
+        //                val leaf = leaves.poll()!!
+        //                graph[leaf].getOrNull(0)?.let { neighbour ->
+        //                    if (values[leaf] % k == 0) {
+        //                        split++
+        //                    } else {
+        //                        values[neighbour] = (values[neighbour] % k + values[leaf] % k) % k
+        //                    }
+        //                    graph[neighbour].remove(leaf)
+        //                    if (graph[neighbour].size == 1) {
+        //                        leaves.offer(neighbour)
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        fun treatLeaf(leaf: Int) {
+            graph[leaf].getOrNull(0)?.let { neighbour ->
+                if (values[leaf] % k == 0) {
+                    split++
+                } else {
+                    values[neighbour] = (values[neighbour] % k + values[leaf] % k) % k
+                }
+                graph[neighbour].remove(leaf)
+                if (graph[neighbour].size == 1) {
+                    treatLeaf(neighbour)
+                }
+            }
+            graph[leaf].removeAt(0)
+        }
+        for (i in 0 until n) {
+            if (graph[i].size == 1) {
+                treatLeaf(i)
+            }
+        }
+        return split + 1
+    }
 }
