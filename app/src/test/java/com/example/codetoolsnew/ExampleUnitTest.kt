@@ -58,29 +58,23 @@ class ExampleUnitTest {
 
     @Test
     fun test() {
-//        val tree1 = TreeCode.TreeNode(1).apply {
-//            left = TreeCode.TreeNode(2).apply {
-//                left = TreeCode.TreeNode(4).apply {
-//                    left = TreeCode.TreeNode(8)
-//                    right = TreeCode.TreeNode(9)
-//                }
-//                right = TreeCode.TreeNode(5).apply {
-//                    left = TreeCode.TreeNode(10)
-//                    right = TreeCode.TreeNode(11)
-//                }
-//            }
-//            right = TreeCode.TreeNode(3).apply {
-//                left = TreeCode.TreeNode(6).apply {
-//                    left = TreeCode.TreeNode(12)
-//                    right = TreeCode.TreeNode(13)
-//                }
-//                right = TreeCode.TreeNode(7).apply {
-//                    left = TreeCode.TreeNode(14)
-//                    right = TreeCode.TreeNode(15)
-//                }
-//            }
-//        }
-//        println(TreeCode.reverseOddLevels(tree1))
+        val tree1 = TreeCode.TreeNode(1).apply {
+            left = TreeCode.TreeNode(4).apply {
+                left = TreeCode.TreeNode(7).apply {
+                }
+                right = TreeCode.TreeNode(6).apply {
+                }
+            }
+            right = TreeCode.TreeNode(3).apply {
+                left = TreeCode.TreeNode(8).apply {
+                    left = TreeCode.TreeNode(9)
+                }
+                right = TreeCode.TreeNode(5).apply {
+                    left = TreeCode.TreeNode(10)
+                }
+            }
+        }
+        println(TreeCode.minimumSwapToSortLevel(tree1))
 
 //
 //        val head = ListCode.ListNode(4).apply {
@@ -94,9 +88,10 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
-            HardArrayCode.maxKDivisibleComponents(7, parseToIntArray("[[2,0],[0,4],[2,5],[1,2],[5,3],[4,6]]"), intArrayOf(12154284,649536765,974051464,821507385,392654193,770357917,37707285), 11)
-        )
+//        println(
+//            HardArrayCode.leftmostBuildingQueries(
+//                intArrayOf(6,4,8,5,2,7), parseToIntArray("[[0,1],[0,3],[2,4],[3,4],[2,2]]"))
+//        )
 //        println(
 //            ArrayCode.finalPrices(intArrayOf(10,2,5,2,8))
 //        )

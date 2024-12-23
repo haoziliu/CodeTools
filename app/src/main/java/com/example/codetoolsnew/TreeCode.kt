@@ -1611,4 +1611,42 @@ object TreeCode {
         dfs(root!!.left, root.right, 1)
         return root
     }
+
+    fun minimumSwapToSortLevel(root: TreeNode?): Int {
+
+        fun calculateSwaps(nums: IntArray) : Int {
+            val visited = BooleanArray(nums.size)
+            val sorted = nums.withIndex().sortedBy { it.value }
+            var count = 0
+
+            for (i in sorted.indices) {
+                if (visited[i]) continue
+                visited[i] = true
+                var j = sorted[i].index
+                while (!visited[j]) {
+                    count++
+                    visited[j] = true
+                    j = sorted[j].index
+                }
+            }
+            return count
+        }
+
+        if (root == null) return 0
+        val queue = LinkedList<TreeNode>()
+        queue.offer(root)
+        var result = 0
+        while (queue.isNotEmpty()) {
+            val size = queue.size
+            val nums = IntArray(size)
+            for (i in 0 until size) {
+                val node = queue.poll()!!
+                nums[i] = node.`val`
+                node.left?.let { queue.offer(it) }
+                node.right?.let { queue.offer(it) }
+            }
+            result += calculateSwaps(nums)
+        }
+        return result
+    }
 }

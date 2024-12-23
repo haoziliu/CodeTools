@@ -1737,25 +1737,95 @@ object HardArrayCode {
         //            }
         //        }
 
-        fun treatLeaf(leaf: Int) {
-            graph[leaf].getOrNull(0)?.let { neighbour ->
-                if (values[leaf] % k == 0) {
-                    split++
-                } else {
-                    values[neighbour] = (values[neighbour] % k + values[leaf] % k) % k
+        // cut leaves
+//        fun treatLeaf(leaf: Int) {
+//            graph[leaf].getOrNull(0)?.let { neighbour ->
+//                if (values[leaf] % k == 0) {
+//                    split++
+//                } else {
+//                    values[neighbour] = (values[neighbour] % k + values[leaf] % k) % k
+//                }
+//                graph[neighbour].remove(leaf)
+//                if (graph[neighbour].size == 1) {
+//                    treatLeaf(neighbour)
+//                }
+//            }
+//            graph[leaf].removeAt(0)
+//        }
+//        for (i in 0 until n) {
+//            if (graph[i].size == 1) {
+//                treatLeaf(i)
+//            }
+//        }
+//        return split + 1
+
+        // dfs calculate subtree sum and cut
+        fun treeSum(root: Int, parent: Int): Int {
+            var sum = values[root]
+            for (neighbour in graph[root]) {
+                if (neighbour == parent) continue
+                sum += treeSum(neighbour, root)
+            }
+            if (sum % k == 0) {
+                // cut
+                split++
+                return 0
+            }
+            return sum % k
+        }
+
+        treeSum(0, -1)
+        return split
+    }
+
+    fun leftmostBuildingQueries(heights: IntArray, queries: Array<IntArray>): IntArray {
+        for (q in queries) {
+            if (q[0] > q[1]) {
+                val tmp = q[0]
+                q[0] = q[1]
+                q[1] = tmp
+            }
+        }
+        val sortedQueries = queries.withIndex()
+            .sortedWith(compareByDescending<IndexedValue<IntArray>> { it.value[1] }.thenBy { it.value[0] })
+        val result = IntArray(queries.size) { -1 }
+        val stack = LinkedList<Int>()
+        var i = heights.size - 1
+        var lastA = -1
+        var lastB = -1
+        var lastResult = -1
+        for ((index, query) in sortedQueries) {
+            val (a, b) = query
+            if (a == lastA && b == lastB) {
+                result[index] = lastResult
+            } else if (a == b || heights[a] < heights[b]) {
+                result[index] = b
+            } else {
+                while (i > b) {
+                    while (stack.isNotEmpty() && heights[stack.first()] < heights[i]) {
+                        stack.pollFirst()
+                    }
+                    stack.addFirst(i)
+                    i--
                 }
-                graph[neighbour].remove(leaf)
-                if (graph[neighbour].size == 1) {
-                    treatLeaf(neighbour)
+                var left = 0
+                var right = stack.size - 1
+                while (left <= right) {
+                    val mid = left + ((right - left) shr 1)
+                    if (heights[stack[mid]] > heights[a]) {
+                        right = mid - 1
+                    } else {
+                        left = mid + 1
+                    }
+                }
+                if (left in stack.indices) {
+                    result[index] = stack[left]
                 }
             }
-            graph[leaf].removeAt(0)
+            lastA = a
+            lastB = b
+            lastResult = result[index]
         }
-        for (i in 0 until n) {
-            if (graph[i].size == 1) {
-                treatLeaf(i)
-            }
-        }
-        return split + 1
+        return result
     }
 }
