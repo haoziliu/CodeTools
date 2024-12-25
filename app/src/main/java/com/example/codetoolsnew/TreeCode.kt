@@ -1649,4 +1649,23 @@ object TreeCode {
         }
         return result
     }
+
+    fun largestValuesOfLevel(root: TreeNode?): List<Int> {
+        if (root == null) return listOf()
+        val result = mutableListOf<Int>()
+
+        fun dfs(node: TreeNode?, level: Int) {
+            if (node == null) return
+            if (result.size == level) {
+                result.add(node.`val`)
+            } else {
+                result[level] = maxOf(result[level], node.`val`)
+            }
+            dfs(node.left, level + 1)
+            dfs(node.right, level + 1)
+        }
+
+        dfs(root, 0)
+        return result
+    }
 }

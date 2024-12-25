@@ -74,7 +74,7 @@ class ExampleUnitTest {
                 }
             }
         }
-        println(TreeCode.minimumSwapToSortLevel(tree1))
+        println(TreeCode.largestValues(tree1))
 
 //
 //        val head = ListCode.ListNode(4).apply {
@@ -89,8 +89,10 @@ class ExampleUnitTest {
 //
 
 //        println(
-//            HardArrayCode.leftmostBuildingQueries(
-//                intArrayOf(6,4,8,5,2,7), parseToIntArray("[[0,1],[0,3],[2,4],[3,4],[2,2]]"))
+//            HardArrayCode.minimumDiameterAfterMerge(
+//                parseToIntArray("[[0,1],[2,0],[3,2],[3,6],[8,7],[4,8],[5,4],[3,5],[3,9]]"),
+//                parseToIntArray("[[0,1],[0,2],[0,3]]")
+//            )
 //        )
 //        println(
 //            ArrayCode.finalPrices(intArrayOf(10,2,5,2,8))

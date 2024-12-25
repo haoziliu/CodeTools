@@ -1828,4 +1828,44 @@ object HardArrayCode {
         }
         return result
     }
+
+    fun minimumDiameterAfterMerge(edges1: Array<IntArray>, edges2: Array<IntArray>): Int {
+
+        fun findDiameter(edges: Array<IntArray>): Int {
+            val n = edges.size + 1
+            val graph = Array(n) { mutableListOf<Int>() }
+            for ((u, v) in edges) {
+                graph[u].add(v)
+                graph[v].add(u)
+            }
+
+            var maxDepth = 0
+            var farthestNode = -1
+
+            fun dfs(current: Int, parent: Int, depth: Int) {
+                if (graph[current].size == 1 && graph[current][0] == parent) {
+                    if (depth > maxDepth) {
+                        maxDepth = depth
+                        farthestNode = current
+                    }
+                    return
+                }
+                graph[current].forEach { child ->
+                    if (child != parent) {
+                        dfs(child, current, depth + 1)
+                    }
+                }
+            }
+
+            dfs(0, -1, 0)
+            if (farthestNode != -1) {
+                dfs(farthestNode, -1, 0)
+            }
+            return maxDepth
+        }
+
+        val d1 = findDiameter(edges1)
+        val d2 = findDiameter(edges2)
+        return maxOf(d1, d2, (d1 + 1) / 2 + (d2 + 1) / 2 + 1)
+    }
 }
