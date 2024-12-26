@@ -4710,4 +4710,21 @@ object ArrayCode {
         }
         return result
     }
+
+    fun findTargetSumWays(nums: IntArray, target: Int): Int {
+        // target sum
+        val delta = nums.sum() - target
+        if (delta < 0 || delta % 2 == 1) return 0
+
+        val half = delta shr 1
+        val dp = IntArray(half + 1)
+        dp[0] = 1
+        for (num in nums) {
+            for (i in half downTo num) {
+                dp[i] += dp[i - num]
+            }
+        }
+
+        return dp[half]
+    }
 }

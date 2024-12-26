@@ -58,23 +58,23 @@ class ExampleUnitTest {
 
     @Test
     fun test() {
-        val tree1 = TreeCode.TreeNode(1).apply {
-            left = TreeCode.TreeNode(4).apply {
-                left = TreeCode.TreeNode(7).apply {
-                }
-                right = TreeCode.TreeNode(6).apply {
-                }
-            }
-            right = TreeCode.TreeNode(3).apply {
-                left = TreeCode.TreeNode(8).apply {
-                    left = TreeCode.TreeNode(9)
-                }
-                right = TreeCode.TreeNode(5).apply {
-                    left = TreeCode.TreeNode(10)
-                }
-            }
-        }
-        println(TreeCode.largestValues(tree1))
+//        val tree1 = TreeCode.TreeNode(1).apply {
+//            left = TreeCode.TreeNode(4).apply {
+//                left = TreeCode.TreeNode(7).apply {
+//                }
+//                right = TreeCode.TreeNode(6).apply {
+//                }
+//            }
+//            right = TreeCode.TreeNode(3).apply {
+//                left = TreeCode.TreeNode(8).apply {
+//                    left = TreeCode.TreeNode(9)
+//                }
+//                right = TreeCode.TreeNode(5).apply {
+//                    left = TreeCode.TreeNode(10)
+//                }
+//            }
+//        }
+//        println(TreeCode.largestValues(tree1))
 
 //
 //        val head = ListCode.ListNode(4).apply {
@@ -94,9 +94,9 @@ class ExampleUnitTest {
 //                parseToIntArray("[[0,1],[0,2],[0,3]]")
 //            )
 //        )
-//        println(
-//            ArrayCode.finalPrices(intArrayOf(10,2,5,2,8))
-//        )
+        println(
+            ArrayCode.findTargetSumWays(intArrayOf(1,2,3,4,4), 6)
+        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
