@@ -4727,4 +4727,14 @@ object ArrayCode {
 
         return dp[half]
     }
+
+    fun maxScoreSightseeingPair(values: IntArray): Int {
+        var result = 0
+        var maxValue = values[0]
+        for (j in 1 until values.size) {
+            result = maxOf(result, maxValue + values[j] - j)
+            maxValue = maxOf(maxValue, values[j] + j)
+        }
+        return result
+    }
 }
