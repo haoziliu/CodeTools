@@ -1868,4 +1868,48 @@ object HardArrayCode {
         val d2 = findDiameter(edges2)
         return maxOf(d1, d2, (d1 + 1) / 2 + (d2 + 1) / 2 + 1)
     }
+
+    fun maxSumOfThreeSubarrays(nums: IntArray, k: Int): IntArray {
+        val n = nums.size
+        val sums = IntArray(n - k + 1)
+        var start = 0
+        var sum = 0
+        for (end in 0 until n) {
+            sum += nums[end]
+            if (end - start + 1 != k) continue
+            sums[start] = sum
+            sum -= nums[start]
+            start++
+        }
+        val leftBest = IntArray(n - k + 1)
+        var best = 0
+        for (i in sums.indices) {
+            if (sums[i] > sums[best]) {
+                best = i
+            }
+            leftBest[i] = best
+        }
+        val rightBest = IntArray(n - k + 1)
+        best = 0
+        for (i in sums.indices.reversed()) {
+            if (sums[i] >= sums[best]) {
+                best = i
+            }
+            rightBest[i] = best
+        }
+        sum = 0
+        val result = intArrayOf(0, 0, 0)
+        for (i in sums.indices) {
+            if (i - k < 0) continue
+            if (i + k >= sums.size) break
+            val currentSum = sums[leftBest[i - k]] + sums[i] + sums[rightBest[i + k]]
+            if (currentSum > sum) {
+                sum = currentSum
+                result[0] = leftBest[i - k]
+                result[1] = i
+                result[2] = rightBest[i + k]
+            }
+        }
+        return result
+    }
 }
