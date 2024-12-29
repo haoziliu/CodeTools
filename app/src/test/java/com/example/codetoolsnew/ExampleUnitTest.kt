@@ -6,6 +6,7 @@ import com.example.codetools.MatrixCode
 import com.example.codetools.StringCode
 import com.example.codetools.TreeCode
 import com.example.codetools.hard.HardArrayCode
+import com.example.codetools.hard.HardStringCode
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -88,11 +89,11 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
-            HardArrayCode.maxSumOfThreeSubarrays(
-                intArrayOf(1,2,1,2,6,7,5,1) ,2
-            )
-        )
+//        println(
+//            HardArrayCode.maxSumOfThreeSubarrays(
+//                intArrayOf(1,2,1,2,6,7,5,1) ,2
+//            )
+//        )
 //        println(
 //            ArrayCode.findTargetSumWays(intArrayOf(1,2,3,4,4), 6)
 //        )
@@ -101,7 +102,7 @@ class ExampleUnitTest {
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
-//        println(HardStringCode.calculate("-(-(2 + 3))"))
+        println(HardStringCode.numWays(arrayOf("acca","bbbb","caca"), "aba"))
 //        println(
 //            StringCode.repeatLimitedString("mzptvecynjfohbwduxown", 1)
 //        )

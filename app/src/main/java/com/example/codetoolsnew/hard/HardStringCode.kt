@@ -750,4 +750,28 @@ object HardStringCode {
         updateValue()
         return value
     }
+
+    fun numWays(words: Array<String>, target: String): Int {
+        val MODULO = 1_000_000_007
+        val wordLength = words[0].length
+        val targetLength = target.length
+        val freq = Array(wordLength) { IntArray(26) }
+        for (i in words.indices) {
+            for (j in words[0].indices) {
+                freq[j][words[i][j] - 'a']++
+            }
+        }
+
+        val dp = LongArray(targetLength + 1)
+        dp[0] = 1
+        for (i in 1 .. wordLength) {
+            var previous = dp[0]
+            for (j in 1 .. targetLength) {
+                val tmp = dp[j]
+                dp[j] = (dp[j] + (1L * previous * freq[i - 1][target[j - 1] - 'a']) % MODULO) % MODULO
+                previous = tmp
+            }
+        }
+        return dp[targetLength].toInt()
+    }
 }
