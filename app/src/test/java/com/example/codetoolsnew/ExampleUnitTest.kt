@@ -102,10 +102,10 @@ class ExampleUnitTest {
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
-        println(HardStringCode.numWays(arrayOf("acca","bbbb","caca"), "aba"))
-//        println(
-//            StringCode.repeatLimitedString("mzptvecynjfohbwduxown", 1)
-//        )
+//        println(HardStringCode.numWays(arrayOf("acca","bbbb","caca"), "aba"))
+        println(
+            StringCode.countGoodStrings(12,18,1,3,)
+        )
 
 //        println(MathCode.fractionAddition("-1/3-1/2"))
 

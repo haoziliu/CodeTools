@@ -1764,4 +1764,25 @@ object StringCode {
         }
         return sb.toString()
     }
+
+    fun countGoodStrings(low: Int, high: Int, zero: Int, one: Int): Int {
+        val MODULO = 1_000_000_007
+        var count = 0
+        val dp = IntArray(high + 1)
+        dp[0] = 1
+
+        fun addUp(lastOne: Int, lastZero: Int): Int {
+            return ((if (lastZero >= 0) dp[lastZero] else 0) + (if (lastOne >= 0) dp[lastOne] else 0)) % MODULO
+        }
+
+        for (i in 1 until low) {
+            dp[i] = addUp(i - one, i - zero)
+        }
+        for (i in low..high) {
+            dp[i] = addUp(i - one, i - zero)
+            count = (count + dp[i]) % MODULO
+        }
+        return count
+    }
+
 }
