@@ -4737,4 +4737,24 @@ object ArrayCode {
         }
         return result
     }
+
+    fun minCostTickets(days: IntArray, costs: IntArray): Int {
+        val lastDay = days[days.size - 1]
+        var dayIndex = 0
+        val dp = IntArray(lastDay + 1)
+        val minCost = costs.min()
+        for (i in 1 .. lastDay) {
+            if (i != days[dayIndex]) {
+                dp[i] = dp[i - 1]
+            } else {
+                dp[i] = minOf(
+                    dp[i - 1] + minCost,
+                    (if (i >= 7) dp[i - 7] else 0) + costs[1],
+                    (if (i >= 30) dp[i - 30] else 0) + costs[2]
+                )
+                dayIndex++
+            }
+        }
+        return dp[lastDay]
+    }
 }
