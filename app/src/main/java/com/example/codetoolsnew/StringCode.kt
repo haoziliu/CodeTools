@@ -1785,4 +1785,31 @@ object StringCode {
         return count
     }
 
+    fun count3LengthPalindromicSubsequences(s: String): Int {
+        var count = 0
+        val firstIndices = IntArray(26) { -1 }
+        val lastIndices = IntArray(26) { -1 }
+        for (i in s.indices) {
+            val charIndex = s[i] - 'a'
+            if (firstIndices[charIndex] == -1) {
+                firstIndices[charIndex] = i
+            }
+            lastIndices[charIndex] = i
+        }
+        for (i in 0 until 26) {
+            val lastIndex = lastIndices[i]
+            val firstIndex = firstIndices[i]
+            if (lastIndex < 2 || lastIndex - firstIndex < 2) continue
+            val middle = BooleanArray(26)
+            for (pos in (firstIndex + 1) until lastIndex) {
+                val chIndex = s[pos] - 'a'
+                // 如果还没标记过，就标记并计数 + 1
+                if (!middle[chIndex]) {
+                    middle[chIndex] = true
+                    count++
+                }
+            }
+        }
+        return count
+    }
 }

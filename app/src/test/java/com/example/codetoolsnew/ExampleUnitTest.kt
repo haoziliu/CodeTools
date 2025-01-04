@@ -94,18 +94,18 @@ class ExampleUnitTest {
 //                intArrayOf(1,2,1,2,6,7,5,1) ,2
 //            )
 //        )
-        println(
-            ArrayCode.minCostTickets(intArrayOf(1,2,3,4,6,8,9,10,13,14,16,17,19,21,24,26,27,28,29), intArrayOf(3,14,50))
-        )
+//        println(
+//            ArrayCode.minCostTickets(intArrayOf(1,2,3,4,6,8,9,10,13,14,16,17,19,21,24,26,27,28,29), intArrayOf(3,14,50))
+//        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
 //        println(HardStringCode.numWays(arrayOf("acca","bbbb","caca"), "aba"))
-//        println(
-//            StringCode.countGoodStrings(12,18,1,3,)
-//        )
+        println(
+            StringCode.countPalindromicSubsequence("bbcbaba")
+        )
 
 //        println(MathCode.fractionAddition("-1/3-1/2"))
 
