@@ -774,4 +774,34 @@ object HardStringCode {
         }
         return dp[targetLength].toInt()
     }
+
+    fun allSamePrefixSuffix(s: String): List<String> { // abcabdddabcab -> [ab, abcab]
+        // kmp
+        // 1. 构建前缀函数数组 lps: pi，pi[i] 表示在 s[0..i] 中最长相同前后缀的长度
+        val n = s.length
+        val pi = IntArray(n) { 0 }
+
+        var j = 0 // j 既是“已经匹配的长度”，也是“当前要比较字符的下标”
+        for (i in 1 until n) {
+            while (j > 0 && s[i] != s[j]) {
+                j = pi[j - 1]  // 回退
+            }
+            if (s[i] == s[j]) {
+                j++
+            }
+            pi[i] = j
+        }
+
+        // 2. 从最后 pi[n - 1] 开始，往前不停地追溯，收集所有「相同前后缀」长度
+        val result = mutableListOf<Int>()
+        var length = pi[n - 1]
+        while (length > 0) {
+            result.add(length)
+            length = pi[length - 1]
+        }
+        // 这里可以把长度转换成对应的前缀子串
+        return result
+            .sorted()  // 如果想从短到长，可以先排序
+            .map { s.substring(0, it) }
+    }
 }

@@ -102,10 +102,10 @@ class ExampleUnitTest {
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
-//        println(HardStringCode.numWays(arrayOf("acca","bbbb","caca"), "aba"))
-        println(
-            StringCode.countPalindromicSubsequence("bbcbaba")
-        )
+        println(HardStringCode.allSamePrefixSuffix("aaabaaab"))
+//        println(
+//            StringCode.countPalindromicSubsequence("bbcbaba")
+//        )
 
 //        println(MathCode.fractionAddition("-1/3-1/2"))
 
