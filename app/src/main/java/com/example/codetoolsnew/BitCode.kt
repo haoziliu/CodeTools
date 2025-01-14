@@ -324,4 +324,25 @@ object BitCode {
         }
         return max
     }
+
+    fun findThePrefixCommonArray(A: IntArray, B: IntArray): IntArray {
+        var xorSum = 0L
+        val result = IntArray(A.size)
+        var count = 0
+        for (i in A.indices) {
+            xorSum = xorSum xor (1L shl A[i]) xor (1L shl B[i])
+            if (A[i] == B[i]) {
+                count++
+            } else {
+                if (xorSum and (1L shl A[i]) == 0L) {
+                    count++
+                }
+                if (xorSum and (1L shl B[i]) == 0L) {
+                    count++
+                }
+            }
+            result[i] = count
+        }
+        return result
+    }
 }
