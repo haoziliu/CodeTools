@@ -1912,4 +1912,29 @@ object HardArrayCode {
         }
         return result
     }
+
+    fun minCostToReachLast(grid: Array<IntArray>): Int {
+        val DIRECTIONS = arrayOf(intArrayOf(0, 1), intArrayOf(0, -1), intArrayOf(1, 0), intArrayOf(-1, 0))
+        val m = grid.size
+        val n = grid[0].size
+        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third })
+        val minMemo = Array(m) { IntArray(n) { Int.MAX_VALUE} }
+        minMemo[0][0] = 0
+        pq.offer(Triple(0, 0, 0))
+        while (pq.isNotEmpty()) {
+            val (i, j, cost) = pq.poll()!!
+            if (i == m - 1 && j == n - 1) return cost
+            for (k in DIRECTIONS.indices) {
+                val nextI = i + DIRECTIONS[k][0]
+                val nextJ = j + DIRECTIONS[k][1]
+                if (nextI !in 0 until m || nextJ !in 0 until n) continue
+                val nextCost = if (k + 1 == grid[i][j]) cost else cost + 1
+                if (nextCost < minMemo[nextI][nextJ]) {
+                    minMemo[nextI][nextJ] = nextCost
+                    pq.offer(Triple(nextI, nextJ, nextCost))
+                }
+            }
+        }
+        return -1
+    }
 }

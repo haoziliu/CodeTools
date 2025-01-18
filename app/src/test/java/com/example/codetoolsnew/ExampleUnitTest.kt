@@ -1,12 +1,6 @@
 package com.example.codetoolsnew
 
-import com.example.codetools.ArrayCode
-import com.example.codetools.GraphCode
-import com.example.codetools.MatrixCode
-import com.example.codetools.StringCode
-import com.example.codetools.TreeCode
 import com.example.codetools.hard.HardArrayCode
-import com.example.codetools.hard.HardStringCode
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -89,11 +83,11 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-//        println(
-//            HardArrayCode.maxSumOfThreeSubarrays(
-//                intArrayOf(1,2,1,2,6,7,5,1) ,2
-//            )
-//        )
+        println(
+            HardArrayCode.minCostToReachLast(
+                parseToIntArray("[[1,1,1,1],[2,2,2,2],[1,1,1,1],[2,2,2,2]]")
+            )
+        )
 //        println(
 //            ArrayCode.minCostTickets(intArrayOf(1,2,3,4,6,8,9,10,13,14,16,17,19,21,24,26,27,28,29), intArrayOf(3,14,50))
 //        )
@@ -102,7 +96,7 @@ class ExampleUnitTest {
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
-        println(HardStringCode.allSamePrefixSuffix("aaabaaab"))
+//        println(HardStringCode.allSamePrefixSuffix("aaabaaab"))
 //        println(
 //            StringCode.countPalindromicSubsequence("bbcbaba")
 //        )
