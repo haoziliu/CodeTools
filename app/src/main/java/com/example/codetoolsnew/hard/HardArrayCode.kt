@@ -148,57 +148,7 @@ object HardArrayCode {
     }
 
     fun trapWater(height: IntArray): Int {
-        // find next bar which is equal or higher than start bar, trap (distance * height - blocks)
-//        var start = 0
-//        var startHeight = 0
-//        var blocks = 0
-//        var result = 0
-//        for (i in height.indices) {
-//            if (startHeight == 0) {
-//                if (height[i] > startHeight) {
-//                    startHeight = height[i]
-//                    start = i
-//                }
-//            } else {
-//                // if the current bar is higher than the start bar, we can calculate the trapped water
-//                if (height[i] >= startHeight) {
-//                    result += (i - start - 1) * startHeight - blocks
-//                    startHeight = height[i]
-//                    start = i
-//                    blocks = 0
-//                } else {
-//                    // otherwise, we need to add the current bar to the blocks
-//                    blocks += height[i]
-//                }
-//            }
-//        }
-//        // if the last top is not the last bar, we need to do the same thing from the end
-//        if (start != height.size - 1) {
-//            val lastTop = start
-//            start = height.size - 1
-//            startHeight = 0
-//            blocks = 0
-//            for (i in height.size - 1 downTo lastTop) {
-//                if (startHeight == 0) {
-//                    if (height[i] > startHeight) {
-//                        startHeight = height[i]
-//                        start = i
-//                    }
-//                } else {
-//                    if (height[i] >= startHeight) {
-//                        result += (start - i - 1) * startHeight - blocks
-//                        startHeight = height[i]
-//                        start = i
-//                        blocks = 0
-//                    } else {
-//                        blocks += height[i]
-//                    }
-//                }
-//            }
-//        }
-//        return result
-
-        // two pointers, check left and right max,
+        // two pointers, keep left and right max,
         // since water is trapped by the lower side, we need to move the lower side
 //        var i = 0
 //        var leftMax = height[0]
@@ -218,6 +168,27 @@ object HardArrayCode {
 //        }
 //        return sum
 
+        // two pointers: dynamically fill up water, check neighbour if it can trap water
+//        var left = 0
+//        var right = height.size - 1
+//        var sum = 0
+//        while (left + 1 < right) {
+//            if (height[left] <= height[right]) {
+//                if (height[left + 1] < height[left]) {
+//                    sum += height[left] - height[left + 1]
+//                }
+//                height[left  + 1] = maxOf(height[left + 1], height[left])
+//                left++
+//            } else {
+//                if (height[right - 1] < height[right]) {
+//                    sum += height[right] - height[right - 1]
+//                }
+//                height[right - 1] = maxOf(height[right - 1], height[right])
+//                right--
+//            }
+//        }
+//        return sum
+
         // monotonic stack
         val stack = LinkedList<Int>()
         var sum = 0
@@ -230,6 +201,40 @@ object HardArrayCode {
                 sum += distance * boundedHeight
             }
             stack.push(i)
+        }
+        return sum
+    }
+
+    fun trapRainWater(heightMap: Array<IntArray>): Int {
+        // dynamically fill up water, check neighbour if it can trap water
+        val DIRECTIONS = arrayOf(intArrayOf(0, 1), intArrayOf(0, -1), intArrayOf(1, 0), intArrayOf(-1, 0))
+
+        val m = heightMap.size
+        val n = heightMap[0].size
+        var sum = 0
+        val visited = Array(m) { BooleanArray(n) }
+        val pq = PriorityQueue<Pair<Int, Int>>(compareBy { heightMap[it.first][it.second] })
+        for (i in 0 until m) {
+            for (j in 0 until n) {
+                if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
+                    pq.offer(i to j)
+                    visited[i][j] = true
+                }
+            }
+        }
+        while (pq.isNotEmpty()) {
+            val (i, j) = pq.poll()!!
+            for ((dx, dy) in DIRECTIONS) {
+                val newX = i + dx
+                val newY = j + dy
+                if (newX !in 0 until m || newY !in 0 until n || visited[newX][newY]) continue
+                if (heightMap[newX][newY] < heightMap[i][j]) {
+                    sum += heightMap[i][j] - heightMap[newX][newY]
+                }
+                heightMap[newX][newY] = maxOf(heightMap[i][j], heightMap[newX][newY]) // 更新水位
+                visited[newX][newY] = true
+                pq.offer(newX to newY)
+            }
         }
         return sum
     }
