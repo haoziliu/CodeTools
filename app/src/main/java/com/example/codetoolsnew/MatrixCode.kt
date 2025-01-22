@@ -1056,4 +1056,60 @@ object MatrixCode {
         }
         return result
     }
+
+    fun highestPeak(isWater: Array<IntArray>): Array<IntArray> {
+        // multi-source BFS
+//        val m = isWater.size
+//        val n = isWater[0].size
+//        val pq = LinkedList<Pair<Int, Int>>()
+//        for (r in 0 until m) {
+//            for (c in 0 until n) {
+//                if (isWater[r][c] == 1) {
+//                    isWater[r][c] = 0
+//                    pq.offer(r to c)
+//                } else {
+//                    isWater[r][c] = -1
+//                }
+//            }
+//        }
+//        while (pq.isNotEmpty()) {
+//            val (r, c) = pq.poll()!!
+//            for ((dx, dy) in DIRECTIONS) {
+//                val newR = r + dx
+//                val newC = c + dy
+//                if (newR !in 0 until m || newC !in 0 until n || isWater[newR][newC] != -1) continue
+//                isWater[newR][newC] = isWater[r][c] + 1
+//                pq.offer(newR to newC)
+//            }
+//        }
+//        return isWater
+
+        // 状态转移无方向性, 无条件最优解, 可用两次dp解决
+        val m = isWater.size
+        val n = isWater[0].size
+        val result = Array(m) { IntArray(n) { 2000 } }
+        for (r in 0 until m) {
+            for (c in 0 until n) {
+                if (isWater[r][c] == 0) {
+                    result[r][c] = minOf(
+                        result[r][c],
+                        if (r > 0) result[r - 1][c] + 1 else Int.MAX_VALUE,
+                        if (c > 0) result[r][c - 1] + 1 else Int.MAX_VALUE
+                    )
+                } else {
+                    result[r][c] = 0
+                }
+            }
+        }
+        for (r in m - 1 downTo 0) {
+            for (c in n - 1 downTo 0) {
+                result[r][c] = minOf(
+                    result[r][c],
+                    if (r < m - 1) result[r + 1][c] + 1 else Int.MAX_VALUE,
+                    if (c < n - 1) result[r][c + 1] + 1 else Int.MAX_VALUE
+                )
+            }
+        }
+        return result
+    }
 }

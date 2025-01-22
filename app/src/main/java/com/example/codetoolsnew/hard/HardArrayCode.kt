@@ -1922,12 +1922,32 @@ object HardArrayCode {
         val DIRECTIONS = arrayOf(intArrayOf(0, 1), intArrayOf(0, -1), intArrayOf(1, 0), intArrayOf(-1, 0))
         val m = grid.size
         val n = grid[0].size
-        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third })
-        val minMemo = Array(m) { IntArray(n) { Int.MAX_VALUE} }
+//        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third })
+//        val minMemo = Array(m) { IntArray(n) { Int.MAX_VALUE} }
+//        minMemo[0][0] = 0
+//        pq.offer(Triple(0, 0, 0))
+//        while (pq.isNotEmpty()) {
+//            val (i, j, cost) = pq.poll()!!
+//            if (i == m - 1 && j == n - 1) return cost
+//            for (k in DIRECTIONS.indices) {
+//                val nextI = i + DIRECTIONS[k][0]
+//                val nextJ = j + DIRECTIONS[k][1]
+//                if (nextI !in 0 until m || nextJ !in 0 until n) continue
+//                val nextCost = if (k + 1 == grid[i][j]) cost else cost + 1
+//                if (nextCost < minMemo[nextI][nextJ]) {
+//                    minMemo[nextI][nextJ] = nextCost
+//                    pq.offer(Triple(nextI, nextJ, nextCost))
+//                }
+//            }
+//        }
+//        return -1
+
+        val deque = LinkedList<Triple<Int, Int, Int>>() // 使用双端队列
+        val minMemo = Array(m) { IntArray(n) { Int.MAX_VALUE } }
         minMemo[0][0] = 0
-        pq.offer(Triple(0, 0, 0))
-        while (pq.isNotEmpty()) {
-            val (i, j, cost) = pq.poll()!!
+        deque.addFirst(Triple(0, 0, 0))
+        while (deque.isNotEmpty()) {
+            val (i, j, cost) = deque.removeFirst()
             if (i == m - 1 && j == n - 1) return cost
             for (k in DIRECTIONS.indices) {
                 val nextI = i + DIRECTIONS[k][0]
@@ -1936,7 +1956,11 @@ object HardArrayCode {
                 val nextCost = if (k + 1 == grid[i][j]) cost else cost + 1
                 if (nextCost < minMemo[nextI][nextJ]) {
                     minMemo[nextI][nextJ] = nextCost
-                    pq.offer(Triple(nextI, nextJ, nextCost))
+                    if (k + 1 == grid[i][j]) { // 以同方向为优
+                        deque.addFirst(Triple(nextI, nextJ, nextCost)) // 权重为 0 的路径
+                    } else {
+                        deque.addLast(Triple(nextI, nextJ, nextCost)) // 权重为 1 的路径
+                    }
                 }
             }
         }
