@@ -4069,11 +4069,38 @@ object ArrayCode {
         var currentSum = nums[0]
 
         for (i in 1 until nums.size) {
+//            if (currentSum > 0) {
+//                currentSum += nums[i]
+//            } else {
+//                currentSum = nums[i]
+//            }
             currentSum = maxOf(nums[i], currentSum + nums[i])
             maxSum = maxOf(maxSum, currentSum)
         }
 
         return maxSum
+    }
+
+    // Kadane's Algorithm check max and min
+    fun maxSubarraySumCircular(nums: IntArray): Int {
+        var maxSum = Int.MIN_VALUE
+        var minSum = Int.MAX_VALUE
+        var currentSum = 0
+        var currentMinSum = 0
+        var totalSum = 0
+        for (num in nums) {
+            currentSum = maxOf(currentSum + num, num)
+            maxSum = maxOf(maxSum, currentSum)
+
+            currentMinSum = minOf(currentMinSum + num, num)
+            minSum = minOf(minSum, currentMinSum)
+
+            totalSum += num
+        }
+        if (minSum == totalSum) {
+            return maxSum
+        }
+        return maxOf(maxSum, totalSum - minSum)
     }
 
     fun removeSubfolders(folder: Array<String>): List<String> {
