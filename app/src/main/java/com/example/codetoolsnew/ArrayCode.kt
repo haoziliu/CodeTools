@@ -4757,4 +4757,35 @@ object ArrayCode {
         }
         return dp[lastDay]
     }
+
+    fun countServers(grid: Array<IntArray>): Int {
+        val m = grid.size
+        val n = grid[0].size
+        val colsCount = IntArray(n)
+        val colsExtra = IntArray(n)
+        var result = 0
+        for (i in 0 until m) {
+            var rowCount = 0
+            for (j in 0 until n) {
+                if (grid[i][j] == 1) {
+                    rowCount++
+                    colsCount[j]++
+                }
+            }
+            if (rowCount > 1) {
+                result += rowCount
+                for (j in 0 until n) {
+                    if (grid[i][j] == 1) {
+                        colsExtra[j]++
+                    }
+                }
+            }
+        }
+        for (j in 0 until n) {
+            if (colsCount[j] > 1) {
+                result += colsCount[j] - colsExtra[j]
+            }
+        }
+        return result
+    }
 }

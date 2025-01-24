@@ -467,29 +467,69 @@ object GraphCode {
         val inRecurStack = BooleanArray(numCourses)
 
         fun validCourse(index: Int): Boolean {
-            visited[index] = true
+            if (visited[index]) return true
+            if (inRecurStack[index]) return false
             inRecurStack[index] = true
             for (req in graph[index]) {
-                if (!visited[req]) {  // required course not visited yet
-                    if (!validCourse(req)) {
-                        // required course not valid
-                        return false
-                    }
-                } else if (inRecurStack[req]) { // required course visited, and it's in current cycle
+                if (!validCourse(req)) {
+                    visited[index] = false
                     return false
                 }
             }
+            visited[index] = true
             inRecurStack[index] = false
             return true
         }
 
         for (i in 0 until numCourses) {
-            if (!visited[i]) {
-                if (!validCourse(i))
-                    return false
+            if (!validCourse(i)) {
+                return false
             }
         }
         return true
+    }
+
+    fun eventualSafeNodes(graph: Array<IntArray>): List<Int> {
+        val n = graph.size
+        val nodeValid = BooleanArray(n)
+        val visited = BooleanArray(n)
+        for (from in graph.indices) {
+            if (graph[from].isEmpty()) {
+                visited[from] = true
+                nodeValid[from] = true
+            }
+        }
+
+        val inRecurStack = BooleanArray(n)
+
+        fun checkNode(index: Int): Boolean {
+            if (visited[index]) {
+                return nodeValid[index]
+            }
+            if (inRecurStack[index]) {
+                return false
+            }
+            inRecurStack[index] = true
+            var isValid = true
+            for (next in graph[index]) {
+                if (!checkNode(next)) {
+                    isValid = false
+                    break
+                }
+            }
+            inRecurStack[index] = false
+            visited[index] = true
+            nodeValid[index] = isValid
+            return isValid
+        }
+
+        val result = mutableListOf<Int>()
+        for (i in 0 until n) {
+            if (checkNode(i)) {
+                result.add(i)
+            }
+        }
+        return result
     }
 
     fun findOrder(numCourses: Int, prerequisites: Array<IntArray>): IntArray {

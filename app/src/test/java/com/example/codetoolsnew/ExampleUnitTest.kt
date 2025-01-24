@@ -1,5 +1,6 @@
 package com.example.codetoolsnew
 
+import com.example.codetools.ArrayCode
 import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
 
@@ -83,14 +84,14 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
-            HardArrayCode.minCostToReachLast(
-                parseToIntArray("[[1,1,1,1],[2,2,2,2],[1,1,1,1],[2,2,2,2]]")
-            )
-        )
 //        println(
-//            ArrayCode.minCostTickets(intArrayOf(1,2,3,4,6,8,9,10,13,14,16,17,19,21,24,26,27,28,29), intArrayOf(3,14,50))
+//            HardArrayCode.minCostToReachLast(
+//                parseToIntArray("[[1,1,1,1],[2,2,2,2],[1,1,1,1],[2,2,2,2]]")
+//            )
 //        )
+        println(
+            ArrayCode.countServers(parseToIntArray("[[1,1,0,0],[0,0,1,0],[0,0,1,0],[0,0,0,1]]"))
+        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
