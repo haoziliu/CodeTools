@@ -90,7 +90,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.maxSubarraySumCircular(intArrayOf(-3,-2,-3))
+            ArrayCode.lexicographicallySmallestArray(intArrayOf(1,5,3,9,8), 2)
         )
 
 //        println(

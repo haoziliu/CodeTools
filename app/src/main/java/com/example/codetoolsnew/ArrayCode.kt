@@ -4815,4 +4815,27 @@ object ArrayCode {
         }
         return result
     }
+
+    fun lexicographicallySmallestArray(nums: IntArray, limit: Int): IntArray {
+        val sorted = nums.withIndex().sortedBy { it.value }
+        val indices = PriorityQueue<Int>()
+        var rangeMax = 0
+        val result = IntArray(nums.size)
+        var j = 0
+        for (i in sorted.indices) {
+            val (index, value) = sorted[i]
+            if (value > rangeMax) {
+                while (j < i) {
+                    result[indices.poll()!!] = sorted[j++].value
+                }
+            }
+            indices.offer(index)
+            rangeMax = maxOf(rangeMax, value + limit)
+        }
+        while (indices.isNotEmpty()) {
+            result[indices.poll()!!] = sorted[j++].value
+        }
+        return result
+    }
+
 }
