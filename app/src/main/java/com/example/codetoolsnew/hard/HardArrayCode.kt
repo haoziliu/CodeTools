@@ -1,6 +1,7 @@
 package com.example.codetools.hard
 
 import com.example.codetools.ArrayCode
+import java.util.Arrays
 import java.util.LinkedList
 import java.util.PriorityQueue
 import java.util.Stack
@@ -207,7 +208,8 @@ object HardArrayCode {
 
     fun trapRainWater(heightMap: Array<IntArray>): Int {
         // dynamically fill up water, check neighbour if it can trap water
-        val DIRECTIONS = arrayOf(intArrayOf(0, 1), intArrayOf(0, -1), intArrayOf(1, 0), intArrayOf(-1, 0))
+        val DIRECTIONS =
+            arrayOf(intArrayOf(0, 1), intArrayOf(0, -1), intArrayOf(1, 0), intArrayOf(-1, 0))
 
         val m = heightMap.size
         val n = heightMap[0].size
@@ -1919,7 +1921,8 @@ object HardArrayCode {
     }
 
     fun minCostToReachLast(grid: Array<IntArray>): Int {
-        val DIRECTIONS = arrayOf(intArrayOf(0, 1), intArrayOf(0, -1), intArrayOf(1, 0), intArrayOf(-1, 0))
+        val DIRECTIONS =
+            arrayOf(intArrayOf(0, 1), intArrayOf(0, -1), intArrayOf(1, 0), intArrayOf(-1, 0))
         val m = grid.size
         val n = grid[0].size
 //        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third })
@@ -1965,5 +1968,54 @@ object HardArrayCode {
             }
         }
         return -1
+    }
+
+    fun maximumInvitations(favorite: IntArray): Int {
+        val n = favorite.size
+        val inDegree = IntArray(n)
+        for (person in 0 until n) {
+            inDegree[favorite[person]]++
+        }
+
+        // Topological sorting to remove non-cycle nodes
+        val queue = LinkedList<Int>()
+        for (person in 0 until n) {
+            if (inDegree[person] == 0) {
+                queue.offer(person)
+            }
+        }
+        val depth = IntArray(n) { 1 } // Depth: node to leaf
+        while (queue.isNotEmpty()) {
+            val currentNode = queue.poll()!!
+            val nextNode = favorite[currentNode]
+            depth[nextNode] = maxOf(depth[nextNode], depth[currentNode] + 1)
+            if (--inDegree[nextNode] == 0) {
+                queue.offer(nextNode)
+            }
+        }
+
+        var longestCycle = 0
+        var twoCycleInvitations = 0
+
+        // Detect cycles
+        for (person in 0 until n) {
+            if (inDegree[person] == 0) continue  // Already processed
+            var cycleLength = 0
+            var current = person
+            while (inDegree[current] != 0) {
+                inDegree[current] = 0 // Mark as visited
+                cycleLength++
+                current = favorite[current]
+            }
+
+            if (cycleLength == 2) {
+                // For 2-cycles, add the depth of both nodes
+                twoCycleInvitations += depth[person] + depth[favorite[person]]
+            } else {
+                longestCycle = maxOf(longestCycle, cycleLength)
+            }
+        }
+
+        return maxOf(longestCycle, twoCycleInvitations)
     }
 }
