@@ -4838,12 +4838,11 @@ object ArrayCode {
         return result
     }
 
-    fun checkIfPrerequisite(numCourses: Int, prerequisites: Array<IntArray>, queries: Array<IntArray>): List<Boolean> {
+    fun checkIfPrerequisiteDFS(numCourses: Int, prerequisites: Array<IntArray>, queries: Array<IntArray>): List<Boolean> {
         val graph = Array(numCourses) { mutableListOf<Int>() }
         for ((u, v) in prerequisites) {
             graph[u].add(v)
         }
-
         val dependencies = Array(numCourses) { BooleanArray(numCourses) }
 
         fun dfs(start: Int, current: Int) {
@@ -4866,4 +4865,26 @@ object ArrayCode {
         return result
     }
 
+    fun checkIfPrerequisite(numCourses: Int, prerequisites: Array<IntArray>, queries: Array<IntArray>): List<Boolean> {
+        val dependencies = Array(numCourses) { BooleanArray(numCourses) }
+        for ((u, v) in prerequisites) {
+            dependencies[u][v] = true
+        }
+        // Floyd-Warshall
+        for (k in 0 until numCourses) {
+            for (u in 0 until numCourses) {
+                for (v in 0 until numCourses) {
+                    if (dependencies[u][k] && dependencies[k][v]) {
+                        dependencies[u][v] = true
+                    }
+                }
+            }
+        }
+
+        val result = mutableListOf<Boolean>()
+        for ((u, v) in queries) {
+            result.add(dependencies[u][v])
+        }
+        return result
+    }
 }

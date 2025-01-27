@@ -90,7 +90,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.lexicographicallySmallestArray(intArrayOf(1,5,3,9,8), 2)
+            ArrayCode.checkIfPrerequisite(5, parseToIntArray("[[4,3],[4,1],[4,0],[3,2],[3,1],[3,0],[2,1],[2,0],[1,0]]"), parseToIntArray("[[1,4],[4,2],[0,1],[4,0],[0,2],[1,3],[0,1]]"))
         )
 
 //        println(
