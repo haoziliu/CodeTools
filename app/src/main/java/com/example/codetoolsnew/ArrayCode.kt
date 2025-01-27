@@ -4838,4 +4838,32 @@ object ArrayCode {
         return result
     }
 
+    fun checkIfPrerequisite(numCourses: Int, prerequisites: Array<IntArray>, queries: Array<IntArray>): List<Boolean> {
+        val graph = Array(numCourses) { mutableListOf<Int>() }
+        for ((u, v) in prerequisites) {
+            graph[u].add(v)
+        }
+
+        val dependencies = Array(numCourses) { BooleanArray(numCourses) }
+
+        fun dfs(start: Int, current: Int) {
+            for (neighbour in graph[current]) {
+                if (!dependencies[start][neighbour]) {
+                    dependencies[start][neighbour] = true
+                    dfs(start, neighbour)
+                }
+            }
+        }
+
+        for (i in 0 until numCourses) {
+            dfs(i, i)
+        }
+
+        val result = mutableListOf<Boolean>()
+        for ((u, v) in queries) {
+            result.add(dependencies[u][v])
+        }
+        return result
+    }
+
 }
