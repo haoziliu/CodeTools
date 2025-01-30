@@ -84,14 +84,14 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-//        println(
-//            HardArrayCode.minCostToReachLast(
-//                parseToIntArray("[[1,1,1,1],[2,2,2,2],[1,1,1,1],[2,2,2,2]]")
-//            )
-//        )
         println(
-            ArrayCode.checkIfPrerequisite(5, parseToIntArray("[[4,3],[4,1],[4,0],[3,2],[3,1],[3,0],[2,1],[2,0],[1,0]]"), parseToIntArray("[[1,4],[4,2],[0,1],[4,0],[0,2],[1,3],[0,1]]"))
+            HardArrayCode.magnificentSets(6,
+                parseToIntArray("[[1,2],[1,4],[1,5],[2,6],[2,3],[4,6]]")
+            )
         )
+//        println(
+//            ArrayCode.checkIfPrerequisite(5, parseToIntArray("[[4,3],[4,1],[4,0],[3,2],[3,1],[3,0],[2,1],[2,0],[1,0]]"), parseToIntArray("[[1,4],[4,2],[0,1],[4,0],[0,2],[1,3],[0,1]]"))
+//        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))

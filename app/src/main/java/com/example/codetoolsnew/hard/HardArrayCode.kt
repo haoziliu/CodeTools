@@ -2018,4 +2018,68 @@ object HardArrayCode {
 
         return maxOf(longestCycle, twoCycleInvitations)
     }
+
+    // 二分染色法判断有无奇环
+//        val color = IntArray(n + 1) { -1 }
+//        for (start in 1..n) {
+//            if (color[start] != -1) continue
+//            color[start] = 0
+//            val queue = LinkedList<Int>()
+//            queue.offer(start)
+//            while (queue.isNotEmpty()) {
+//                val node = queue.poll()!!
+//                for (neighbour in graph[node]) {
+//                    if (color[neighbour] == -1) {
+//                        color[neighbour] = 1 - color[node]
+//                        queue.offer(neighbour)
+//                    } else if (color[neighbour] == color[node]) {
+//                        return -1
+//                    }
+//                }
+//            }
+//        }
+
+    fun magnificentSets(n: Int, edges: Array<IntArray>): Int {
+        val uf = UnionFind(n + 1)
+        val graph = Array(n + 1) { mutableListOf<Int>() }
+        for ((u, v) in edges) {
+            graph[u].add(v)
+            graph[v].add(u)
+            uf.union(u, v)
+        }
+
+        // 以每个节点为树root计算树高，如果同层节点相连，则是有奇环。
+        val height = mutableMapOf<Int, Int>()
+        for (start in 1..n) {
+            val visitedAt = IntArray(n + 1) { -1 }
+            val queue = LinkedList<Int>()
+            queue.offer(start)
+            visitedAt[start] = 0
+            var currentHeight = 0
+            while (queue.isNotEmpty()) {
+                val levelSize = queue.size
+                for (i in 0 until levelSize) {
+                    val node = queue.poll()!!
+                    for (neighbour in graph[node]) {
+                        if (visitedAt[neighbour] == -1) {
+                            visitedAt[neighbour] = currentHeight + 1
+                            queue.offer(neighbour)
+                        } else if (visitedAt[neighbour] == currentHeight) {
+                            return -1
+                        }
+                    }
+                }
+                currentHeight++
+            }
+            // 找到连通分量顶点，更新最高高度
+            val root = uf.find(start)
+            height[root] = maxOf(height.getOrDefault(root, 0), currentHeight)
+        }
+
+        var result = 0
+        for ((key, value) in height) {
+            result += value
+        }
+        return result
+    }
 }
