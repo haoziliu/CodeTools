@@ -1668,4 +1668,20 @@ object TreeCode {
         dfs(root, 0)
         return result
     }
+
+    fun maxPathSum(root: TreeNode?): Int {
+        var maxSum = Int.MIN_VALUE
+
+        fun calculateTree(node: TreeNode?): Int {
+            if (node == null) return 0
+            maxSum = maxOf(maxSum, node.`val`)
+            val leftSum = maxOf(0, calculateTree(node.left))
+            val rightSum = maxOf(0, calculateTree(node.right))
+            maxSum = maxOf(maxSum, node.`val` + leftSum + rightSum)
+            return node.`val` + maxOf(leftSum, rightSum)
+        }
+
+        calculateTree(root)
+        return maxSum
+    }
 }

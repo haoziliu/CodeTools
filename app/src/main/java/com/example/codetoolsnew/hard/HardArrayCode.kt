@@ -2082,4 +2082,109 @@ object HardArrayCode {
         }
         return result
     }
+
+    val DIRECTIONS = arrayOf(intArrayOf(1, 0), intArrayOf(-1, 0), intArrayOf(0, 1), intArrayOf(0, -1))
+
+    //    fun largestIsland(grid: Array<IntArray>): Int {
+    //        val n = grid.size
+    //        val maxSize = n * n
+    //        var islandId = 2
+    //        var maxArea = 0
+    //        val areas = IntArray(maxSize + 2)
+    //
+    //        fun dfs(r: Int, c: Int, id: Int) {
+    //            grid[r][c] = id
+    //            areas[id]++
+    //            for ((dx, dy) in DIRECTIONS) {
+    //                val newR = r + dx
+    //                val newC = c + dy
+    //                if (newR !in 0 until n || newC !in 0 until n || grid[newR][newC] != 1) continue
+    //                dfs(newR, newC, id)
+    //            }
+    //        }
+    //
+    //        for (i in 0 until n) {
+    //            for (j in 0 until n) {
+    //                if (grid[i][j] == 1) {
+    //                    dfs(i, j, islandId)
+    //                    maxArea = maxOf(maxArea, areas[islandId])
+    //                    islandId++
+    //                }
+    //            }
+    //        }
+    //        if (maxArea == 0) return 1
+    //        else if (maxArea == maxSize) return maxSize
+    //
+    //        for (i in 0 until n) {
+    //            for (j in 0 until n) {
+    //                if (grid[i][j] == 0) {
+    //                    var areaSum = 1
+    //                    val neighbours = mutableSetOf<Int>()
+    //                    for ((dx, dy) in DIRECTIONS) {
+    //                        val newX = i + dx
+    //                        val newY = j + dy
+    //                        if (newX in 0 until n && newY in 0 until n && grid[newX][newY] > 1) {
+    //                            neighbours.add(grid[newX][newY])
+    //                        }
+    //                    }
+    //                    for (neighbour in neighbours) {
+    //                        areaSum += areas[neighbour]
+    //                    }
+    //                    maxArea = maxOf(maxArea, areaSum)
+    //                }
+    //            }
+    //        }
+    //        return maxArea
+    //    }
+
+    fun largestIsland(grid: Array<IntArray>): Int {
+        val n = grid.size
+
+        fun index(x: Int, y: Int) : Int = x * n + y
+
+        val uf = UnionFind(n * n)
+        for (i in 0 until n) {
+            for (j in 0 until n) {
+                if (grid[i][j] == 1) {
+                    if (i < n -1 && grid[i + 1][j] == 1) {
+                        uf.union(index(i, j), index(i + 1, j))
+                    }
+                    if (j < n - 1 && grid[i][j + 1] == 1) {
+                        uf.union(index(i, j), index(i, j + 1))
+                    }
+                }
+            }
+        }
+        var maxArea = 0
+        val areas = mutableMapOf<Int, Int>()
+        for (i in 0 until n) {
+            for (j in 0 until n) {
+                if (grid[i][j] == 1) {
+                    val root = uf.find(index(i, j))
+                    areas[root] = areas.getOrDefault(root, 0) + 1
+                    maxArea = maxOf(maxArea, areas[root]!!)
+                }
+            }
+        }
+        for (i in 0 until n) {
+            for (j in 0 until n) {
+                if (grid[i][j] == 0) {
+                    var areaSum = 1
+                    val neighbours = mutableSetOf<Int>()
+                    for ((dx, dy) in DIRECTIONS) {
+                        val newX = i + dx
+                        val newY = j + dy
+                        if (newX in 0 until n && newY in 0 until n && grid[newX][newY] == 1) {
+                            neighbours.add(uf.find(index(newX, newY)))
+                        }
+                    }
+                    for (neighbour in neighbours) {
+                        areaSum += areas[neighbour]!!
+                    }
+                    maxArea = maxOf(maxArea, areaSum)
+                }
+            }
+        }
+        return maxArea
+    }
 }

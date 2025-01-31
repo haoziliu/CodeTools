@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.TreeCode
 import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
 
@@ -54,23 +55,13 @@ class ExampleUnitTest {
 
     @Test
     fun test() {
-//        val tree1 = TreeCode.TreeNode(1).apply {
-//            left = TreeCode.TreeNode(4).apply {
-//                left = TreeCode.TreeNode(7).apply {
-//                }
-//                right = TreeCode.TreeNode(6).apply {
-//                }
-//            }
-//            right = TreeCode.TreeNode(3).apply {
-//                left = TreeCode.TreeNode(8).apply {
-//                    left = TreeCode.TreeNode(9)
-//                }
-//                right = TreeCode.TreeNode(5).apply {
-//                    left = TreeCode.TreeNode(10)
-//                }
-//            }
-//        }
-//        println(TreeCode.largestValues(tree1))
+        val tree1 = TreeCode.TreeNode(1).apply {
+            left = TreeCode.TreeNode(2).apply {
+            }
+            right = TreeCode.TreeNode(3).apply {
+            }
+        }
+        println(TreeCode.maxPathSum(tree1))
 
 //
 //        val head = ListCode.ListNode(4).apply {
@@ -84,11 +75,11 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
-            HardArrayCode.magnificentSets(6,
-                parseToIntArray("[[1,2],[1,4],[1,5],[2,6],[2,3],[4,6]]")
-            )
-        )
+//        println(
+//            HardArrayCode.largestIsland(
+//                parseToIntArray("[[1,1,0,1],[1,0,0,1],[1,0,0,1],[1,0,0,1]]")
+//            )
+//        )
 //        println(
 //            ArrayCode.checkIfPrerequisite(5, parseToIntArray("[[4,3],[4,1],[4,0],[3,2],[3,1],[3,0],[2,1],[2,0],[1,0]]"), parseToIntArray("[[1,4],[4,2],[0,1],[4,0],[0,2],[1,3],[0,1]]"))
 //        )
