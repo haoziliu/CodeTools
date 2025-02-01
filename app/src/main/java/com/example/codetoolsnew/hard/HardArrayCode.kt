@@ -208,8 +208,7 @@ object HardArrayCode {
 
     fun trapRainWater(heightMap: Array<IntArray>): Int {
         // dynamically fill up water, check neighbour if it can trap water
-        val DIRECTIONS =
-            arrayOf(intArrayOf(0, 1), intArrayOf(0, -1), intArrayOf(1, 0), intArrayOf(-1, 0))
+        val DIRECTIONS = arrayOf(1 to 0, -1 to 0, 0 to 1, 0 to -1)
 
         val m = heightMap.size
         val n = heightMap[0].size
@@ -1612,8 +1611,7 @@ object HardArrayCode {
 //        return dp[m - 1][n - 1]
 
         // Dijkstra
-        val DIRECTIONS =
-            arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
+        val DIRECTIONS = arrayOf(1 to 0, -1 to 0, 0 to 1, 0 to -1)
         val visited = Array(m) { BooleanArray(n) }
         visited[0][0] = true
         val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third })
@@ -1638,8 +1636,7 @@ object HardArrayCode {
     fun minimumTime(grid: Array<IntArray>): Int {
         if (grid[0][1] > 1 && grid[1][0] > 1) return -1
         // Dijkstra
-        val DIRECTIONS =
-            arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
+        val DIRECTIONS = arrayOf(1 to 0, -1 to 0, 0 to 1, 0 to -1)
         val m = grid.size
         val n = grid[0].size
         val visited = Array(m) { BooleanArray(n) }
@@ -1921,8 +1918,7 @@ object HardArrayCode {
     }
 
     fun minCostToReachLast(grid: Array<IntArray>): Int {
-        val DIRECTIONS =
-            arrayOf(intArrayOf(0, 1), intArrayOf(0, -1), intArrayOf(1, 0), intArrayOf(-1, 0))
+        val DIRECTIONS = arrayOf(1 to 0, -1 to 0, 0 to 1, 0 to -1)
         val m = grid.size
         val n = grid[0].size
 //        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third })
@@ -2083,8 +2079,7 @@ object HardArrayCode {
         return result
     }
 
-    val DIRECTIONS = arrayOf(intArrayOf(1, 0), intArrayOf(-1, 0), intArrayOf(0, 1), intArrayOf(0, -1))
-
+    val DIRECTIONS = arrayOf(1 to 0, -1 to 0, 0 to 1, 0 to -1)
     //    fun largestIsland(grid: Array<IntArray>): Int {
     //        val n = grid.size
     //        val maxSize = n * n
