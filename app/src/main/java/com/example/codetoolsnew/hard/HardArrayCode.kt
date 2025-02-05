@@ -1949,8 +1949,8 @@ object HardArrayCode {
             val (i, j, cost) = deque.removeFirst()
             if (i == m - 1 && j == n - 1) return cost
             for (k in DIRECTIONS.indices) {
-                val nextI = i + DIRECTIONS[k][0]
-                val nextJ = j + DIRECTIONS[k][1]
+                val nextI = i + DIRECTIONS[k].first
+                val nextJ = j + DIRECTIONS[k].second
                 if (nextI !in 0 until m || nextJ !in 0 until n) continue
                 val nextCost = if (k + 1 == grid[i][j]) cost else cost + 1
                 if (nextCost < minMemo[nextI][nextJ]) {

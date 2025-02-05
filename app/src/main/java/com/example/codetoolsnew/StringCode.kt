@@ -1812,4 +1812,39 @@ object StringCode {
         }
         return count
     }
+
+    fun swapOneMakeSameDistinct(word1: String, word2: String): Boolean {
+        val freq1 = IntArray(26)
+        var count1 = 0
+        for (c in word1) {
+            if (freq1[c - 'a']++ == 0) {
+                count1++
+            }
+        }
+        val freq2 = IntArray(26)
+        var count2 = 0
+        for (c in word2) {
+            if (freq2[c - 'a']++ == 0) {
+                count2++
+            }
+        }
+        for (i in 0 until 26) {
+            if (freq1[i] == 0) continue
+            for (j in 0 until 26) {
+                if (freq2[j] == 0) continue
+                if (i == j) {
+                    if (count1 == count2) return true
+                    continue
+                }
+                var newCount1 = count1
+                var newCount2 = count2
+                if (freq1[i] == 1) newCount1--
+                if (freq1[j] == 0) newCount1++
+                if (freq2[i] == 0) newCount2++
+                if (freq2[j] == 1) newCount2--
+                if (newCount1 == newCount2) return true
+            }
+        }
+        return false
+    }
 }

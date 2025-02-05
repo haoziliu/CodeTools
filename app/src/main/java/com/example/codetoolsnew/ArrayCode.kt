@@ -4887,4 +4887,24 @@ object ArrayCode {
         }
         return result
     }
+
+    fun longestMonotonicSubarray(nums: IntArray): Int {
+        var maxLength = 1
+        var currAsc = 1
+        var currDes = 1
+        for (i in 1 until nums.size) {
+            if (nums[i] > nums[i - 1]) {
+                currAsc++
+                currDes = 1
+            } else if (nums[i] < nums[i - 1]) {
+                currDes++
+                currAsc = 1
+            } else {
+                currDes = 1
+                currAsc = 1
+            }
+            maxLength = maxOf(maxLength, currAsc, currDes)
+        }
+        return maxLength
+    }
 }
