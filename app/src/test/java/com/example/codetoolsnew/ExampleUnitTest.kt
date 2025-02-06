@@ -91,7 +91,7 @@ class ExampleUnitTest {
 
 //        println(HardStringCode.allSamePrefixSuffix("aaabaaab"))
         println(
-            StringCode.swapOneMakeSameDistinct("aa", "ab")
+            StringCode.closeStrings("aaabbbbccddeeeeefffff", "aaaaabbcccdddeeeeffff")
         )
 
 //        println(MathCode.fractionAddition("-1/3-1/2"))

@@ -1847,4 +1847,24 @@ object StringCode {
         }
         return false
     }
+
+    fun closeStrings(word1: String, word2: String): Boolean {
+        val freq1 = IntArray(26)
+        for (char in word1) {
+            freq1[char - 'a']++
+        }
+        val freq2 = IntArray(26)
+        for (char in word2) {
+            freq2[char - 'a']++
+        }
+        for (i in 0 until 26) {
+            if (freq1[i] == 0 && freq2[i] != 0 || freq1[i] != 0 && freq2[i] == 0) return false
+        }
+        freq1.sort()
+        freq2.sort()
+        for (i in 0 until 26) {
+            if (freq1[i] != freq2[i]) return false
+        }
+        return true
+    }
 }
