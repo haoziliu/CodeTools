@@ -2182,4 +2182,55 @@ object HardArrayCode {
         }
         return maxArea
     }
+
+    fun maxPointsSameLine(points: Array<IntArray>): Int {
+        //fun gcd(a: Int, b: Int): Int {
+        //            return if (b == 0) a else gcd(b, a % b)
+        //        }
+        //
+        //        var result = 0
+        //        for (i in points.indices) {
+        //            val freq = mutableMapOf<Pair<Int, Int>, Int>()
+        //            var max = 0
+        //            for (j in i + 1 until points.size) {
+        //                var dx = points[j][0] - points[i][0]
+        //                var dy = points[j][1] - points[i][1]
+        //                if (dx == 0) {
+        //                    dy = 1
+        //                } else if (dy == 0) {
+        //                    dx = 1
+        //                } else {
+        //                    val factor = gcd(dx, dy)
+        //                    dx /= factor
+        //                    dy /= factor
+        //                }
+        //                val key = dx to dy
+        //                freq[key] = freq.getOrDefault(key, 0) + 1
+        //                max = maxOf(max, freq[key]!!)
+        //            }
+        //            result = maxOf(result, max + 1)
+        //        }
+        //        return result
+
+        if (points.size <= 2) return points.size
+        var max = 2
+        for (i in 0 until points.size) {
+            val x1 = points[i][0]
+            val y1 = points[i][1]
+            for (j in i + 1 until points.size) {
+                val x2 = points[j][0]
+                val y2 = points[j][1]
+                var localMax = 2
+                for (z in j + 1 until points.size) {
+                    val x = points[z][0]
+                    val y = points[z][1]
+                    if ((x - x1) * (y2 - y1) == (y - y1) * (x2 - x1)) {
+                        localMax++
+                    }
+                }
+                max = maxOf(max, localMax)
+            }
+        }
+        return max
+    }
 }

@@ -1112,4 +1112,38 @@ object MatrixCode {
         }
         return result
     }
+
+    fun sortMatrix(grid: Array<IntArray>): Array<IntArray> {
+        val n = grid.size
+        for (diagIndex in 1 until 2 * n - 2) {
+            if (diagIndex in 1 until n - 1) {
+                val x = 0
+                val y = n - 1 - diagIndex
+                val length = diagIndex + 1
+                for (i in 0 until length - 1) {
+                    for (j in 0 until length - 1 - i) {
+                        if (grid[x + j][y + j] > grid[x + j + 1][y + j + 1]) {
+                            val tmp = grid[x + j][y + j]
+                            grid[x + j][y + j] = grid[x + j + 1][y + j + 1]
+                            grid[x + j + 1][y + j + 1] = tmp
+                        }
+                    }
+                }
+            } else {
+                val x = diagIndex - n + 1
+                val y = 0
+                val length = 2 * n - diagIndex - 1
+                for (i in 0 until length - 1) {
+                    for (j in 0 until length - 1 - i) {
+                        if (grid[x + j][y + j] < grid[x + j + 1][y + j + 1]) {
+                            val tmp = grid[x + j][y + j]
+                            grid[x + j][y + j] = grid[x + j + 1][y + j + 1]
+                            grid[x + j + 1][y + j + 1] = tmp
+                        }
+                    }
+                }
+            }
+        }
+        return grid
+    }
 }

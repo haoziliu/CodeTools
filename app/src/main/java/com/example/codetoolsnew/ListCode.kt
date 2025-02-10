@@ -983,4 +983,56 @@ object ListCode {
         middle?.next = null
         return merge(mergeSortList(head), mergeSortList(nextToMiddle))
     }
+
+    fun mergeKLists(lists: Array<ListNode?>): ListNode? {
+        //        if (lists.size == 0) return null
+        //        val pq = PriorityQueue<ListNode>(compareBy{ it.`val` })
+        //        for (head in lists) {
+        //            if (head != null) {
+        //                pq.offer(head)
+        //            }
+        //        }
+        //        val dummy = ListNode(0)
+        //        var current = dummy
+        //        while (pq.isNotEmpty()) {
+        //            val node = pq.poll()!!
+        //            current.next = node
+        //            current = current.next
+        //            if (node.next != null) {
+        //                pq.offer(node.next)
+        //            }
+        //        }
+        //        return dummy.next
+        fun merge(head1: ListNode, head2: ListNode): ListNode {
+            var cursor1: ListNode? = head1
+            var cursor2: ListNode? = head2
+            val dummy = ListNode(0)
+            var current = dummy
+            while (cursor1 != null && cursor2 != null) {
+                if (cursor1.`val` < cursor2.`val`) {
+                    current.next = cursor1
+                    cursor1 = cursor1.next
+                } else {
+                    current.next = cursor2
+                    cursor2 = cursor2.next
+                }
+                current = current.next!!
+            }
+            current.next = cursor1 ?: cursor2
+            return dummy.next!!
+        }
+
+        if (lists.isEmpty()) return null
+        var head: ListNode? = null
+        for (i in lists.indices) {
+            if (lists[i] != null) {
+                if (head == null) {
+                    head = lists[i]
+                } else {
+                    head = merge(head, lists[i]!!)
+                }
+            }
+        }
+        return head!!
+    }
 }

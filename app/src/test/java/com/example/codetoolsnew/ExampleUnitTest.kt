@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.MatrixCode
 import com.example.codetools.StringCode
 import com.example.codetools.TreeCode
 import com.example.codetools.hard.HardArrayCode
@@ -81,18 +82,18 @@ class ExampleUnitTest {
 //                parseToIntArray("[[1,1,0,1],[1,0,0,1],[1,0,0,1],[1,0,0,1]]")
 //            )
 //        )
-//        println(
-//            ArrayCode.longestMonotonicSubarray(intArrayOf(24,47,24,23,14,6,9,2,3,19))
-//        )
+        println(
+            ArrayCode.clearDigits("ab34")
+        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
 //        println(HardStringCode.allSamePrefixSuffix("aaabaaab"))
-        println(
-            StringCode.closeStrings("aaabbbbccddeeeeefffff", "aaaaabbcccdddeeeeffff")
-        )
+//        println(
+//            StringCode.closeStrings("aaabbbbccddeeeeefffff", "aaaaabbcccdddeeeeffff")
+//        )
 
 //        println(MathCode.fractionAddition("-1/3-1/2"))
 
@@ -101,6 +102,6 @@ class ExampleUnitTest {
 //            )
 //        )
 
-//        println(MatrixCode.totalNQueens(4))
+//        println(MatrixCode.sortMatrix(parseToIntArray("[[1,7,3],[9,8,2],[4,5,6]]")))
     }
 }

@@ -4907,4 +4907,63 @@ object ArrayCode {
         }
         return maxLength
     }
+
+    fun assignElements(groups: IntArray, elements: IntArray): IntArray {
+        val result = IntArray(groups.size) { -1 }
+        var maxGroup = 0
+        for (group in groups) {
+            maxGroup = maxOf(maxGroup, group)
+        }
+        val minPos = IntArray(maxGroup + 1) { -1 }
+        for (i in elements.indices) {
+            val element = elements[i]
+            if (element <= maxGroup && minPos[element] == -1) {
+                minPos[element] = i
+            }
+        }
+        val memo = mutableMapOf<Int, Int>()
+        for (i in groups.indices) {
+            if (memo.contains(groups[i])) {
+                result[i] = memo[groups[i]]!!
+                continue
+            }
+            val pq = PriorityQueue<Int>()
+            val sqrt = Math.sqrt(groups[i].toDouble()).toInt()
+            for (factor in 1 .. sqrt) {
+                if (groups[i] % factor == 0) {
+                    if (minPos[factor] != -1) {
+                        pq.offer(minPos[factor])
+                    }
+                    val other = groups[i] / factor
+                    if (other != factor && minPos[other] != -1) {
+                        pq.offer(minPos[other])
+                    }
+                }
+            }
+            result[i] = if (pq.isNotEmpty()) {
+                pq.peek()!!
+            } else -1
+            memo[groups[i]] = result[i]
+        }
+        return result
+    }
+
+    fun clearDigits(s: String): String {
+        val array = CharArray(s.length) { ' ' }
+        var index = 0
+        for (c in s) {
+            if (c in 'a'..'z') {
+                array[index++] = c
+            } else {
+                array[--index] = ' '
+            }
+        }
+        val sb = StringBuilder()
+        for (i in array.indices) {
+            if (array[i] != ' ') {
+                sb.append(array[i])
+            }
+        }
+        return sb.toString()
+    }
 }
