@@ -475,4 +475,17 @@ object MathCode {
         }
         return isPrime.indices.filter { isPrime[it] }.toIntArray()
     }
+
+    fun reverse(x: Int): Int {
+        var current = if (x < 0) -x else x
+        var ans = 0
+        while (current != 0) {
+            if (ans > (Int.MAX_VALUE - current % 10) / 10) {
+                return 0
+            }
+            ans = ans * 10 + current % 10
+            current /= 10
+        }
+        return if (x < 0) -ans else ans
+    }
 }

@@ -1867,4 +1867,31 @@ object StringCode {
         }
         return true
     }
+
+    fun removeOccurrences(s: String, part: String): String {
+        val length = part.length
+        val chars = CharArray(s.length)
+        var index = 0
+        for (c in s) {
+            chars[index] = c
+            if (chars[index] == part[length - 1]) {
+                var valid = true
+                for (delta in 1 until length) {
+                    if (index - delta < 0 || chars[index - delta] != part[length - 1 - delta]) {
+                        valid = false
+                        break
+                    }
+                }
+                if (valid) {
+                    index -= length
+                }
+            }
+            index++
+        }
+        val sb = StringBuilder()
+        for (i in 0 until index) {
+            sb.append(chars[i])
+        }
+        return sb.toString()
+    }
 }

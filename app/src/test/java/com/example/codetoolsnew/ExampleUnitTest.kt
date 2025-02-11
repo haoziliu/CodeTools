@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.MathCode
 import com.example.codetools.MatrixCode
 import com.example.codetools.StringCode
 import com.example.codetools.TreeCode
@@ -82,9 +83,9 @@ class ExampleUnitTest {
 //                parseToIntArray("[[1,1,0,1],[1,0,0,1],[1,0,0,1],[1,0,0,1]]")
 //            )
 //        )
-        println(
-            ArrayCode.clearDigits("ab34")
-        )
+//        println(
+//            ArrayCode.clearDigits("ab34")
+//        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
@@ -92,10 +93,10 @@ class ExampleUnitTest {
 
 //        println(HardStringCode.allSamePrefixSuffix("aaabaaab"))
 //        println(
-//            StringCode.closeStrings("aaabbbbccddeeeeefffff", "aaaaabbcccdddeeeeffff")
+//            StringCode.removeOccurrences("daabcbaabcbc", "abc")
 //        )
 
-//        println(MathCode.fractionAddition("-1/3-1/2"))
+        println(MathCode.reverse(1534236469))
 
 //        println(
 //            GraphCode.findChampion(4, parseToIntArray("[[0,2],[1,3],[1,2]]")
