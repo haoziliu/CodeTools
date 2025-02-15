@@ -6,6 +6,7 @@ import com.example.codetools.MatrixCode
 import com.example.codetools.StringCode
 import com.example.codetools.TreeCode
 import com.example.codetools.hard.HardArrayCode
+import com.example.codetools.hard.HardStringCode
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -91,12 +92,12 @@ class ExampleUnitTest {
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
-//        println(HardStringCode.allSamePrefixSuffix("aaabaaab"))
+//        println(HardStringCode.shortestMatchingSubstring("madlogic", "*adlogi*"))
 //        println(
 //            StringCode.removeOccurrences("daabcbaabcbc", "abc")
 //        )
 
-        println(MathCode.punishmentNumber(10))
+        println(MathCode.separateSquares(parseToIntArray("[[522261215,954313664,461744743],[628661372,718610752,21844764],[619734768,941310679,91724451],[352367502,656774918,591943726],[860247066,905800565,853111524],[817098516,868361139,817623995],[580894327,654069233,691552059],[182377086,256660052,911357],[151104008,908768329,890809906],[983970552,992192635,462847045]]")))
 
 //        println(
 //            GraphCode.findChampion(4, parseToIntArray("[[0,2],[1,3],[1,2]]")

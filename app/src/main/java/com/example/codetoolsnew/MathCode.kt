@@ -531,4 +531,39 @@ object MathCode {
         }
         return result
     }
+
+    fun separateSquares(squares: Array<IntArray>): Double {
+        var start = Double.MAX_VALUE
+        var end = Double.MIN_VALUE
+        for ((x, y, l) in squares) {
+            start = minOf(start, y * 1.0)
+            end = maxOf(end, y * 1.0 + l)
+        }
+
+        fun compare(line: Double) : Int {
+            var s1 = 0.0
+            var s2 = 0.0
+            for ((x, y, l) in squares) {
+                if (y + l <= line) {
+                    s1 += 1.0 * l * l
+                } else if (y >= line) {
+                    s2 += 1.0 * l * l
+                } else {
+                    s1 += 1.0 * (line - y) * l
+                    s2 += 1.0 * (y + l - line) * l
+                }
+            }
+            return s1.compareTo(s2)
+        }
+
+        while (end - start > 0.00001) {
+            val mid = start + (end - start) / 2
+            if (compare(mid) >= 0) {
+                end = mid
+            } else {
+                start = mid
+            }
+        }
+        return end
+    }
 }

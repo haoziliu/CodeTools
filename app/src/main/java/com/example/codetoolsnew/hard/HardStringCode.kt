@@ -804,4 +804,22 @@ object HardStringCode {
             .sorted()  // 如果想从短到长，可以先排序
             .map { s.substring(0, it) }
     }
+
+    fun shortestMatchingSubstring(s: String, p: String): Int {
+        var length = Int.MAX_VALUE
+        val parts = p.split('*').toList()
+        if (parts[0].length == 0 && parts[1].length == 0 && parts[2].length == 0) return 0
+        var start = s.indexOf(parts[0])
+        while (start != -1 && start < s.length) {
+            val mid = s.indexOf(parts[1], start + parts[0].length)
+            if (mid != -1) {
+                val end = s.indexOf(parts[2], mid + parts[1].length)
+                if (end != -1) {
+                    length = minOf(length, end + parts[2].length - start)
+                }
+            }
+            start = s.indexOf(parts[0], start + 1)
+        }
+        return length
+    }
 }
