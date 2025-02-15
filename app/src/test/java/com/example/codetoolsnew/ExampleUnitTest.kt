@@ -96,7 +96,7 @@ class ExampleUnitTest {
 //            StringCode.removeOccurrences("daabcbaabcbc", "abc")
 //        )
 
-        println(MathCode.reverse(1534236469))
+        println(MathCode.punishmentNumber(10))
 
 //        println(
 //            GraphCode.findChampion(4, parseToIntArray("[[0,2],[1,3],[1,2]]")

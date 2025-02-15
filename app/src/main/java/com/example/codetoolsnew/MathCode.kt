@@ -1,5 +1,6 @@
 package com.example.codetools
 
+import java.util.LinkedList
 import java.util.PriorityQueue
 import kotlin.math.abs
 import kotlin.math.sqrt
@@ -487,5 +488,47 @@ object MathCode {
             current /= 10
         }
         return if (x < 0) -ans else ans
+    }
+
+    fun punishmentNumber(n: Int): Int {
+
+//        fun canPartition(num: Int, target: Int): Boolean {
+//            if (target < 0 || num < target) {
+//                return false
+//            }
+//
+//            return if (num == target) {
+//                true
+//            } else canPartition(num / 10, target - num % 10) ||
+//                    canPartition(num / 100, target - num % 100) ||
+//                    canPartition(num / 1000, target - num % 1000)
+//        }
+
+        fun test(num: Int): Int {
+            val square = num * num
+            val queue = LinkedList<Pair<Int, Int>>()
+            queue.offer(0 to square)
+            while (queue.isNotEmpty()) {
+                val (sum, rest) = queue.poll()!!
+                var multi = 1
+                while (rest / multi != 0) {
+                    val newSum = sum + rest / multi
+                    val newRest = rest % multi
+                    if (newRest == 0) {
+                        if (newSum == num) return square
+                    } else {
+                        queue.offer(newSum to newRest)
+                    }
+                    multi *= 10
+                }
+            }
+            return 0
+        }
+
+        var result = 0
+        for (i in 1 .. n) {
+            result += test(i)
+        }
+        return result
     }
 }
