@@ -4966,4 +4966,40 @@ object ArrayCode {
         }
         return sb.toString()
     }
+
+    fun constructDistancedSequence(n: Int): IntArray {
+        // backtracking
+        val size = 2 * n - 1
+        val array = IntArray(size)
+        var used = 0
+
+        fun dfs(index: Int): Boolean {
+            if (index >= size) return true
+            if (array[index] != 0) return dfs(index + 1)
+            for (num in n downTo 1) {
+                val bit = 1 shl num
+                if (used and bit == 0) {
+                    if (num == 1) {
+                        used = used xor bit
+                        array[index] = num
+                        if (dfs(index + 1)) return true
+                        used = used xor bit
+                        array[index] = 0
+                    } else if (index + num < size && array[index + num] == 0) {
+                        used = used xor bit
+                        array[index] = num
+                        array[index + num] = num
+                        if (dfs(index + 1)) return true
+                        used = used xor bit
+                        array[index] = 0
+                        array[index + num] = 0
+                    }
+                }
+            }
+            return false
+        }
+
+        dfs(0)
+        return array
+    }
 }
