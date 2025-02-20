@@ -5002,4 +5002,46 @@ object ArrayCode {
         dfs(0)
         return array
     }
+
+    fun findDifferentBinaryString(nums: Array<String>): String {
+        //        val n = nums.size
+        //        val array = CharArray(n)
+        //        for (i in 0 until n) {
+        //            if (nums[i][i] == '1') {
+        //                array[i] = '0'
+        //            } else {
+        //                array[i] = '1'
+        //            }
+        //        }
+        //        return String(array)
+        val n = nums.size
+        val seen = BooleanArray(1 shl n)
+        for (numString in nums) {
+            val numInt = numString.toInt(2)
+            seen[numInt] = true
+        }
+        var current = 0
+        var result = 0
+
+        fun dfs(index: Int): Boolean {
+            if (index == n) {
+                if (!seen[current]) {
+                    result = current
+                    return false
+                }
+                return true
+            }
+            current = current shl 1
+            var keep = dfs(index + 1)
+            if (keep) {
+                current += 1
+                keep = dfs(index + 1)
+            }
+            current = current shr 1
+            return keep
+        }
+
+        dfs(0)
+        return result.toString(2)
+    }
 }
