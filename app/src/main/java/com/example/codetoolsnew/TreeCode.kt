@@ -1684,4 +1684,48 @@ object TreeCode {
         calculateTree(root)
         return maxSum
     }
+
+    fun recoverFromPreorder(traversal: String): TreeNode? {
+        val parentMap = mutableMapOf<TreeNode, TreeNode>()
+        val dummy = TreeNode(0)
+        var current = dummy
+        var level = 0
+        var wasDash = true
+        var dashCount = 0
+        var lastValue = 0
+        for (i in 0..traversal.length) {
+            if (i == traversal.length || traversal[i] == '-') {
+                if (!wasDash) {
+                    while (dashCount != level) {
+                        current = parentMap[current]!!
+                        level--
+                    }
+                    if (current.left == null) {
+                        TreeNode(lastValue).let {
+                            current.left = it
+                            parentMap[it] = current
+                            current = it
+                        }
+                    } else {
+                        TreeNode(lastValue).let {
+                            current.right = it
+                            parentMap[it] = current
+                            current = it
+                        }
+                    }
+                    level++
+                    lastValue = 0
+                    dashCount = 1
+                } else {
+                    dashCount++
+                }
+                wasDash = true
+            } else {
+                lastValue = lastValue * 10 + traversal[i].digitToInt()
+                wasDash = false
+            }
+        }
+        return dummy.left
+    }
+
 }
