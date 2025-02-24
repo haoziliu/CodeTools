@@ -65,7 +65,7 @@ class ExampleUnitTest {
 //            right = TreeCode.TreeNode(3).apply {
 //            }
 //        }
-        println(TreeCode.recoverFromPreorder("1-2--3--4-5--6--7"))
+//        println(TreeCode.recoverFromPreorder("1-2--3--4-5--6--7"))
 
 //
 //        val head = ListCode.ListNode(4).apply {
@@ -84,9 +84,9 @@ class ExampleUnitTest {
 //                parseToIntArray("[[1,1,0,1],[1,0,0,1],[1,0,0,1],[1,0,0,1]]")
 //            )
 //        )
-//        println(
-//            ArrayCode.findDifferentBinaryString(arrayOf("00","01"))
-//        )
+        println(
+            ArrayCode.mostProfitablePath(parseToIntArray("[[0,1],[1,2],[1,3],[3,4]]"), 3, intArrayOf(-2,4,2,-4,6))
+        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))

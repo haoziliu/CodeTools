@@ -4770,7 +4770,7 @@ object ArrayCode {
         var dayIndex = 0
         val dp = IntArray(lastDay + 1)
         val minCost = costs.min()
-        for (i in 1 .. lastDay) {
+        for (i in 1..lastDay) {
             if (i != days[dayIndex]) {
                 dp[i] = dp[i - 1]
             } else {
@@ -4838,7 +4838,11 @@ object ArrayCode {
         return result
     }
 
-    fun checkIfPrerequisiteDFS(numCourses: Int, prerequisites: Array<IntArray>, queries: Array<IntArray>): List<Boolean> {
+    fun checkIfPrerequisiteDFS(
+        numCourses: Int,
+        prerequisites: Array<IntArray>,
+        queries: Array<IntArray>
+    ): List<Boolean> {
         val graph = Array(numCourses) { mutableListOf<Int>() }
         for ((u, v) in prerequisites) {
             graph[u].add(v)
@@ -4865,7 +4869,11 @@ object ArrayCode {
         return result
     }
 
-    fun checkIfPrerequisite(numCourses: Int, prerequisites: Array<IntArray>, queries: Array<IntArray>): List<Boolean> {
+    fun checkIfPrerequisite(
+        numCourses: Int,
+        prerequisites: Array<IntArray>,
+        queries: Array<IntArray>
+    ): List<Boolean> {
         val dependencies = Array(numCourses) { BooleanArray(numCourses) }
         for ((u, v) in prerequisites) {
             dependencies[u][v] = true
@@ -4929,7 +4937,7 @@ object ArrayCode {
             }
             val pq = PriorityQueue<Int>()
             val sqrt = Math.sqrt(groups[i].toDouble()).toInt()
-            for (factor in 1 .. sqrt) {
+            for (factor in 1..sqrt) {
                 if (groups[i] % factor == 0) {
                     if (minPos[factor] != -1) {
                         pq.offer(minPos[factor])
@@ -5043,5 +5051,66 @@ object ArrayCode {
 
         dfs(0)
         return result.toString(2)
+    }
+
+    fun mostProfitablePath(edges: Array<IntArray>, bob: Int, amount: IntArray): Int {
+        var n = 1
+        val edgesMap = mutableMapOf<Int, MutableList<Int>>()
+        for ((a, b) in edges) {
+            n++
+            edgesMap.getOrPut(a) { mutableListOf() }.add(b)
+            edgesMap.getOrPut(b) { mutableListOf() }.add(a)
+        }
+        val bPath = LinkedList<Int>()
+        val currentPath = mutableListOf(bob)
+
+        fun dfs(index: Int, previous: Int): Boolean {
+            if (index == 0) {
+                bPath.addAll(currentPath)
+                return false
+            }
+            var shouldContinue = true
+            for (next in edgesMap[index]!!) {
+                if (next == previous) continue
+                currentPath.add(next)
+                shouldContinue = dfs(next, index)
+                currentPath.removeAt(currentPath.size - 1)
+                if (!shouldContinue) break
+            }
+            return shouldContinue
+        }
+
+        dfs(bob, -1)
+        amount[bPath.removeFirst()] = 0
+        var maxProfit = Int.MIN_VALUE
+        val queue = LinkedList<Pair<Int, Int>>()
+        queue.offer(0 to amount[0])
+        val visited = BooleanArray(n)
+        visited[0] = true
+        while (queue.isNotEmpty()) {
+            val bobIndex = if (bPath.isNotEmpty()) bPath.removeFirst() else -1
+            val levelSize = queue.size
+            repeat(levelSize) {
+                val (node, profit) = queue.poll()!!
+                if (edgesMap[node]!!.size == 1 && visited[edgesMap[node]!![0]]) {
+                    maxProfit = maxOf(maxProfit, profit)
+                } else {
+                    for (next in edgesMap[node]!!) {
+                        if (visited[next]) continue
+                        val newProfit = if (next == bobIndex) {
+                            profit + (amount[next] shr 1)
+                        } else {
+                            profit + amount[next]
+                        }
+                        queue.offer(next to newProfit)
+                        visited[next] = true
+                    }
+                }
+            }
+            if (bobIndex != -1) {
+                amount[bobIndex] = 0
+            }
+        }
+        return maxProfit
     }
 }
