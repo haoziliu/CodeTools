@@ -5113,4 +5113,21 @@ object ArrayCode {
         }
         return maxProfit
     }
+
+    fun numOfSubarrays(arr: IntArray): Int {
+        val MOD = 1_000_000_007
+        var result = 0
+        var oddCount = 0
+        var prefix = 0
+        for (i in arr.indices) {
+            prefix = (prefix + arr[i]) % 2
+            if (prefix == 0) {
+                result = (result + oddCount) % MOD
+            } else {
+                result = (result + 1 + i - oddCount) % MOD
+                oddCount++
+            }
+        }
+        return result
+    }
 }
