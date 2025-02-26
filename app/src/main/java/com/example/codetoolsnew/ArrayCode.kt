@@ -4103,6 +4103,33 @@ object ArrayCode {
         return maxOf(maxSum, totalSum - minSum)
     }
 
+    fun maxAbsoluteSum(nums: IntArray): Int {
+        //        var max = abs(nums[0])
+        //        var currMin = nums[0]
+        //        var currMax = nums[0]
+        //        for(i in 1 until nums.size){
+        //            if(currMin > 0){
+        //                currMin = 0
+        //            }
+        //            if(currMax < 0){
+        //                currMax = 0
+        //            }
+        //            currMin = currMin + nums[i]
+        //            currMax = currMax + nums[i]
+        //            max = maxOf(max, -currMin, currMax)
+        //        }
+        //        return max
+        var currentSum = 0
+        var negativeSum = 0
+        var maxSum = 0
+        for (num in nums) {
+            currentSum = maxOf(currentSum + num, num)
+            negativeSum = minOf(negativeSum + num, 0)
+            maxSum = maxOf(maxSum, currentSum, -negativeSum)
+        }
+        return maxSum
+    }
+
     fun removeSubfolders(folder: Array<String>): List<String> {
         //    folder.sort()
         //    val result = mutableListOf<String>()
