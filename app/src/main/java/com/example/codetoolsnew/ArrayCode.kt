@@ -5157,4 +5157,43 @@ object ArrayCode {
         }
         return result
     }
+
+    fun lenLongestFibSubseq(arr: IntArray): Int {
+        val n = arr.size
+        val map = mutableMapOf<Int, Int>()
+        for (i in arr.indices) {
+            map[arr[i]] = i
+        }
+        var maxLength = 0
+        //        fun dfs(index: Int, previous: Int, length: Int) {
+        //            if (arr[previous] < Int.MAX_VALUE - arr[index]) {
+        //                val next = map.getOrDefault(arr[previous] + arr[index], -1)
+        //                if (next != -1) {
+        //                    dfs(next, index, length + 1)
+        //                }
+        //            }
+        //            if (length >= 3) {
+        //                maxLength = maxOf(maxLength, length)
+        //            }
+        //        }
+        //
+        //        for (i in 0 until n) {
+        //            for (j in i + 1 until n) {
+        //                dfs(j, i, 2)
+        //            }
+        //        }
+        val dp = Array(n) { IntArray(n) { 2 } }
+        for (j in 0 until n) {
+            for (i in 0 until j) {
+                val k = map.getOrDefault(arr[j] - arr[i], -1)
+                if (k in 0 until i) {
+                    dp[i][j] = dp[k][i] + 1
+                    if (dp[i][j] >= 2) {
+                        maxLength = maxOf(maxLength, dp[i][j])
+                    }
+                }
+            }
+        }
+        return maxLength
+    }
 }
