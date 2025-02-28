@@ -84,15 +84,15 @@ class ExampleUnitTest {
 //                parseToIntArray("[[1,1,0,1],[1,0,0,1],[1,0,0,1],[1,0,0,1]]")
 //            )
 //        )
-        println(
-            ArrayCode.lenLongestFibSubseq(intArrayOf(1,2,3,4,5,6,7,8))
-        )
+//        println(
+//            ArrayCode.lenLongestFibSubseq(intArrayOf(1,2,3,4,5,6,7,8))
+//        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
-//        println(HardStringCode.shortestMatchingSubstring("madlogic", "*adlogi*"))
+        println(HardStringCode.longestCommonSubsequence("bbbaaaba", "bbababbb"))
 //        println(
 //            StringCode.removeOccurrences("daabcbaabcbc", "abc")
 //        )

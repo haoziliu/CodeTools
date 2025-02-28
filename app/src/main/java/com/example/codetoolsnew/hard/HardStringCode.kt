@@ -342,7 +342,8 @@ object HardStringCode {
             for (k in start + 1..end) {
                 if (shorted[k] == shorted[start]) {
                     // If match found, try splitting the problem
-                    minTurns = minOf(minTurns, minimumTurns(start, k - 1) + minimumTurns(k + 1, end))
+                    minTurns =
+                        minOf(minTurns, minimumTurns(start, k - 1) + minimumTurns(k + 1, end))
                 }
             }
             dp[start][end] = minTurns
@@ -764,11 +765,12 @@ object HardStringCode {
 
         val dp = LongArray(targetLength + 1)
         dp[0] = 1
-        for (i in 1 .. wordLength) {
+        for (i in 1..wordLength) {
             var previous = dp[0]
-            for (j in 1 .. targetLength) {
+            for (j in 1..targetLength) {
                 val tmp = dp[j]
-                dp[j] = (dp[j] + (1L * previous * freq[i - 1][target[j - 1] - 'a']) % MODULO) % MODULO
+                dp[j] =
+                    (dp[j] + (1L * previous * freq[i - 1][target[j - 1] - 'a']) % MODULO) % MODULO
                 previous = tmp
             }
         }
@@ -821,5 +823,71 @@ object HardStringCode {
             start = s.indexOf(parts[0], start + 1)
         }
         return length
+    }
+
+    fun longestCommonSubsequence(str1: String, str2: String): String {
+        // LCS
+        val m = str1.length
+        val n = str2.length
+        val dp = Array(m + 1) { IntArray(n + 1) }
+        for (i in m - 1 downTo 0) {
+            for (j in n - 1 downTo 0) {
+                dp[i][j] = if (str1[i] == str2[j]) {
+                    dp[i + 1][j + 1] + 1
+                } else {
+                    maxOf(dp[i + 1][j], dp[i][j + 1])
+                }
+            }
+        }
+        var i = 0
+        var j = 0
+        val lcs = StringBuilder()
+        while (i < m && j < n) {
+            if (str1[i] == str2[j]) {
+                lcs.append(str1[i])
+                i++
+                j++
+            } else if (dp[i + 1][j] >= dp[i][j + 1]) {
+                i++
+            } else {
+                j++
+            }
+        }
+        return lcs.toString()
+    }
+
+    fun shortestCommonSupersequence(str1: String, str2: String): String {
+        // SCS
+        val m = str1.length
+        val n = str2.length
+        val dp = Array(m + 1) { IntArray(n + 1) }
+        for (i in m - 1 downTo 0) {
+            for (j in n - 1 downTo 0) {
+                dp[i][j] = if (str1[i] == str2[j]) {
+                    dp[i + 1][j + 1] + 1
+                } else {
+                    maxOf(dp[i + 1][j], dp[i][j + 1])
+                }
+            }
+        }
+
+        val sb = StringBuilder()
+        var i = 0
+        var j = 0
+        while (i < m || j < n) {
+            if (i == m) {
+                sb.append(str2[j++])
+            } else if (j == n) {
+                sb.append(str1[i++])
+            } else if (str1[i] == str2[j]) {
+                sb.append(str1[i++])
+                j++
+            } else if (dp[i + 1][j] > dp[i][j + 1]) {
+                sb.append(str1[i++])
+            } else {
+                sb.append(str2[j++])
+            }
+        }
+        return sb.toString()
     }
 }

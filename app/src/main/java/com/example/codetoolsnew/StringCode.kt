@@ -1894,4 +1894,25 @@ object StringCode {
         }
         return sb.toString()
     }
+
+    fun lenLongestCommonSubsequence(text1: String, text2: String): Int {
+        // lcs
+        val m = text1.length
+        val n = text2.length
+        val dp = IntArray(n + 1)
+        var previous = 0
+        for (i in m - 1 downTo 0) {
+            previous = 0
+            for (j in n - 1 downTo 0) {
+                val tmp = dp[j]
+                dp[j] = if (text1[i] == text2[j]) {
+                    previous + 1
+                } else {
+                    maxOf(dp[j], dp[j + 1])
+                }
+                previous = tmp
+            }
+        }
+        return dp[0]
+    }
 }
