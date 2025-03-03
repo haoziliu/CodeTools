@@ -5196,4 +5196,24 @@ object ArrayCode {
         }
         return maxLength
     }
+
+    fun rearrangeArray(nums: IntArray): IntArray {
+        val n = nums.size
+        val result = IntArray(n)
+        var index = 0
+        var negIndex = 0
+        var posIndex = 0
+        var positive = true
+        while (index < n) {
+            if (positive) {
+                while (nums[posIndex] < 0) posIndex++
+                result[index++] = nums[posIndex++]
+            } else {
+                while (nums[negIndex] > 0) negIndex++
+                result[index++] = nums[negIndex++]
+            }
+            positive = !positive
+        }
+        return result
+    }
 }
