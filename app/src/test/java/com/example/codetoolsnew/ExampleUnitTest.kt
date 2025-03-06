@@ -85,7 +85,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.rearrangeArray(intArrayOf(3,-1,-2,-5,2,4))
+            ArrayCode.findMissingAndRepeatedValues(parseToIntArray("[[9,1,7],[8,9,2],[3,4,6]]"))
         )
 
 //        println(

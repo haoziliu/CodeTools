@@ -688,6 +688,33 @@ object ArrayCode {
         return result
     }
 
+    fun findMissingAndRepeatedValues(grid: Array<IntArray>): IntArray {
+        val n = grid.size
+        val result = intArrayOf(0, 0) // duplicated, missing
+
+        for (i in 0 until n) {
+            for (j in 0 until n) {
+                val index = abs(grid[i][j]) - 1
+                val r = index / n
+                val c = index % n
+                if (grid[r][c] < 0) {
+                    result[0] = abs(grid[i][j])
+                } else {
+                    grid[r][c] *= -1
+                }
+            }
+        }
+        for (i in 0 until n) {
+            for (j in 0 until n) {
+                if (grid[i][j] > 0) {
+                    result[1] = i * n + j + 1
+                    return result
+                }
+            }
+        }
+        return result
+    }
+
     fun arrayStringsAreEqual(word1: Array<String>, word2: Array<String>): Boolean {
         var p1 = 0
         var p2 = 0
