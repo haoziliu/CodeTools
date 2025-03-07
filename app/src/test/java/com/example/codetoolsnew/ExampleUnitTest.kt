@@ -85,7 +85,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.findMissingAndRepeatedValues(parseToIntArray("[[9,1,7],[8,9,2],[3,4,6]]"))
+            ArrayCode.closestPrimes(10, 19)
         )
 
 //        println(

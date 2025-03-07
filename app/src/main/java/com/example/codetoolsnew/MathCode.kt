@@ -469,7 +469,7 @@ object MathCode {
         isPrime[1] = false
         for (i in 2 until under) {
             if (isPrime[i]) {
-                for (j in i * 2 until under step i) {
+                for (j in i * 2 until under step i) { // or start from i * i
                     isPrime[j] = false
                 }
             }

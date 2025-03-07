@@ -5243,4 +5243,44 @@ object ArrayCode {
         }
         return result
     }
+
+    fun closestPrimes(left: Int, right: Int): IntArray {
+        val limit = Math.sqrt(right.toDouble()).toInt()
+        val isSmallPrime = BooleanArray(limit + 1) { true }
+        isSmallPrime[0] = false
+        isSmallPrime[1] = false
+        for (i in 2 .. limit) {
+            if (isSmallPrime[i]) {
+                for (j in i * i .. limit) {
+                    isSmallPrime[j] = true
+                }
+            }
+        }
+        val isPrime = BooleanArray(right - left + 1) { true }
+        if (left == 1) {
+            isPrime[0] = false
+        }
+        for (i in 2 .. limit) {
+            if (isSmallPrime[i]) {
+                val start = maxOf(i * i, (left + i - 1) / i * i)
+                for (j in start .. right step i) {
+                    isPrime[j - left] = false
+                }
+            }
+        }
+        var diff = Int.MAX_VALUE
+        val result = intArrayOf(-1, -1)
+        var previous = -1
+        for (i in left .. right) {
+            if (isPrime[i - left]) {
+                if (previous != -1 && i - previous < diff) {
+                    diff = i - previous
+                    result[0] = previous
+                    result[1] = i
+                }
+                previous = i
+            }
+        }
+        return result
+    }
 }
