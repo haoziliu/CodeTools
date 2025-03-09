@@ -85,7 +85,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.closestPrimes(10, 19)
+            ArrayCode.numberOfAlternatingGroups(intArrayOf(0,1,0,1,0), 3)
         )
 
 //        println(

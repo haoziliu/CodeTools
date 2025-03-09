@@ -5283,4 +5283,24 @@ object ArrayCode {
         }
         return result
     }
+
+    fun numberOfAlternatingGroups(colors: IntArray, k: Int): Int {
+        val n = colors.size
+        var count = 0
+        var last = -1
+        var start = 0
+        for (end in 0 until n + k - 1) {
+            if (colors[end % n] == last) {
+                start = end
+            }
+            if (end - start + 1 > k) {
+                start++
+            }
+            if (end - start + 1 == k) {
+                count++
+            }
+            last = colors[end % n]
+        }
+        return count
+    }
 }
