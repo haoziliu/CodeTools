@@ -85,7 +85,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.numberOfAlternatingGroups(intArrayOf(0,1,0,1,0), 3)
+            ArrayCode.countOfSubstrings("iqeaouqi", 2)
         )
 
 //        println(

@@ -5249,9 +5249,9 @@ object ArrayCode {
         val isSmallPrime = BooleanArray(limit + 1) { true }
         isSmallPrime[0] = false
         isSmallPrime[1] = false
-        for (i in 2 .. limit) {
+        for (i in 2..limit) {
             if (isSmallPrime[i]) {
-                for (j in i * i .. limit) {
+                for (j in i * i..limit) {
                     isSmallPrime[j] = true
                 }
             }
@@ -5260,10 +5260,10 @@ object ArrayCode {
         if (left == 1) {
             isPrime[0] = false
         }
-        for (i in 2 .. limit) {
+        for (i in 2..limit) {
             if (isSmallPrime[i]) {
                 val start = maxOf(i * i, (left + i - 1) / i * i)
-                for (j in start .. right step i) {
+                for (j in start..right step i) {
                     isPrime[j - left] = false
                 }
             }
@@ -5271,7 +5271,7 @@ object ArrayCode {
         var diff = Int.MAX_VALUE
         val result = intArrayOf(-1, -1)
         var previous = -1
-        for (i in left .. right) {
+        for (i in left..right) {
             if (isPrime[i - left]) {
                 if (previous != -1 && i - previous < diff) {
                     diff = i - previous
@@ -5302,5 +5302,62 @@ object ArrayCode {
             last = colors[end % n]
         }
         return count
+    }
+
+    fun countOfSubstrings(word: String, k: Int): Long {
+        // a, e, i, o, u
+        val vowelFreq = IntArray(5)
+        var consonantCount = 0
+        var vowelCount = 0
+        var leadings = 0
+
+        fun isVowel(letter: Char): Boolean{
+            return letter == 'a' || letter == 'e' || letter == 'i' || letter == 'o' || letter == 'u'
+        }
+
+        fun addLetter(letter: Char) {
+            when (letter) {
+                'a' -> if (vowelFreq[0]++ == 0) vowelCount++
+                'e' -> if (vowelFreq[1]++ == 0) vowelCount++
+                'i' -> if (vowelFreq[2]++ == 0) vowelCount++
+                'o' -> if (vowelFreq[3]++ == 0) vowelCount++
+                'u' -> if (vowelFreq[4]++ == 0) vowelCount++
+                else -> consonantCount++
+            }
+        }
+
+        fun removeLetter(letter: Char) {
+            when (letter) {
+                'a' -> if (--vowelFreq[0] == 0) vowelCount--
+                'e' -> if (--vowelFreq[1] == 0) vowelCount--
+                'i' -> if (--vowelFreq[2] == 0) vowelCount--
+                'o' -> if (--vowelFreq[3] == 0) vowelCount--
+                'u' -> if (--vowelFreq[4] == 0) vowelCount--
+                else -> consonantCount--
+            }
+        }
+
+        var result = 0L
+        var start = 0
+        for (end in word.indices) {
+            addLetter(word[end])
+            while (consonantCount > k) {
+                removeLetter(word[start++])
+                leadings = 0
+            }
+            while (vowelCount == 5 && isVowel(word[start])) {
+                removeLetter(word[start++])
+                leadings++
+                if (vowelCount != 5) {
+                    addLetter(word[--start])
+                    leadings--
+                    break
+                }
+            }
+            if (vowelCount == 5 && consonantCount == k) {
+                result += 1 + leadings
+            }
+        }
+        return result
     }
 }
