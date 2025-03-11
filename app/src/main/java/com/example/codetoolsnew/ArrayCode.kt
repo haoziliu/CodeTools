@@ -5305,7 +5305,7 @@ object ArrayCode {
     }
 
     fun countOfSubstrings(word: String, k: Int): Long {
-        // a, e, i, o, u
+        // a, e, i, o, u at least 1 each; consonants count k
         val vowelFreq = IntArray(5)
         var consonantCount = 0
         var vowelCount = 0
@@ -5356,6 +5356,29 @@ object ArrayCode {
             }
             if (vowelCount == 5 && consonantCount == k) {
                 result += 1 + leadings
+            }
+        }
+        return result
+    }
+
+    fun numberOfSubstrings(s: String): Int {
+        // a, b, c at least 1 each
+        //        val lastSeen = IntArray(3) { -1 }
+        //        var result = 0
+        //        for (i in s.indices) {
+        //            lastSeen[s[i] - 'a'] = i
+        //            result += minOf(lastSeen[0], lastSeen[1], lastSeen[2]) + 1
+        //        }
+        //        return result
+        val n = s.length
+        val freq = IntArray(3)
+        var result = 0
+        var start = 0
+        for (end in s.indices) {
+            freq[s[end] - 'a']++
+            while (freq[0] > 0 && freq[1] > 0 && freq[2] > 0) {
+                result += n - end
+                freq[s[start++] - 'a']--
             }
         }
         return result
