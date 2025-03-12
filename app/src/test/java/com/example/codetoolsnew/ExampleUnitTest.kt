@@ -85,7 +85,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.countOfSubstrings("iqeaouqi", 2)
+            ArrayCode.maximumCount(intArrayOf(-2,-1,-1,1,2,3))
         )
 
 //        println(

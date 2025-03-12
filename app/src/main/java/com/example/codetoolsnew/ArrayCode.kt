@@ -5311,7 +5311,7 @@ object ArrayCode {
         var vowelCount = 0
         var leadings = 0
 
-        fun isVowel(letter: Char): Boolean{
+        fun isVowel(letter: Char): Boolean {
             return letter == 'a' || letter == 'e' || letter == 'i' || letter == 'o' || letter == 'u'
         }
 
@@ -5382,5 +5382,33 @@ object ArrayCode {
             }
         }
         return result
+    }
+
+    fun maximumCount(nums: IntArray): Int {
+        // sorted array, find max between pos count and neg count
+        val n = nums.size
+        var left = 0
+        var right = n - 1
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            if (nums[mid] >= 0) { // shrink right to find left-most non negative
+                right = mid - 1
+            } else {
+                left = mid + 1
+            }
+        }
+        val negCount = left
+        left = 0
+        right = n - 1
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            if (nums[mid] > 0) { // shrink right to find left-most positive
+                right = mid - 1
+            } else {
+                left = mid + 1
+            }
+        }
+        val posCount = n - left
+        return maxOf(negCount, posCount)
     }
 }
