@@ -85,7 +85,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.maximumCount(intArrayOf(-2,-1,-1,1,2,3))
+            ArrayCode.minZeroArray(intArrayOf(2, 0, 2),  parseToIntArray("[[0,2,1],[0,1,1],[1,1,3]]"))
         )
 
 //        println(

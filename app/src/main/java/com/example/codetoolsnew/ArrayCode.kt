@@ -5411,4 +5411,81 @@ object ArrayCode {
         val posCount = n - left
         return maxOf(negCount, posCount)
     }
+
+    fun countNegatives(grid: Array<IntArray>): Int {
+        // staircase search
+        //        var count = 0
+        //        var j = 0
+        //        for (i in m - 1 downTo 0) {
+        //            while (j < n && grid[i][j] >= 0) {
+        //                j++
+        //            }
+        //            if (j == n) {
+        //                break
+        //            }
+        //            count += n - j
+        //        }
+        //        return count
+        val m = grid.size
+        val n = grid[0].size
+        var count = 0
+        var left = 0
+        var right = n - 1
+        for (i in 0 until m) {
+            while (left <= right) {
+                val mid = (left + right) shr 1
+                if (grid[i][mid] < 0) {
+                    right = mid - 1
+                } else {
+                    left = mid + 1
+                }
+            }
+            count += n - left
+            left = 0
+        }
+        return count
+    }
+
+    fun minZeroArray(nums: IntArray, queries: Array<IntArray>): Int {
+//        val n = nums.size
+//        val changes = IntArray(n)
+//        var current = 0
+//        var index = 0
+//        while (index < n && nums[index] == 0) {
+//            index++
+//        }
+//        if (index == n) {
+//            return 0
+//        }
+//        for (i in queries.indices) {
+//            val (l, r, v) = queries[i]
+//            if (index > r) continue
+//            changes[maxOf(l, index)] += v
+//            if (r != n - 1) changes[r + 1] -= v
+//            while (index < n && nums[index] <= current + changes[index]) {
+//                current += changes[index]
+//                index++
+//            }
+//            if (index == n) {
+//                return i + 1
+//            }
+//        }
+//        return -1
+
+        val n = nums.size
+        val changes = IntArray(n)
+        var current = 0
+        var k = 0
+        for (i in nums.indices) {
+            while (current + changes[i] < nums[i]) {
+                if (k == queries.size) return -1
+                val (l, r, v) = queries[k++]
+                if (i > r) continue
+                changes[maxOf(l, i)] += v
+                if (r != n - 1) changes[r + 1] -= v
+            }
+            current += changes[i]
+        }
+        return k
+    }
 }
