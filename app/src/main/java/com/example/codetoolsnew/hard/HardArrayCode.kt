@@ -2135,13 +2135,13 @@ object HardArrayCode {
     fun largestIsland(grid: Array<IntArray>): Int {
         val n = grid.size
 
-        fun index(x: Int, y: Int) : Int = x * n + y
+        fun index(x: Int, y: Int): Int = x * n + y
 
         val uf = UnionFind(n * n)
         for (i in 0 until n) {
             for (j in 0 until n) {
                 if (grid[i][j] == 1) {
-                    if (i < n -1 && grid[i + 1][j] == 1) {
+                    if (i < n - 1 && grid[i + 1][j] == 1) {
                         uf.union(index(i, j), index(i + 1, j))
                     }
                     if (j < n - 1 && grid[i][j + 1] == 1) {
@@ -2232,5 +2232,98 @@ object HardArrayCode {
             }
         }
         return max
+    }
+
+    fun longestCommonPrefixAfterExclude(words: Array<String>, k: Int): IntArray {
+        class TrieNode(var depth: Int = 0) {
+            val children = Array<TrieNode?>(26) { null }
+            var count = 0
+        }
+
+        fun buildTrie(): TrieNode {
+            val root = TrieNode()
+            for (i in words.indices) {
+                var node = root
+                node.count++
+                for (letter in words[i]) {
+                    val idx = letter - 'a'
+                    if (node.children[idx] == null) {
+                        node.children[idx] = TrieNode(node.depth + 1)
+                    }
+                    node = node.children[idx]!!
+                    node.count++
+                }
+            }
+            return root
+        }
+
+        val trieRoot = buildTrie()
+        val validCount = TreeMap<Int, Int>()
+
+        fun addValid(depth: Int) {
+            validCount[depth] = validCount.getOrDefault(depth, 0) + 1
+        }
+
+        fun removeValid(depth: Int) {
+            val count = validCount.getOrDefault(depth, 0)
+            if (count <= 1) {
+                validCount.remove(depth)
+            } else {
+                validCount[depth] = count - 1
+            }
+        }
+
+        fun dfs(node: TrieNode) {
+            if (node.count >= k) {
+                addValid(node.depth)
+            }
+            for (child in node.children) {
+                if (child != null) {
+                    dfs(child)
+                }
+            }
+        }
+        dfs(trieRoot)
+
+        fun updateNode(node: TrieNode, delta: Int) {
+            val oldCount = node.count
+            val wasValid = oldCount >= k
+            node.count = oldCount + delta
+            val isValid = node.count >= k
+            if (wasValid && !isValid) {
+                removeValid(node.depth)
+            } else if (!wasValid && isValid) {
+                addValid(node.depth)
+            }
+        }
+
+        fun removeWord(word: String) {
+            var node = trieRoot
+            updateNode(node, -1)
+            for (letter in word) {
+                node = node.children[letter - 'a']!!
+                updateNode(node, -1)
+            }
+        }
+
+        fun restoreWord(word: String) {
+            var node = trieRoot
+            updateNode(node, 1)
+            for (letter in word) {
+                node = node.children[letter - 'a']!!
+                updateNode(node, 1)
+            }
+        }
+
+        val n = words.size
+        val result = IntArray(n)
+        if (n <= k) return result
+        for (i in 0 until n) {
+            removeWord(words[i])
+            val maxDepth = if (validCount.isEmpty()) 0 else validCount.lastKey()
+            result[i] = maxDepth
+            restoreWord(words[i])
+        }
+        return result
     }
 }

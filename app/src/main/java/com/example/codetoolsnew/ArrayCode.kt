@@ -5488,4 +5488,80 @@ object ArrayCode {
         }
         return k
     }
+
+    fun minEatingSpeed(piles: IntArray, h: Int): Int {
+
+        fun canFinish(k: Int): Boolean {
+            var time = 0
+            for (pile in piles) {
+                time += (pile + k - 1) / k
+                if (time > h) return false
+            }
+            return true
+        }
+
+        var left = 1
+        var right = 0
+        for (pile in piles) {
+            right = maxOf(right, pile)
+        }
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            if (canFinish(mid)) {
+                right = mid - 1
+            } else {
+                left = mid + 1
+            }
+        }
+        return left
+    }
+
+    fun minCapability(nums: IntArray, k: Int): Int {
+        val n = nums.size
+//        val dp = Array(n + 1) { IntArray(k + 1) { Int.MAX_VALUE } }
+//        for (i in 0..n) {
+//            dp[i][0] = 0
+//        }
+//        for (i in 1..n) {
+//            for (j in 1..minOf(k, i)) {
+//                dp[i][j] =
+//                    minOf(dp[i - 1][j], maxOf(nums[i - 1], if (i > 1) dp[i - 2][j - 1] else 0))
+//            }
+//        }
+//        return dp[nums.size][k]
+        fun canRob(take: Int) : Boolean {
+            var count = 0
+            var start = -1
+            for (i in 0 ..n) {
+                if (i == n || nums[i] > take) {
+                    if (start != -1) {
+                        count += (i - start + 1) shr 1
+                        start = -1
+                    }
+                } else {
+                    if (start == -1) {
+                        start = i
+                    }
+                }
+                if (count >= k) return true
+            }
+            return false
+        }
+
+        var left = Int.MAX_VALUE
+        var right = 0
+        for (num in nums) {
+            left = minOf(left, num)
+            right = maxOf(right, num)
+        }
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            if (canRob(mid)) {
+                right = mid - 1
+            } else {
+                left = mid + 1
+            }
+        }
+        return left
+    }
 }

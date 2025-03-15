@@ -80,12 +80,12 @@ class ExampleUnitTest {
 //
 
 //        println(
-//            HardArrayCode.largestIsland(
-//                parseToIntArray("[[1,1,0,1],[1,0,0,1],[1,0,0,1],[1,0,0,1]]")
+//            HardArrayCode.longestCommonPrefixAfterExclude(
+//                arrayOf("ccd","adc","dba","bff","cbfae","fcae","cbbc"), 3
 //            )
 //        )
         println(
-            ArrayCode.minZeroArray(intArrayOf(2, 0, 2),  parseToIntArray("[[0,2,1],[0,1,1],[1,1,3]]"))
+            ArrayCode.minCapability(intArrayOf(2,3,5,9),  2)
         )
 
 //        println(
