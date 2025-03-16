@@ -5518,7 +5518,8 @@ object ArrayCode {
 
     fun minCapability(nums: IntArray, k: Int): Int {
         val n = nums.size
-//        val dp = Array(n + 1) { IntArray(k + 1) { Int.MAX_VALUE } }
+
+        //        val dp = Array(n + 1) { IntArray(k + 1) { Int.MAX_VALUE } }
 //        for (i in 0..n) {
 //            dp[i][0] = 0
 //        }
@@ -5529,10 +5530,10 @@ object ArrayCode {
 //            }
 //        }
 //        return dp[nums.size][k]
-        fun canRob(take: Int) : Boolean {
+        fun canRob(take: Int): Boolean {
             var count = 0
             var start = -1
-            for (i in 0 ..n) {
+            for (i in 0..n) {
                 if (i == n || nums[i] > take) {
                     if (start != -1) {
                         count += (i - start + 1) shr 1
@@ -5557,6 +5558,88 @@ object ArrayCode {
         while (left <= right) {
             val mid = left + ((right - left) shr 1)
             if (canRob(mid)) {
+                right = mid - 1
+            } else {
+                left = mid + 1
+            }
+        }
+        return left
+    }
+
+    fun maxJump(stones: IntArray): Int {
+        //        var result = stones[1] - stones[0]
+        //        for (i in 2 until stones.size) {
+        //            result = maxOf(result, stones[i] - stones[i - 2])
+        //        }
+        //        return result
+        val n = stones.size
+        val taken = BooleanArray(n)
+
+        fun findRightMost(target: Int): Int {
+            var left = 0
+            var right = n - 1
+            while (left <= right) {
+                val mid = left + ((right - left) shr 1)
+                if (stones[mid] <= target) {
+                    left = mid + 1
+                } else {
+                    right = mid - 1
+                }
+            }
+            return right
+        }
+
+        fun findLeftMost(target: Int): Int {
+            var left = 0
+            var right = n - 1
+            while (left <= right) {
+                val mid = left + ((right - left) shr 1)
+                if (stones[mid] >= target) {
+                    right = mid - 1
+                } else {
+                    left = mid + 1
+                }
+            }
+            return left
+        }
+
+        fun canJump(index: Int, maxCost: Int, back: Boolean): Boolean {
+            if (index <= 0 && back) return true
+            var valid = false
+            if (back) {
+                val farest = findLeftMost(stones[index] - maxCost)
+                for (i in farest until index) {
+                    if (taken[i]) continue
+                    taken[i] = true
+                    valid = canJump(i, maxCost, back)
+                    taken[i] = false
+                    break
+                }
+            } else {
+                val farest = findRightMost(stones[index] + maxCost)
+                for (i in farest downTo index + 1) {
+                    if (farest == n - 1) {
+                        valid = canJump(i, maxCost, true)
+                        break
+                    }
+                    if (taken[i]) continue
+                    taken[i] = true
+                    valid = canJump(i, maxCost, back)
+                    taken[i] = false
+                    break
+                }
+            }
+            return valid
+        }
+
+        var left = Int.MAX_VALUE
+        for (i in 1 until n) {
+            left = maxOf(stones[i] - stones[i - 1])
+        }
+        var right = stones[n - 1] - stones[0]
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            if (canJump(0, mid, false)) {
                 right = mid - 1
             } else {
                 left = mid + 1
