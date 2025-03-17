@@ -2168,17 +2168,30 @@ object ArrayCode {
     }
 
     fun frequencySort(nums: IntArray): IntArray {
-        val freq = mutableMapOf<Int, Int>()
-        nums.forEach { num ->
-            freq[num] = freq.getOrDefault(num, 0) + 1
+//        val freq = mutableMapOf<Int, Int>()
+//        nums.forEach { num ->
+//            freq[num] = freq.getOrDefault(num, 0) + 1
+//        }
+//        return nums.sortedWith { o1, o2 ->
+//            if (freq[o1] == freq[o2]) {
+//                o2 - o1
+//            } else {
+//                freq[o1]!! - freq[o2]!!
+//            }
+//        }.toIntArray()
+        val freq = IntArray(201)
+        for (num in nums) {
+            freq[num + 100]++
         }
-        return nums.sortedWith { o1, o2 ->
-            if (freq[o1] == freq[o2]) {
-                o2 - o1
-            } else {
-                freq[o1]!! - freq[o2]!!
-            }
-        }.toIntArray()
+        val pq = PriorityQueue<Int>(compareBy<Int> { freq[it + 100] }.thenByDescending { it })
+        for (num in nums) {
+            pq.offer(num)
+        }
+        val result = IntArray(nums.size)
+        for (i in result.indices) {
+            result[i] = pq.poll()!!
+        }
+        return result
     }
 
 //    fun sortJumbled(mapping: IntArray, nums: IntArray): IntArray {
@@ -5640,6 +5653,51 @@ object ArrayCode {
         while (left <= right) {
             val mid = left + ((right - left) shr 1)
             if (canJump(0, mid, false)) {
+                right = mid - 1
+            } else {
+                left = mid + 1
+            }
+        }
+        return left
+    }
+
+    fun divideArrayToPairs(nums: IntArray): Boolean {
+        val seen = BooleanArray(501)
+        for (num in nums) {
+            seen[num] = !seen[num]
+        }
+        for (num in nums) {
+            if (seen[num]) return false
+        }
+        return true
+    }
+
+    fun splitArrayMinimumSum(nums: IntArray, k: Int): Int {
+
+        fun canGroup(maxSum: Int): Boolean {
+            var count = 0
+            var currentSum = 0
+            for (num in nums) {
+                if (currentSum + num > maxSum) {
+                    count++
+                    currentSum = 0
+                }
+                currentSum += num
+                if (count > k) return false
+            }
+            count++
+            return count <= k
+        }
+
+        var left = 0
+        var right = 0
+        for (num in nums) {
+            left = maxOf(left, num)
+            right += num
+        }
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            if (canGroup(mid)) {
                 right = mid - 1
             } else {
                 left = mid + 1

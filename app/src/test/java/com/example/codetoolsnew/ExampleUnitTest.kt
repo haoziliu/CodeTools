@@ -85,7 +85,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.maxJump(intArrayOf(0,2,5,6,7))
+            ArrayCode.frequencySorta(intArrayOf(1,1,2,2,2,3))
         )
 
 //        println(
