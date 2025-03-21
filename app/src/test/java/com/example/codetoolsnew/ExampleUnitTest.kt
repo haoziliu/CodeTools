@@ -1,12 +1,6 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
-import com.example.codetools.MathCode
-import com.example.codetools.MatrixCode
-import com.example.codetools.StringCode
-import com.example.codetools.TreeCode
-import com.example.codetools.hard.HardArrayCode
-import com.example.codetools.hard.HardStringCode
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -84,8 +78,9 @@ class ExampleUnitTest {
 //                arrayOf("ccd","adc","dba","bff","cbfae","fcae","cbbc"), 3
 //            )
 //        )
+        val array = IntArray(100000) { 32 }
         println(
-            ArrayCode.frequencySorta(intArrayOf(1,1,2,2,2,3))
+            ArrayCode.countPairsSumPowersOfTwo(array)
         )
 
 //        println(

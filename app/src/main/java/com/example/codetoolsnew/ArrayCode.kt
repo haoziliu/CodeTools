@@ -5705,4 +5705,35 @@ object ArrayCode {
         }
         return left
     }
+
+    fun countPairsSumPowersOfTwo(deliciousness: IntArray): Int {
+        val MODULO = 1_000_000_007
+        val freq = mutableMapOf<Int, Int>()
+        var maxNum = 0
+        for (num in deliciousness) {
+            freq[num] = freq.getOrDefault(num, 0) + 1
+            maxNum = maxOf(maxNum, num)
+        }
+        var maxTarget = 2 shl 21
+        while (maxTarget shr 1 > maxNum) {
+            maxTarget = maxTarget shr 1
+        }
+        var result = 0
+        for (num in freq.keys) {
+            var target = maxTarget
+            while (target != 0) {
+                val other = target - num
+                if (other >= num && freq.containsKey(other)) {
+                    val ways = if (other == num) {
+                        1L * freq[num]!! * (freq[num]!! - 1) / 2
+                    } else {
+                        1L * freq[num]!! * freq[other]!!
+                    }
+                    result = (result + (ways % MODULO).toInt()) % MODULO
+                }
+                target = target shr 1
+            }
+        }
+        return result
+    }
 }
