@@ -5736,4 +5736,62 @@ object ArrayCode {
         }
         return result
     }
+
+    fun countCompleteComponents(n: Int, edges: Array<IntArray>): Int {
+        class UnionFind(n: Int) {
+            val parent = IntArray(n) { it }
+            val rank = IntArray(n)
+
+            fun find(x: Int): Int {
+                if (parent[x] != x) {
+                    parent[x] = find(parent[x])
+                }
+                return parent[x]
+            }
+
+            fun union(x: Int, y: Int) {
+                val rootX = find(x)
+                val rootY = find(y)
+                if (rootX != rootY) {
+                    if (rank[rootX] > rank[rootY]) {
+                        parent[rootY] = rootX
+                    } else if (rank[rootX] < rank[rootY]) {
+                        parent[rootX] = rootY
+                    } else {
+                        parent[rootY] = rootX
+                        rank[rootX]++
+                    }
+                }
+            }
+        }
+
+        val uf = UnionFind(n)
+        val degree = IntArray(n)
+        for ((u, v) in edges) {
+            uf.union(u, v)
+            degree[u]++
+            degree[v]++
+        }
+        val groups = Array(n) { mutableListOf<Int>() }
+        for (i in 0 until n) {
+            val root = uf.find(i)
+            groups[root].add(i)
+        }
+        var result = 0
+        for (nodes in groups) {
+            val nodeCount = nodes.size
+            if (nodeCount == 0) continue
+            var complete = true
+            for (node in nodes) {
+                if (degree[node] != nodeCount - 1) {
+                    complete = false
+                    break
+                }
+            }
+            if (complete) {
+                result++
+            }
+        }
+        return result
+    }
 }

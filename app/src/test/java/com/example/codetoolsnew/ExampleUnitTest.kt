@@ -78,9 +78,8 @@ class ExampleUnitTest {
 //                arrayOf("ccd","adc","dba","bff","cbfae","fcae","cbbc"), 3
 //            )
 //        )
-        val array = IntArray(100000) { 32 }
         println(
-            ArrayCode.countPairsSumPowersOfTwo(array)
+            ArrayCode.countCompleteComponents(6, parseToIntArray("[[0,1],[0,2],[1,2],[3,4],[3,5]]"))
         )
 
 //        println(
