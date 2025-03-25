@@ -79,7 +79,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.countCompleteComponents(6, parseToIntArray("[[0,1],[0,2],[1,2],[3,4],[3,5]]"))
+            ArrayCode.checkValidCuts(5, parseToIntArray("[[1,0,5,2],[0,2,2,4],[3,2,5,3],[0,4,4,5]]"))
         )
 
 //        println(

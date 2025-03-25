@@ -5794,4 +5794,28 @@ object ArrayCode {
         }
         return result
     }
+
+    fun checkValidCuts(n: Int, rectangles: Array<IntArray>): Boolean {
+        val horizontal = rectangles.sortedBy { it[0] }
+        var lastEnd = -1
+        var cut = 0
+        for ((start, _, end, _) in horizontal) {
+            if (lastEnd != -1 && start >= lastEnd) {
+                cut++
+            }
+            lastEnd = maxOf(lastEnd, end)
+            if (cut == 2) return true
+        }
+        val vertical = rectangles.sortedBy { it[1] }
+        lastEnd = -1
+        cut = 0
+        for ((_, start, _, end) in vertical) {
+            if (lastEnd != -1 && start >= lastEnd) {
+                cut++
+            }
+            lastEnd = maxOf(lastEnd, end)
+            if (cut == 2) return true
+        }
+        return false
+    }
 }
