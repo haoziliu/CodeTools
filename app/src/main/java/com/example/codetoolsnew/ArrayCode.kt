@@ -5818,4 +5818,22 @@ object ArrayCode {
         }
         return false
     }
+
+    fun minOperationsUniValue(grid: Array<IntArray>, x: Int): Int {
+        val m = grid.size
+        val n = grid[0].size
+        val gridSize = m * n
+        val nums = IntArray(gridSize) { index ->
+            grid[index / n][index % n]
+        }
+        nums.sort()
+        val target = nums[gridSize / 2]
+        var result = 0
+        for (num in nums) {
+            val diff = Math.abs(num - target)
+            if (diff % x != 0) return -1
+            result += diff / x
+        }
+        return result
+    }
 }
