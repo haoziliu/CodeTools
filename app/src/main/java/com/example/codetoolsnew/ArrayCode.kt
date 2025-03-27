@@ -5836,4 +5836,34 @@ object ArrayCode {
         }
         return result
     }
+
+    fun minimumIndexToSplitDominant(nums: List<Int>): Int {
+        // Boyer-Moore Voting
+        val n = nums.size
+        var candidate = -1
+        var count = 0
+        for (num in nums) {
+            if (count == 0) {
+                candidate = num
+            }
+            if (num == candidate) {
+                count++
+            } else {
+                count--
+            }
+        }
+        var total = 0
+        for (num in nums) {
+            if (num == candidate) total++
+        }
+        if (total <= n / 2) return -1
+        count = 0
+        for (i in 0 until n) {
+            if (nums[i] == candidate) {
+                count++
+                if (count > (i + 1) / 2 && total - count > (n - 1 - i) / 2) return i
+            }
+        }
+        return -1
+    }
 }
