@@ -2326,4 +2326,94 @@ object HardArrayCode {
         }
         return result
     }
+
+    fun maxPoints(grid: Array<IntArray>, queries: IntArray): IntArray {
+        val DIRECTIONS = arrayOf(1 to 0, -1 to 0, 0 to 1, 0 to -1)
+        val m = grid.size
+        val n = grid[0].size
+        val sorted = queries.withIndex().sortedBy { it.value }
+        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy{ it.first }) // value, x, y
+        pq.offer(Triple(grid[0][0], 0, 0))
+        grid[0][0] *= -1
+        var total = 0
+        val result = IntArray(queries.size)
+        for ((originalIndex, query) in sorted) {
+            while (pq.isNotEmpty() && pq.peek()!!.first < query) {
+                val (value, x, y) = pq.poll()!!
+                total++
+                for ((dx, dy) in DIRECTIONS) {
+                    val newX = x + dx
+                    val newY = y + dy
+                    if (newX !in 0 until m || newY !in 0 until n || grid[newX][newY] < 0) continue
+                    pq.offer(Triple(grid[newX][newY], newX, newY))
+                    grid[newX][newY] *= -1
+                }
+            }
+            result[originalIndex] = total
+        }
+        return result
+    }
+
+    fun maxPointsUF(grid: Array<IntArray>, queries: IntArray): IntArray {
+        val m = grid.size
+        val n = grid[0].size
+        val sorted = queries.withIndex().sortedBy { it.value }
+
+        val cells = Array(m * n) { index ->
+            index / n to index % n
+        }
+        cells.sortBy { grid[it.first][it.second] }
+
+        class UnionFind(size: Int) {
+            val parent = IntArray(size) { it }
+            val count = IntArray(size) { 1 }
+
+            fun find(x: Int): Int {
+                if (parent[x] != x) {
+                    parent[x] = find(parent[x])
+                }
+                return parent[x]
+            }
+
+            fun union(x: Int, y: Int) {
+                val rootX = find(x)
+                val rootY = find(y)
+                if (rootX != rootY) {
+                    if (count[rootX] >= count[rootY]) {
+                        parent[rootY] = rootX
+                        count[rootX] += count[rootY]
+                    } else {
+                        parent[rootX] = rootY
+                        count[rootY] += count[rootX]
+                    }
+                }
+            }
+        }
+
+        val uf = UnionFind(m * n)
+
+        val activated = Array(m) { BooleanArray(n) }
+        var index = 0
+        val result = IntArray(queries.size)
+        for ((originalIndex, query) in sorted) {
+            while (index < cells.size) {
+                val (x, y) = cells[index]
+                if (grid[x][y] >= query) break
+                activated[x][y] = true
+                for ((dx, dy) in DIRECTIONS) {
+                    val newX = x + dx
+                    val newY = y + dy
+                    if (newX !in 0 until m || newY !in 0 until n || !activated[newX][newY]) continue
+                    uf.union(x * n + y, newX * n + newY)
+                }
+                index++
+            }
+            result[originalIndex] = if (activated[0][0]) {
+                uf.count[uf.find(0)]
+            } else {
+                0
+            }
+        }
+        return result
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -73,14 +74,13 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-//        println(
-//            HardArrayCode.longestCommonPrefixAfterExclude(
-//                arrayOf("ccd","adc","dba","bff","cbfae","fcae","cbbc"), 3
-//            )
-//        )
         println(
-            ArrayCode.minOperationsUniValue( parseToIntArray("[[596,904,960,232,120,932,176],[372,792,288,848,960,960,764],[652,92,904,120,680,904,120],[372,960,92,680,876,624,904],[176,652,64,344,316,764,316],[820,624,848,596,960,960,372],[708,120,456,92,484,932,540]]"), 28)
+            HardArrayCode.maxPointsUF(parseToIntArray("[[1,2,3],[2,5,7],[3,5,1]]"), intArrayOf(5,6,2)
+            )
         )
+//        println(
+//            ArrayCode.minOperationsUniValue( parseToIntArray("[[596,904,960,232,120,932,176],[372,792,288,848,960,960,764],[652,92,904,120,680,904,120],[372,960,92,680,876,624,904],[176,652,64,344,316,764,316],[820,624,848,596,960,960,372],[708,120,456,92,484,932,540]]"), 28)
+//        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
