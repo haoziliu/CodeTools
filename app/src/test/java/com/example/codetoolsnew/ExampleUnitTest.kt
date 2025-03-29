@@ -75,7 +75,9 @@ class ExampleUnitTest {
 //
 
         println(
-            HardArrayCode.maxPointsUF(parseToIntArray("[[1,2,3],[2,5,7],[3,5,1]]"), intArrayOf(5,6,2)
+//            HardArrayCode.maxActiveSectionsAfterTrade("0001", parseToIntArray("[[2,2],[1,3],[3,3],[2,3],[1,1],[0,1],[0,3],[0,0],[1,2]]"))
+            HardArrayCode.maximumScore(
+                listOf(3289,2832,14858,22011), 6
             )
         )
 //        println(

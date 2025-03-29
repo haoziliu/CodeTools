@@ -2332,7 +2332,7 @@ object HardArrayCode {
         val m = grid.size
         val n = grid[0].size
         val sorted = queries.withIndex().sortedBy { it.value }
-        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy{ it.first }) // value, x, y
+        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.first }) // value, x, y
         pq.offer(Triple(grid[0][0], 0, 0))
         grid[0][0] *= -1
         var total = 0
@@ -2413,6 +2413,184 @@ object HardArrayCode {
             } else {
                 0
             }
+        }
+        return result
+    }
+
+    fun maximumScore(nums: List<Int>, k: Int): Int {
+        val MODULO = 1_000_000_007
+        val n = nums.size
+        var maxNum = 0
+        for (num in nums) {
+            maxNum = maxOf(maxNum, num)
+        }
+        val limit = Math.sqrt(maxNum.toDouble()).toInt() + 1
+        val isPrime = BooleanArray(limit + 1) { true }
+        if (limit >= 0) {
+            isPrime[0] = false
+            if (limit >= 1) isPrime[1] = false
+        }
+        for (i in 2..limit) {
+            if (isPrime[i]) {
+                for (j in i * i..limit step i) {
+                    isPrime[j] = false
+                }
+            }
+        }
+        val primes = mutableListOf<Int>()
+        for (i in 2..limit) {
+            if (isPrime[i]) primes.add(i)
+        }
+
+        val primeFactorCache = mutableMapOf<Int, Int>()
+
+        fun countPrimeFactors(num: Int): Int {
+            if (num in primeFactorCache) return primeFactorCache[num]!!
+            var nVal = num
+            var count = 0
+            for (p in primes) {
+                if (p * p > nVal) break
+                var found = false
+                while (nVal % p == 0) {
+                    found = true
+                    nVal /= p
+                }
+                if (found) count++
+            }
+            if (nVal > 1) count++
+            primeFactorCache[num] = count
+            return count
+        }
+
+        fun modPow(a: Int, b: Long): Int {
+            var result = 1L
+            var base = a.toLong() % MODULO
+            var exp = b
+            while (exp > 0) {
+                if (exp and 1L == 1L) {
+                    result = (result * base) % MODULO
+                }
+                base = (base * base) % MODULO
+                exp = exp shr 1
+            }
+            return result.toInt()
+        }
+
+        val scores = IntArray(n)
+        val prevGreaterOrEqual = IntArray(n) { -1 }
+        val stack = ArrayDeque<Int>()
+        for (i in 0 until n) {
+            scores[i] = countPrimeFactors(nums[i])
+            while (stack.isNotEmpty() && scores[stack.last()] < scores[i]) {
+                stack.removeLast()
+            }
+            if (stack.isNotEmpty()) {
+                prevGreaterOrEqual[i] = stack.last()
+            }
+            stack.addLast(i)
+        }
+        val contributions = LongArray(n)
+        val nextGreater = IntArray(n) { n }
+        stack.clear()
+        for (i in n - 1 downTo 0) {
+            while (stack.isNotEmpty() && scores[stack.last()] <= scores[i]) {
+                stack.removeLast()
+            }
+            if (stack.isNotEmpty()) {
+                nextGreater[i] = stack.last()
+            }
+            stack.addLast(i)
+
+            val left = i - prevGreaterOrEqual[i]
+            val right = nextGreater[i] - i
+            contributions[i] = 1L * left * right
+        }
+        val pq = PriorityQueue<Int>(compareBy({ -nums[it] }, { -contributions[it] }))
+        for (i in 0 until n) {
+            pq.offer(i)
+        }
+        var result = 1L
+        var remaining = 1L * k
+        while (pq.isNotEmpty()) {
+            if (remaining <= 0) break
+            val index = pq.poll()!!
+            result =
+                result * modPow(nums[index], minOf(1L * remaining, contributions[index])) % MODULO
+            remaining -= contributions[index]
+        }
+
+        return result.toInt()
+    }
+
+    fun maxActiveSectionsAfterTrade(s: String, queries: Array<IntArray>): List<Int> { // todo TLE
+        val sorted = queries.withIndex().sortedWith(compareBy({ it.value[0] }, { it.value[1] }))
+        val result = MutableList(queries.size) { 0 }
+        val groups = ArrayDeque<Int>()
+        var totalOnes = 0
+        var start = -1
+        var end = -1
+        for (i in s.indices) {
+            if (s[i] == '1') totalOnes++
+        }
+        var endFlag = true
+        for ((originalIndex, query) in sorted) {
+            if (query[0] > end) {
+                groups.clear()
+                for (i in query[0]..query[1]) {
+                    if (s[i] == '1') {
+                        endFlag = true
+                    } else {
+                        if (endFlag) {
+                            groups.add(1)
+                        } else {
+                            groups[groups.size - 1]++
+                        }
+                        endFlag = false
+                    }
+                }
+            } else {
+                for (i in start until query[0]) {
+                    if (s[i] == '0') {
+                        if (--groups[0] == 0) {
+                            groups.removeFirst()
+                        }
+                    }
+                }
+                if (query[1] < end) {
+                    for (i in end downTo query[1] + 1) {
+                        if (s[i] == '0') {
+                            if (--groups[groups.size - 1] == 0) {
+                                groups.removeLast()
+                                endFlag = true
+                            }
+                        } else if (i - 1 >= 0 && s[i - 1] == '0') {
+                            endFlag = false
+                        }
+                    }
+                } else if (query[1] > end) {
+                    for (i in end + 1..query[1]) {
+                        if (s[i] == '1') {
+                            endFlag = true
+                        } else {
+                            if (endFlag) {
+                                groups.add(1)
+                            } else {
+                                groups[groups.size - 1]++
+                            }
+                            endFlag = false
+                        }
+                    }
+                }
+            }
+
+            start = query[0]
+            end = query[1]
+
+            var removed = 0
+            for (i in 0 until groups.size - 1) {
+                removed = maxOf(removed, groups[i] + groups[i + 1])
+            }
+            result[originalIndex] = totalOnes + removed
         }
         return result
     }
