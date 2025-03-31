@@ -5866,4 +5866,22 @@ object ArrayCode {
         }
         return -1
     }
+
+    fun partitionLabels(s: String): List<Int> {
+        val ends = IntArray(26) { -1 }
+        for (i in s.indices) {
+            ends[s[i] - 'a'] = i
+        }
+        val result = mutableListOf<Int>()
+        var start = 0
+        var end = -1
+        for (i in s.indices) {
+            end = maxOf(end, ends[s[i] - 'a'])
+            if (end == i) {
+                result.add(end - start + 1)
+                start = end + 1
+            }
+        }
+        return result
+    }
 }

@@ -2594,4 +2594,43 @@ object HardArrayCode {
         }
         return result
     }
+
+    fun putMarbles(weights: IntArray, k: Int): Long {
+        val n = weights.size
+        val target = minOf(k - 1, n - k)
+        if (target == 0) return 0L
+        val pqMax = PriorityQueue<Long>()
+        var maxSum = 0L
+        val pqMin = PriorityQueue<Long>(reverseOrder())
+        var minSum = 0L
+        for (i in 0 until n - 1) {
+            val sum = weights[i].toLong() + weights[i + 1]
+            if (pqMax.size < target) {
+                pqMax.offer(sum)
+                maxSum += sum
+            } else if (pqMax.peek()!! < sum) {
+                val polled = pqMax.poll()!!
+                maxSum -= polled
+                pqMax.offer(sum)
+                maxSum += sum
+
+                if (pqMin.size < target) {
+                    pqMin.offer(polled)
+                    minSum += polled
+                } else if (pqMin.peek()!! > polled) {
+                    minSum -= pqMin.poll()!!
+                    pqMin.offer(polled)
+                    minSum += polled
+                }
+            } else if (pqMin.size < target) {
+                pqMin.offer(sum)
+                minSum += sum
+            } else if (pqMin.peek()!! > sum) {
+                minSum -= pqMin.poll()!!
+                pqMin.offer(sum)
+                minSum += sum
+            }
+        }
+        return maxSum - minSum
+    }
 }
