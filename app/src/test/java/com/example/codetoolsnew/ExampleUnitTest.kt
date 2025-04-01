@@ -76,13 +76,13 @@ class ExampleUnitTest {
 
         println(
 //            HardArrayCode.maxActiveSectionsAfterTrade("0001", parseToIntArray("[[2,2],[1,3],[3,3],[2,3],[1,1],[0,1],[0,3],[0,0],[1,2]]"))
-            HardArrayCode.maximumScore(
-                listOf(3289,2832,14858,22011), 6
-            )
+//            HardArrayCode.maximumScore(
+//                listOf(3289,2832,14858,22011), 6
+//            )
         )
-//        println(
-//            ArrayCode.minOperationsUniValue( parseToIntArray("[[596,904,960,232,120,932,176],[372,792,288,848,960,960,764],[652,92,904,120,680,904,120],[372,960,92,680,876,624,904],[176,652,64,344,316,764,316],[820,624,848,596,960,960,372],[708,120,456,92,484,932,540]]"), 28)
-//        )
+        println(
+            ArrayCode.mostPoints( parseToIntArray("[[3,2],[4,3],[4,4],[2,5]]"))
+        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))

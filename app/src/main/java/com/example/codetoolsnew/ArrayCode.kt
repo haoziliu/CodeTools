@@ -5884,4 +5884,15 @@ object ArrayCode {
         }
         return result
     }
+
+    fun mostPoints(questions: Array<IntArray>): Long {
+        val n = questions.size
+        val dp = LongArray(n)
+        dp[n - 1] = questions[n - 1][0].toLong()
+        for (i in n - 2 downTo 0) {
+            val (point, power) = questions[i]
+            dp[i] = maxOf(dp[i + 1], point + if (i + power + 1 < n) dp[i + power + 1] else 0)
+        }
+        return dp[0]
+    }
 }
