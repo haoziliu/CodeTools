@@ -5895,4 +5895,21 @@ object ArrayCode {
         }
         return dp[0]
     }
+
+    fun maximumTripletValue(nums: IntArray): Long {
+        val n = nums.size
+        val maxRight = IntArray(n)
+        for (i in n - 2 downTo 1) {
+            maxRight[i] = maxOf(maxRight[i + 1], nums[i + 1])
+        }
+        var result = 0L
+        var maxSoFar = nums[0]
+        var maxDiff = 0
+        for (j in 1..n - 2) {
+            maxDiff = maxOf(maxDiff, maxSoFar - nums[j])
+            maxSoFar = maxOf(maxSoFar, nums[j])
+            result = maxOf(result, maxDiff.toLong() * maxRight[j])
+        }
+        return result
+    }
 }
