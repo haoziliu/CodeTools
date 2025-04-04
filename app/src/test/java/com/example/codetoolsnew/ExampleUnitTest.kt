@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.TreeCode
 import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
 
@@ -54,13 +55,25 @@ class ExampleUnitTest {
 
     @Test
     fun test() {
-//        val tree1 = TreeCode.TreeNode(1).apply {
-//            left = TreeCode.TreeNode(2).apply {
-//            }
-//            right = TreeCode.TreeNode(3).apply {
-//            }
-//        }
-//        println(TreeCode.recoverFromPreorder("1-2--3--4-5--6--7"))
+        val tree1 = TreeCode.TreeNode(3).apply {
+            left = TreeCode.TreeNode(5).apply {
+                left = TreeCode.TreeNode(6).apply {
+                }
+                right = TreeCode.TreeNode(2).apply {
+                    left = TreeCode.TreeNode(7).apply {
+                    }
+                    right = TreeCode.TreeNode(4).apply {
+                    }
+                }
+            }
+            right = TreeCode.TreeNode(1).apply {
+                left = TreeCode.TreeNode(0).apply {
+                }
+                right = TreeCode.TreeNode(8).apply {
+                }
+            }
+        }
+        println(TreeCode.lcaDeepestLeaves(tree1))
 
 //
 //        val head = ListCode.ListNode(4).apply {
@@ -74,15 +87,15 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
+//        println(
 //            HardArrayCode.maxActiveSectionsAfterTrade("0001", parseToIntArray("[[2,2],[1,3],[3,3],[2,3],[1,1],[0,1],[0,3],[0,0],[1,2]]"))
 //            HardArrayCode.maximumScore(
 //                listOf(3289,2832,14858,22011), 6
 //            )
-        )
-        println(
-            ArrayCode.mostPoints( parseToIntArray("[[3,2],[4,3],[4,4],[2,5]]"))
-        )
+//        )
+//        println(
+//            ArrayCode.mostPoints( parseToIntArray("[[3,2],[4,3],[4,4],[2,5]]"))
+//        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
