@@ -1736,10 +1736,10 @@ object TreeCode {
 
         val maxDepth = findDepth(root)
 
-        fun findLCA(node: TreeNode?, currentDepth: Int): TreeNode? {
+        fun findDeepestLeavesLCA(node: TreeNode?, currentDepth: Int): TreeNode? {
             if (node == null || currentDepth == maxDepth) return node
-            val leftLCA = findLCA(node.left, currentDepth + 1)
-            val rightLCA = findLCA(node.right, currentDepth + 1)
+            val leftLCA = findDeepestLeavesLCA(node.left, currentDepth + 1)
+            val rightLCA = findDeepestLeavesLCA(node.right, currentDepth + 1)
             return if (leftLCA != null && rightLCA != null) {
                 node
             } else {
@@ -1747,6 +1747,6 @@ object TreeCode {
             }
         }
 
-        return findLCA(root, 1)
+        return findDeepestLeavesLCA(root, 1)
     }
 }

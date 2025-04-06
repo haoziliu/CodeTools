@@ -5907,4 +5907,29 @@ object ArrayCode {
         }
         return result
     }
+
+    fun largestDivisibleSubset(nums: IntArray): List<Int> {
+        val n = nums.size
+        nums.sort()
+        var maxIndex = -1
+        val prev = IntArray(n) { -1 }
+        val dp = IntArray(n) { 1 }
+        for (i in 0 until n) {
+            for (j in i - 1 downTo 0) {
+                if (dp[i] < dp[j] + 1 && nums[i] % nums[j] == 0) {
+                    dp[i] = dp[j] + 1
+                    prev[i] = j
+                }
+            }
+            if (maxIndex == -1 || dp[i] > dp[maxIndex]) {
+                maxIndex = i
+            }
+        }
+        val result = mutableListOf<Int>()
+        while (maxIndex != -1) {
+            result.add(nums[maxIndex])
+            maxIndex = prev[maxIndex]
+        }
+        return result
+    }
 }
