@@ -5932,4 +5932,22 @@ object ArrayCode {
         }
         return result
     }
+
+    fun canPartitionEqualSubsets(nums: IntArray): Boolean {
+        // 0/1 pack
+        var total = 0
+        for (num in nums) {
+            total += num
+        }
+        if (total % 2 != 0) return false
+        val target = total shr 1
+        val dp = BooleanArray(target + 1)
+        dp[0] = true
+        for (num in nums) {
+            for (j in target downTo num) {
+                dp[j] = dp[j] || dp[j - num]
+            }
+        }
+        return dp[target]
+    }
 }

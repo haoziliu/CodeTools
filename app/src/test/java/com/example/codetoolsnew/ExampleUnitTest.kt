@@ -55,25 +55,25 @@ class ExampleUnitTest {
 
     @Test
     fun test() {
-        val tree1 = TreeCode.TreeNode(3).apply {
-            left = TreeCode.TreeNode(5).apply {
-                left = TreeCode.TreeNode(6).apply {
-                }
-                right = TreeCode.TreeNode(2).apply {
-                    left = TreeCode.TreeNode(7).apply {
-                    }
-                    right = TreeCode.TreeNode(4).apply {
-                    }
-                }
-            }
-            right = TreeCode.TreeNode(1).apply {
-                left = TreeCode.TreeNode(0).apply {
-                }
-                right = TreeCode.TreeNode(8).apply {
-                }
-            }
-        }
-        println(TreeCode.lcaDeepestLeaves(tree1))
+//        val tree1 = TreeCode.TreeNode(3).apply {
+//            left = TreeCode.TreeNode(5).apply {
+//                left = TreeCode.TreeNode(6).apply {
+//                }
+//                right = TreeCode.TreeNode(2).apply {
+//                    left = TreeCode.TreeNode(7).apply {
+//                    }
+//                    right = TreeCode.TreeNode(4).apply {
+//                    }
+//                }
+//            }
+//            right = TreeCode.TreeNode(1).apply {
+//                left = TreeCode.TreeNode(0).apply {
+//                }
+//                right = TreeCode.TreeNode(8).apply {
+//                }
+//            }
+//        }
+//        println(TreeCode.lcaDeepestLeaves(tree1))
 
 //
 //        val head = ListCode.ListNode(4).apply {
@@ -93,9 +93,9 @@ class ExampleUnitTest {
 //                listOf(3289,2832,14858,22011), 6
 //            )
 //        )
-//        println(
-//            ArrayCode.mostPoints( parseToIntArray("[[3,2],[4,3],[4,4],[2,5]]"))
-//        )
+        println(
+            ArrayCode.canPartitionEqualSubsets(intArrayOf(4,10,7,9,7,1,11,9,13,15))
+        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
