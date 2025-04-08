@@ -5950,4 +5950,14 @@ object ArrayCode {
         }
         return dp[target]
     }
+    fun minimumOperationsMakeDistinct(nums: IntArray): Int {
+        // everytime remove 3 first num
+        val seen = BooleanArray(101)
+        var index = nums.size - 1
+        while (index >= 0) {
+            if (seen[nums[index]]) break
+            seen[nums[index--]] = true
+        }
+        return (index + 3) / 3
+    }
 }

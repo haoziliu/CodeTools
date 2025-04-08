@@ -94,7 +94,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.canPartitionEqualSubsets(intArrayOf(4,10,7,9,7,1,11,9,13,15))
+            ArrayCode.minimumOperationsMakeDistinct(intArrayOf(1,2,3,4,2,3,3,5,7))
         )
 
 //        println(
