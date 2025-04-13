@@ -566,4 +566,20 @@ object MathCode {
         }
         return end
     }
+
+    fun modPow(base: Long, exponent: Long): Long {
+        val MODULO = 1_000_000_007
+        var result = 1L
+        var b = base % MODULO
+        var exp = exponent
+
+        while (exp > 0) {
+            if (exp and 1L == 1L) {
+                result = (result * b) % MODULO
+            }
+            b = (b * b) % MODULO
+            exp = exp shr 1
+        }
+        return result
+    }
 }
