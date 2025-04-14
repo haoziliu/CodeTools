@@ -5950,6 +5950,7 @@ object ArrayCode {
         }
         return dp[target]
     }
+
     fun minimumOperationsMakeDistinct(nums: IntArray): Int {
         // everytime remove 3 first num
         val seen = BooleanArray(101)
@@ -5959,5 +5960,48 @@ object ArrayCode {
             seen[nums[index--]] = true
         }
         return (index + 3) / 3
+    }
+
+    fun countGoodTriplets(arr: IntArray, a: Int, b: Int, c: Int): Int {
+        // |arr[i] - arr[j]| <= a
+        // |arr[j] - arr[k]| <= b
+        // |arr[i] - arr[k]| <= c
+        val n = arr.size
+        if (n < 3) return 0
+
+        var maxVal = 0
+        for (num in arr) {
+            maxVal = maxOf(maxVal, num)
+        }
+        val freq = IntArray(maxVal + 1)
+        for (k in 2 until n) {
+            freq[arr[k]]++
+        }
+
+        var count = 0
+        for (j in 1 until n - 1) {
+            val prefix = IntArray(maxVal + 1)
+            prefix[0] = freq[0]
+            for (x in 1..maxVal) {
+                prefix[x] = prefix[x - 1] + freq[x]
+            }
+
+            for (i in 0 until j) {
+                if (abs(arr[i] - arr[j]) > a) continue
+
+                val lower = maxOf(arr[j] - b, arr[i] - c)
+                val upper = minOf(arr[j] + b, arr[i] + c)
+                if (lower > upper) continue
+
+                val L = maxOf(0, lower)
+                val R = minOf(maxVal, upper)
+                val segCount = if (L > 0) prefix[R] - prefix[L - 1] else prefix[R]
+                count += segCount
+            }
+            if (j + 1 < n) {
+                freq[arr[j + 1]]--
+            }
+        }
+        return count
     }
 }
