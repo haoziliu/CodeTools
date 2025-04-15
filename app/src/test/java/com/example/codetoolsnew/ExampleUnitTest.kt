@@ -87,15 +87,12 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-//        println(
-//            HardArrayCode.maxActiveSectionsAfterTrade("0001", parseToIntArray("[[2,2],[1,3],[3,3],[2,3],[1,1],[0,1],[0,3],[0,0],[1,2]]"))
-//            HardArrayCode.maximumScore(
-//                listOf(3289,2832,14858,22011), 6
-//            )
-//        )
         println(
-            ArrayCode.minimumOperationsMakeDistinct(intArrayOf(1,2,3,4,2,3,3,5,7))
+            HardArrayCode.countGoodTriplets(intArrayOf(4,0,1,3,2), intArrayOf(4,1,0,2,3))
         )
+//        println(
+//            ArrayCode.minimumOperationsMakeDistinct(intArrayOf(1,2,3,4,2,3,3,5,7))
+//        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))

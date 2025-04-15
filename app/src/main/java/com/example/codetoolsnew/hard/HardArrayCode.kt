@@ -1,7 +1,6 @@
 package com.example.codetools.hard
 
 import com.example.codetools.ArrayCode
-import java.util.Arrays
 import java.util.LinkedList
 import java.util.PriorityQueue
 import java.util.Stack
@@ -2632,5 +2631,42 @@ object HardArrayCode {
             }
         }
         return maxSum - minSum
+    }
+
+    fun countGoodTriplets(nums1: IntArray, nums2: IntArray): Long {
+        val n = nums1.size
+        // 构造 pos 数组：记录每个数字在 nums2 中的位置（转换为 1-indexed 方便 BIT 使用）
+        val pos2 = IntArray(n)
+        for (i in 0 until n) {
+            pos2[nums2[i]] = i + 1  // 1-indexed
+        }
+
+        // 构建转换数组 a：a[i] = 在 nums2 中 nums1[i] 的位置
+        val a = IntArray(n) { i -> pos2[nums1[i]] }
+
+        // 计算左侧比 a[j] 小的个数 L[j]
+        val leftCount = IntArray(n)
+        val leftTree = ArrayCode.FenwickTree(n)
+        for (j in 0 until n) {
+            // query 返回 [1, a[j]-1] 中元素个数
+            leftCount[j] = leftTree.query(a[j] - 1)
+            leftTree.update(a[j], 1)
+        }
+
+        // 计算右侧比 a[j] 大的个数 R[j]
+        val rightCount = IntArray(n)
+        val rightTree = ArrayCode.FenwickTree(n)
+        for (j in n - 1 downTo 0) {
+            // query 返回 [a[j]+1, n] 中的个数
+            rightCount[j] = rightTree.query(n) - rightTree.query(a[j])
+            rightTree.update(a[j], 1)
+        }
+
+        // 最终答案为所有 j 的 leftCount[j] * rightCount[j] 累加
+        var ans = 0L
+        for (j in 0 until n) {
+            ans += leftCount[j].toLong() * rightCount[j]
+        }
+        return ans
     }
 }

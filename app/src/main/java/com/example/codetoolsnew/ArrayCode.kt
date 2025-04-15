@@ -6004,4 +6004,33 @@ object ArrayCode {
         }
         return count
     }
+
+    class FenwickTree(private val n: Int) {
+        private val tree = IntArray(n + 1)
+
+        // 单点更新：在 index 处增加 value（index 从 1 开始）
+        fun update(index: Int, value: Int) {
+            var i = index
+            while (i <= n) {
+                tree[i] += value
+                i += i and -i  // 利用二进制位，跳转到下一个需要更新的位置
+            }
+        }
+
+        // 前缀和查询：计算从 1 到 index 的累积和
+        fun query(index: Int): Int {
+            var i = index
+            var sum = 0
+            while (i > 0) {
+                sum += tree[i]
+                i -= i and -i  // 回退到上一个贡献值的位置
+            }
+            return sum
+        }
+
+        // 区间查询：计算 [l, r] 的区间和
+        fun query(l: Int, r: Int): Int {
+            return query(r) - query(l - 1)
+        }
+    }
 }
