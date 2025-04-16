@@ -6033,4 +6033,25 @@ object ArrayCode {
             return query(r) - query(l - 1)
         }
     }
+
+    fun countEqualAtLeastKPairs(nums: IntArray, k: Int): Long {
+        val freq = mutableMapOf<Int, Int>()
+        var end = 0
+        var pairs = 0
+        var count = 0L
+        for (start in nums.indices) {
+            while (end < nums.size && pairs < k) {
+                pairs += freq[nums[end]] ?: 0
+                freq[nums[end]] = freq.getOrDefault(nums[end], 0) + 1
+                end++
+            }
+            if (pairs >= k) {
+                count += nums.size - end + 1
+            }
+
+            freq[nums[start]] = freq[nums[start]]!! - 1
+            pairs -= freq[nums[start]] ?: 0
+        }
+        return count
+    }
 }
