@@ -4375,43 +4375,62 @@ object ArrayCode {
     }
 
     fun countFairPairs(nums: IntArray, lower: Int, upper: Int): Long {
+//        nums.sort()
+//        var count = 0L
+//
+//        fun findLeftMostIndex(target: Int, left: Int): Int {
+//            var left = left
+//            var right = nums.size - 1
+//            while (left <= right) {
+//                val mid = left + (right - left) / 2
+//                if (nums[mid] >= target) {
+//                    right = mid - 1
+//                } else {
+//                    left = mid + 1
+//                }
+//            }
+//            return left
+//        }
+//
+//        fun findRightMostIndex(target: Int, left: Int): Int {
+//            var left = left
+//            var right = nums.size - 1
+//            while (left <= right) {
+//                val mid = left + (right - left) / 2
+//                if (nums[mid] <= target) {
+//                    left = mid + 1
+//                } else {
+//                    right = mid - 1
+//                }
+//            }
+//            return right
+//        }
+//
+//        for (i in nums.indices) {
+//            val left = findLeftMostIndex(lower - nums[i], i + 1)
+//            val right = findRightMostIndex(upper - nums[i], i + 1)
+//            count += right - left + 1
+//        }
+//        return count
+
         nums.sort()
-        var count = 0L
+        val n = nums.size
 
-        fun findLeftMostIndex(target: Int, left: Int): Int {
-            var left = left
-            var right = nums.size - 1
-            while (left <= right) {
-                val mid = left + (right - left) / 2
-                if (nums[mid] >= target) {
-                    right = mid - 1
+        fun countPairsLessThanOrEqual(target: Int): Long {
+            var count = 0L
+            var left = 0
+            var right = n - 1
+            while (left < right) {
+                if (nums[left] + nums[right] <= target) {
+                    count += (right - left).toLong()
+                    left++
                 } else {
-                    left = mid + 1
+                    right--
                 }
             }
-            return left
+            return count
         }
-
-        fun findRightMostIndex(target: Int, left: Int): Int {
-            var left = left
-            var right = nums.size - 1
-            while (left <= right) {
-                val mid = left + (right - left) / 2
-                if (nums[mid] <= target) {
-                    left = mid + 1
-                } else {
-                    right = mid - 1
-                }
-            }
-            return right
-        }
-
-        for (i in nums.indices) {
-            val left = findLeftMostIndex(lower - nums[i], i + 1)
-            val right = findRightMostIndex(upper - nums[i], i + 1)
-            count += right - left + 1
-        }
-        return count
+        return countPairsLessThanOrEqual(upper) - countPairsLessThanOrEqual(lower - 1)
     }
 
     fun minimizedMaximum(n: Int, quantities: IntArray): Int {
