@@ -2669,4 +2669,54 @@ object HardArrayCode {
         }
         return ans
     }
+
+    fun countIdealArrays(n: Int, maxValue: Int): Int {
+        val MOD = 1_000_000_007
+        val MAX_CHAIN_LENGTH = 15
+        val maxDim = maxOf(n, maxValue)
+
+        // comb[k][v] = C(v-1, k-1) mod MOD
+        val comb = Array(MAX_CHAIN_LENGTH) { LongArray(maxDim + 1) }
+        // combPrefix[k][v] = sum_{i=1..v} comb[k][i]
+        val combPrefix = Array(MAX_CHAIN_LENGTH) { LongArray(maxDim + 1) }
+        // chainCountByLength[k] = 枚举所有 "值链" 后，长度恰为 k 的链总数
+        val chainCountByLength = LongArray(MAX_CHAIN_LENGTH)
+
+        // 初始化：comb[1][v] = C(v-1,0) = 1, 前缀和为 v
+        for (v in 1..maxDim) {
+            comb[1][v] = 1L
+            combPrefix[1][v] = v.toLong()
+        }
+        // 预处理其他组合数及前缀和
+        for (length in 2 until MAX_CHAIN_LENGTH) {
+            for (value in length..maxDim) {
+                comb[length][value] = combPrefix[length - 1][value - 1]
+                combPrefix[length][value] = (comb[length][value] + combPrefix[length][value - 1]) % MOD
+            }
+        }
+
+        // 嵌套函数：DFS 枚举以 lastValue 结尾的所有 "值链"
+        fun dfs(lastValue: Int, currentLength: Int) {
+            chainCountByLength[currentLength]++
+            var nextVal = lastValue * 2
+            while (nextVal <= maxValue) {
+                dfs(nextVal, currentLength + 1)
+                nextVal += lastValue
+            }
+        }
+
+        // 从每个起点开始 DFS
+        for (start in 1..maxValue) {
+            dfs(start, 1)
+        }
+
+        // 累加结果：每条长度为 k 的链，有 C(n-1, k-1) 种插空方式
+        var result = 0L
+        for (length in 1 until MAX_CHAIN_LENGTH) {
+            result = (result + chainCountByLength[length] * comb[length][n] % MOD) % MOD
+        }
+
+        return result.toInt()
+    }
+
 }

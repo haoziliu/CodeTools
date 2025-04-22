@@ -6073,4 +6073,23 @@ object ArrayCode {
         }
         return count
     }
+
+    fun bruteBuild(n: Int, maxValue: Int) {
+
+        fun dfs(current: MutableList<Int>) {
+            if (current.size == n) {
+                println(current.joinToString())
+                return
+            }
+            for (num in 1..maxValue) {
+                if (current.isEmpty() || num % current.last() == 0) {
+                    current.add(num)
+                    dfs(current)
+                    current.removeAt(current.lastIndex)
+                }
+            }
+        }
+
+        dfs(mutableListOf())
+    }
 }

@@ -87,9 +87,11 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
-            HardArrayCode.countGoodTriplets(intArrayOf(4,0,1,3,2), intArrayOf(4,1,0,2,3))
-        )
+        ArrayCode.bruteBuild(3, 9)
+
+//        println(
+//            HardArrayCode.countGoodTriplets(intArrayOf(4,0,1,3,2), intArrayOf(4,1,0,2,3))
+//        )
 //        println(
 //            ArrayCode.minimumOperationsMakeDistinct(intArrayOf(1,2,3,4,2,3,3,5,7))
 //        )
