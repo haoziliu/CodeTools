@@ -6092,4 +6092,18 @@ object ArrayCode {
 
         dfs(mutableListOf())
     }
+
+    fun countInterestingSubarrays(nums: List<Int>, modulo: Int, k: Int): Long {
+        var result = 0L
+        val freq = mutableMapOf<Int, Long>()
+        freq[0] = 1L
+        var current = 0
+        for (num in nums) {
+            current = (current + if (num % modulo == k) 1 else 0) % modulo
+            val target = (current - k + modulo) % modulo
+            result += freq.getOrDefault(target, 0L)
+            freq[current] = freq.getOrDefault(current, 0L) + 1
+        }
+        return result
+    }
 }
