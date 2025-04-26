@@ -2719,4 +2719,23 @@ object HardArrayCode {
         return result.toInt()
     }
 
+    fun countSubarraysWithFixedBounds(nums: IntArray, minK: Int, maxK: Int): Long {
+        var bad = -1
+        var left = -1
+        var right = -1
+        var count = 0L
+        for (i in nums.indices) {
+            if (nums[i] !in minK..maxK) {
+                bad = i
+            }
+            if (nums[i] == minK) {
+                left = i
+            }
+            if (nums[i] == maxK) {
+                right = i
+            }
+            count += maxOf(0, minOf(left, right) - bad)
+        }
+        return count
+    }
 }
