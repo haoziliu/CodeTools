@@ -2738,4 +2738,91 @@ object HardArrayCode {
         }
         return count
     }
+
+    fun countCells(grid: Array<CharArray>, pattern: String): Int {
+        val m = grid.size
+        val n = grid[0].size
+        val p = pattern.length
+        val S = m * n
+
+        val hori = String(CharArray(S) { i -> grid[i / n][i % n] })
+        val vert = String(CharArray(S) { i -> grid[i % m][i / m] })
+
+        fun buildLPS(): IntArray {
+            val lps = IntArray(p)
+            var len = 0
+            var i = 1
+            while (i < p) {
+                if (pattern[i] == pattern[len]) {
+                    lps[i++] = ++len
+                } else if (len > 0) {
+                    len = lps[len - 1]
+                } else {
+                    lps[i++] = 0
+                }
+            }
+            return lps
+        }
+
+        fun kmpSearch(text: String, lps: IntArray): List<Int> {
+            val res = mutableListOf<Int>()
+            var i = 0
+            var j = 0
+            while (i < text.length) {
+                if (text[i] == pattern[j]) {
+                    i++; j++
+                    if (j == p) {
+                        res += (i - j)
+                        j = lps[j - 1]
+                    }
+                } else if (j > 0) {
+                    j = lps[j - 1]
+                } else {
+                    i++
+                }
+            }
+            return res
+        }
+
+        val lps = buildLPS()
+        val hMatches = kmpSearch(hori, lps)
+        val vMatches = kmpSearch(vert, lps)
+
+        val hDiff = IntArray(S + 1)
+        val vDiff = IntArray(S + 1)
+        for (s in hMatches) {
+            hDiff[s]++
+            hDiff[s + p]--
+        }
+        for (s in vMatches) {
+            vDiff[s]++
+            vDiff[s + p]--
+        }
+        val hCov = IntArray(S)
+        val vCov = IntArray(S)
+        run {
+            var acc = 0
+            for (i in 0 until S) {
+                acc += hDiff[i]
+                hCov[i] = acc
+            }
+        }
+        run {
+            var acc = 0
+            for (i in 0 until S) {
+                acc += vDiff[i]
+                vCov[i] = acc
+            }
+        }
+
+        var count = 0
+        for (r in 0 until m) {
+            for (c in 0 until n) {
+                val hi = r * n + c
+                val vi = c * m + r
+                if (hCov[hi] > 0 && vCov[vi] > 0) count++
+            }
+        }
+        return count
+    }
 }
