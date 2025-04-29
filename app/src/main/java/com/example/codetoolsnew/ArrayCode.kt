@@ -784,26 +784,57 @@ object ArrayCode {
     fun countSubarraysLargestAppearsAtLeastK(nums: IntArray, k: Int): Long {
         // find the largest number in the array
         // then check the subarray which contains the largest number K times
-        nums.maxOrNull()?.let { maxNum ->
-            var maxNumAppears = 0
-            var count = 0L
-            var start = 0
-            for (end in nums.indices) {
-                if (nums[end] == maxNum) {
-                    maxNumAppears++
-                }
-                while (maxNumAppears >= k) {
-                    // move the end forward, all subarrays [start, end] will contain the largest number K times
-                    count += nums.size - end
-                    if (nums[start] == maxNum) {
-                        maxNumAppears--
-                    }
-                    start++
-                }
-            }
-            return count
+        var maxNum = 0
+        for (num in nums) {
+            maxNum = maxOf(maxNum, num)
         }
-        return 0
+        var count = 0L
+        var appears = 0
+        var left = 0
+        for (right in nums.indices) {
+            if (nums[right] == maxNum) {
+                appears++
+            }
+            while (appears >= k) {
+                if (nums[left] == maxNum) {
+                    appears--
+                }
+                left++
+            }
+            count += left
+        }
+
+        // count在left移动途中累加，操作次数也是n次，效率一样
+//        for (right in nums.indices) {
+//            if (nums[right] == maxNum) {
+//                appears++
+//            }
+//            while (appears >= k) {
+//                count += nums.size - right
+//                if (nums[left] == maxNum) {
+//                    appears--
+//                }
+//                left++
+//            }
+//        }
+
+        // 固定left，扩展right
+//        var right = 0
+//        for (left in nums.indices) {
+//            while (right < nums.size && appears < k) {
+//                if (nums[right] == maxNum) {
+//                    appears++
+//                }
+//                right++
+//            }
+//            if (appears >= k) {
+//                count += nums.size - right + 1
+//            }
+//            if (nums[left] == maxNum) {
+//                appears--
+//            }
+//        }
+        return count
     }
 
     fun subarraysWithAtMostKDistinct(nums: IntArray, k: Int): Int {
