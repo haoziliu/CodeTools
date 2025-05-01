@@ -89,7 +89,7 @@ class ExampleUnitTest {
 
 
         println(
-            HardArrayCode.countSubarraysWithFixedBounds(intArrayOf(1,3,5,2,7,5), 1 , 5)
+            HardArrayCode.maxTaskAssign(intArrayOf(10,15,30), intArrayOf(0,10,10,10,10), 3,10)
         )
 //        println(
 //            ArrayCode.minimumOperationsMakeDistinct(intArrayOf(1,2,3,4,2,3,3,5,7))

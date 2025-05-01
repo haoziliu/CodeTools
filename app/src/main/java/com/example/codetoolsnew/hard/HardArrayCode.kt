@@ -2691,7 +2691,8 @@ object HardArrayCode {
         for (length in 2 until MAX_CHAIN_LENGTH) {
             for (value in length..maxDim) {
                 comb[length][value] = combPrefix[length - 1][value - 1]
-                combPrefix[length][value] = (comb[length][value] + combPrefix[length][value - 1]) % MOD
+                combPrefix[length][value] =
+                    (comb[length][value] + combPrefix[length][value - 1]) % MOD
             }
         }
 
@@ -2824,5 +2825,95 @@ object HardArrayCode {
             }
         }
         return count
+    }
+
+    fun maxTaskAssign(tasks: IntArray, workers: IntArray, pills: Int, strength: Int): Int {
+        tasks.sort()
+        workers.sort()
+
+//        fun canFinish(k: Int): Boolean {
+//            var costPills = 0
+//            val map = TreeMap<Int, Int>()
+//            for (worker in workers) {
+//                map[worker] = map.getOrDefault(worker, 0) + 1
+//            }
+//            for (taskIndex in k - 1 downTo 0) {
+//                var key = map.ceilingKey(tasks[taskIndex])
+//                if (key != null) {
+//                    map[key] = map[key]!! - 1
+//                    if (map[key] == 0) map.remove(key)
+//                    continue
+//                }
+//                if (costPills == pills) return false
+//                key = map.ceilingKey(tasks[taskIndex] - strength)
+//                if (key != null) {
+//                    map[key] = map[key]!! - 1
+//                    if (map[key] == 0) map.remove(key)
+//                    costPills++
+//                } else {
+//                    return false
+//                }
+//            }
+//            return true
+//        }
+
+//        fun canFinish(k: Int): Boolean {
+//            val workerList = workers.toMutableList()
+//            var costPills = 0
+//            for (taskIndex in k - 1 downTo 0) {
+//                if (workerList.size == 0) return false
+//                if (workerList.last() >= tasks[taskIndex]) {
+//                    workerList.removeLast()
+//                } else if (costPills == pills || workerList.last() + strength < tasks[taskIndex]) {
+//                    return false
+//                } else {
+//                    var left = 0
+//                    var right = workerList.size - 1
+//                    while (left <= right) {
+//                        val mid = left + ((right - left) shr 1)
+//                        if (workerList[mid] + strength >= tasks[taskIndex]) {
+//                            left = mid + 1
+//                        } else {
+//                            right = mid - 1
+//                        }
+//                    }
+//                    workerList.removeAt(right)
+//                    if (++costPills > pills) return false
+//                }
+//            }
+//            return true
+//        }
+
+        fun canFinish(k: Int): Boolean {
+            val taskList = ArrayDeque<Int>()
+            var taskIndex = 0
+            var costPills = 0
+            for (workerIndex in workers.size - k until workers.size) {
+                val worker = workers[workerIndex]
+                while (taskIndex < k && worker + strength >= tasks[taskIndex]) {
+                    taskList.add(tasks[taskIndex++])
+                }
+                if (taskList.isEmpty()) return false
+                if (taskList[0] <= worker) {
+                    taskList.removeFirst()
+                } else {
+                    if (++costPills > pills) return false
+                    taskList.removeLast()
+                }
+            }
+            return true
+        }
+
+        var left = 0
+        var right = tasks.size
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            if (canFinish(mid)) {
+                left = mid + 1
+            } else {
+                right = mid - 1
+            }
+        }
+        return right
     }
 }
