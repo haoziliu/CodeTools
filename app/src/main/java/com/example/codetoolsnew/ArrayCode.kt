@@ -6137,4 +6137,35 @@ object ArrayCode {
         }
         return result
     }
+
+    fun pushDominoes(dominoes: String): String {
+        val status = dominoes.toCharArray()
+        var lastRight = -1
+        var lastLeft = -1
+        for (i in 0..status.size) {
+            if (i == status.size || status[i] == 'R') {
+                if (lastRight != -1) {
+                    for (j in lastRight + 1 until i) {
+                        status[j] = 'R'
+                    }
+                }
+                lastRight = i
+            } else if (status[i] == 'L') {
+                if (lastRight == -1) {
+                    for (j in lastLeft + 1 until i) {
+                        status[j] = 'L'
+                    }
+                } else {
+                    val distance = (i - lastRight - 1) shr 1
+                    for (step in 1..distance) {
+                        status[lastRight + step] = 'R'
+                        status[i - step] = 'L'
+                    }
+                    lastRight = -1
+                    lastLeft = i
+                }
+            }
+        }
+        return String(status)
+    }
 }
