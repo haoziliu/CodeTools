@@ -6140,32 +6140,58 @@ object ArrayCode {
 
     fun pushDominoes(dominoes: String): String {
         val status = dominoes.toCharArray()
-        var lastRight = -1
-        var lastLeft = -1
+        var last = -1
+        var pendingRight = false
         for (i in 0..status.size) {
             if (i == status.size || status[i] == 'R') {
-                if (lastRight != -1) {
-                    for (j in lastRight + 1 until i) {
+                if (pendingRight) {
+                    for (j in last + 1 until i) {
                         status[j] = 'R'
                     }
                 }
-                lastRight = i
+                last = i
+                pendingRight = true
             } else if (status[i] == 'L') {
-                if (lastRight == -1) {
-                    for (j in lastLeft + 1 until i) {
+                if (!pendingRight) {
+                    for (j in last + 1 until i) {
                         status[j] = 'L'
                     }
                 } else {
-                    val distance = (i - lastRight - 1) shr 1
+                    val distance = (i - last - 1) shr 1
                     for (step in 1..distance) {
-                        status[lastRight + step] = 'R'
+                        status[last + step] = 'R'
                         status[i - step] = 'L'
                     }
-                    lastRight = -1
-                    lastLeft = i
                 }
+                last = i
+                pendingRight = false
             }
         }
         return String(status)
+    }
+
+    fun minDominoRotations(tops: IntArray, bottoms: IntArray): Int {
+        val topFreq = IntArray(7)
+        val botFreq = IntArray(7)
+        val same = IntArray(7)
+        val n = tops.size
+        for (i in 0 until n) {
+            if (tops[i] == bottoms[i]) {
+                same[tops[i]]++
+            } else {
+                topFreq[tops[i]]++
+                botFreq[bottoms[i]]++
+            }
+        }
+        var result = n
+        var num = tops[0]
+        if (topFreq[num] + botFreq[num] + same[num] == n) {
+            result = minOf(result, topFreq[num], botFreq[num])
+        }
+        num = bottoms[0]
+        if (topFreq[num] + botFreq[num] + same[num] == n) {
+            result = minOf(result, topFreq[num], botFreq[num])
+        }
+        return if (result == n) -1 else result
     }
 }
