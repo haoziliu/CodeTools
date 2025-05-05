@@ -88,12 +88,12 @@ class ExampleUnitTest {
 //
 
 
-        println(
-            HardArrayCode.maxTaskAssign(intArrayOf(10,15,30), intArrayOf(0,10,10,10,10), 3,10)
-        )
 //        println(
-//            ArrayCode.minimumOperationsMakeDistinct(intArrayOf(1,2,3,4,2,3,3,5,7))
+//            HardArrayCode.maxTaskAssign(intArrayOf(10,15,30), intArrayOf(0,10,10,10,10), 3,10)
 //        )
+        println(
+            ArrayCode.numTilings(3)
+        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))

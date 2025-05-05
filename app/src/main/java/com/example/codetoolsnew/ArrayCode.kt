@@ -6194,4 +6194,29 @@ object ArrayCode {
         }
         return if (result == n) -1 else result
     }
+
+    fun numTilings(n: Int): Int {
+        val MODULO = 1_000_000_007
+        //        val dp = LongArray(n + 1)
+        //        dp[0] = 1L
+        //        for (i in 1..n) {
+        //            dp[i] = if (i == 1) 1L
+        //            else if (i == 2) 2L
+        //            else (dp[i - 1] * 2 + dp[i - 3]) % MODULO
+        //        }
+        //        return dp[n].toInt()
+
+        //  0  1  2
+        // oo ox oo
+        // ox oo oo
+        val dp = Array(n + 1) { LongArray(3) }
+        dp[0][2] = 1L
+        dp[1][2] = 1L
+        for (i in 2..n) {
+            dp[i][0] = (dp[i - 1][1] + dp[i - 2][2]) % MODULO
+            dp[i][1] = (dp[i - 1][0] + dp[i - 2][2]) % MODULO
+            dp[i][2] = (dp[i - 1][2] + dp[i - 2][2] + dp[i - 1][0] + dp[i - 1][1]) % MODULO
+        }
+        return dp[n][2].toInt()
+    }
 }
