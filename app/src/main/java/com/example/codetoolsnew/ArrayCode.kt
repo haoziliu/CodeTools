@@ -6219,4 +6219,34 @@ object ArrayCode {
         }
         return dp[n][2].toInt()
     }
+
+    fun buildArrayInPlace(nums: IntArray): IntArray {
+//        var tmp: Int
+//        var next: Int
+//        for (i in nums.indices) {
+//            next = i
+//            val first = nums[next]
+//            while (nums[next] >= 0) {
+//                tmp = nums[next]
+//                if (nums[nums[next]] < 0) {
+//                    nums[next] = -first - 1
+//                    break
+//                }
+//                nums[next] = -nums[nums[next]] - 1
+//                next = tmp
+//            }
+//        }
+//        for (i in nums.indices) {
+//            nums[i] = -(nums[i] + 1)
+//        }
+//        return nums
+        val n = nums.size
+        for (i in 0 until n) {
+            nums[i] += (nums[nums[i] % n] % n) * n
+        }
+        for (i in 0 until n) {
+            nums[i] /= n
+        }
+        return nums
+    }
 }
