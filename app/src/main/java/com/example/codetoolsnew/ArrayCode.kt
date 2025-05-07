@@ -6249,4 +6249,30 @@ object ArrayCode {
         }
         return nums
     }
+
+    fun minTimeToReach(moveTime: Array<IntArray>): Int {
+        val DIRECTIONS = arrayOf(1 to 0, -1 to 0, 0 to 1, 0 to -1)
+        val m = moveTime.size
+        val n = moveTime[0].size
+        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third } )
+        val minTime = Array(m) { IntArray(n) {Int.MAX_VALUE} }
+        pq.offer(Triple(0, 0, 0))
+        minTime[0][0] = 0
+        while (pq.isNotEmpty()) {
+            val (x, y, time) = pq.poll()!!
+            if (x == m - 1 && y == n - 1) return time
+            for ((dx, dy) in DIRECTIONS) {
+                val newX = x + dx
+                val newY = y + dy
+                if (newX in 0 until m && newY in 0 until n) {
+                    val newTime = maxOf(time + 1, moveTime[newX][newY] + 1)
+                    if (newTime < minTime[newX][newY]) {
+                        minTime[newX][newY] = newTime
+                        pq.offer(Triple(newX, newY, newTime))
+                    }
+                }
+            }
+        }
+        return 0
+    }
 }

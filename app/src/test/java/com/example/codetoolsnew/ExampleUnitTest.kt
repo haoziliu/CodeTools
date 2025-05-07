@@ -92,7 +92,7 @@ class ExampleUnitTest {
 //            HardArrayCode.maxTaskAssign(intArrayOf(10,15,30), intArrayOf(0,10,10,10,10), 3,10)
 //        )
         println(
-            ArrayCode.buildArrayInPlace(intArrayOf(5,0,1,2,3,4))
+            ArrayCode.minTimeToReach(parseToIntArray("[[0,4],[4,4]]"))
         )
 
 //        println(
