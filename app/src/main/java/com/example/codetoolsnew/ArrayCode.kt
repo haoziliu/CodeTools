@@ -6257,7 +6257,7 @@ object ArrayCode {
         val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third } )
         val minTime = Array(m) { IntArray(n) {Int.MAX_VALUE} }
         pq.offer(Triple(0, 0, 0))
-        minTime[0][0] = 0
+        minTime[0][0] = 0 // 或者使用visited，在入队就标记。不能在出队才标记。
         while (pq.isNotEmpty()) {
             val (x, y, time) = pq.poll()!!
             if (x == m - 1 && y == n - 1) return time
@@ -6270,6 +6270,33 @@ object ArrayCode {
                         minTime[newX][newY] = newTime
                         pq.offer(Triple(newX, newY, newTime))
                     }
+                }
+            }
+        }
+        return 0
+    }
+
+    fun minTimeToReachShiftCost(moveTime: Array<IntArray>): Int {
+        // cost shifting between 1 and 2
+        val DIRECTIONS = arrayOf(1 to 0, -1 to 0, 0 to 1, 0 to -1)
+        data class Node(val x: Int, val y: Int, val time: Int, val cost: Int)
+
+        val m = moveTime.size
+        val n = moveTime[0].size
+        val pq = PriorityQueue<Node>(compareBy { it.time })
+        val visited = Array(m) { BooleanArray(n) }
+        pq.offer(Node(0, 0, 0, 1))
+        visited[0][0] = true
+        while (pq.isNotEmpty()) {
+            val node = pq.poll()!!
+            if (node.x == m - 1 && node.y == n - 1) return node.time
+            for ((dx, dy) in DIRECTIONS) {
+                val newX = node.x + dx
+                val newY = node.y + dy
+                val newCost = if (node.cost == 1) 2 else 1
+                if (newX in 0 until m && newY in 0 until n && !visited[newX][newY]) {
+                    visited[newX][newY] = true
+                    pq.offer(Node(newX, newY, maxOf(node.time, moveTime[newX][newY]) + node.cost, newCost))
                 }
             }
         }
