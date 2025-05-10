@@ -2,6 +2,8 @@ package com.example.codetools
 
 import java.util.LinkedList
 import java.util.PriorityQueue
+import java.util.TreeMap
+import java.util.TreeSet
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -6301,5 +6303,30 @@ object ArrayCode {
             }
         }
         return 0
+    }
+
+    fun minOperations(nums: IntArray): Int {
+        val map = TreeMap<Int, MutableList<Int>>()
+        for (i in nums.indices) {
+            map.getOrPut(nums[i]) { mutableListOf() }.add(i + 1) // 1..n
+        }
+        val splits = TreeSet<Int>().apply {
+            add(0)
+            add(nums.size + 1)
+        }
+        var result = 0
+        while (map.isNotEmpty()) {
+            val (num, ids) = map.pollFirstEntry()!!
+            var lastStart = -1
+            for (id in ids) {
+                val start = splits.floor(id)
+                if (start != lastStart) {
+                    lastStart = start
+                    result++
+                }
+            }
+            splits.addAll(ids)
+        }
+        return result
     }
 }

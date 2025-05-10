@@ -293,7 +293,13 @@ object GraphCode {
         return result
     }
 
-    fun maxProbability(n: Int, edges: Array<IntArray>, succProb: DoubleArray, start_node: Int, end_node: Int): Double {
+    fun maxProbability(
+        n: Int,
+        edges: Array<IntArray>,
+        succProb: DoubleArray,
+        start_node: Int,
+        end_node: Int
+    ): Double {
 //        val graph = Array(n) { DoubleArray(n) }
 //        for (i in edges.indices) {
 //            graph[edges[i][0]][edges[i][1]] = succProb[i]
@@ -680,7 +686,7 @@ object GraphCode {
 
         val graph = Array(n - 1) { mutableListOf(it + 1) }
 
-        fun bfs() : Int {
+        fun bfs(): Int {
             val steps = IntArray(n) { Int.MAX_VALUE }
             steps[0] = 0
             val queue = LinkedList<Int>()
@@ -703,6 +709,39 @@ object GraphCode {
             graph[queries[i][0]].add(queries[i][1])
             result[i] = bfs()
         }
+        return result
+    }
+
+    fun maxWeight(n: Int, edges: Array<IntArray>, k: Int, t: Int): Int {
+        if (k == 0) return 0
+        val graph = Array(n) { mutableMapOf<Int, Int>() }
+        for ((u, v, w) in edges) {
+            graph[u][v] = w
+        }
+        var result = -1
+        val memo = Array(n) { Array(k + 1) { mutableMapOf<Int, Int>() } }
+
+        fun dfs(index: Int, edgeCount: Int, sum: Int): Int {
+            if (edgeCount == k) {
+                return if (sum < t) sum else -1
+            }
+            if (sum in memo[index][edgeCount]) {
+                return memo[index][edgeCount][sum]!!
+            }
+            var weightSum = -1
+            for ((neighbour, weight) in graph[index]) {
+                val newSum = sum + weight
+                if (newSum >= t) continue
+                weightSum = maxOf(weightSum, dfs(neighbour, edgeCount + 1, newSum))
+            }
+            memo[index][edgeCount][sum] = weightSum
+            return weightSum
+        }
+
+        for (i in 0 until n) {
+            result = maxOf(result, dfs(i, 0, 0))
+        }
+
         return result
     }
 }

@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.GraphCode
 import com.example.codetools.TreeCode
 import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
@@ -92,7 +93,7 @@ class ExampleUnitTest {
 //            HardArrayCode.maxTaskAssign(intArrayOf(10,15,30), intArrayOf(0,10,10,10,10), 3,10)
 //        )
         println(
-            ArrayCode.minTimeToReachShiftCost(parseToIntArray("[[0,4],[4,4]]"))
+            ArrayCode.minOperations(intArrayOf(0,2))
         )
 
 //        println(
@@ -107,8 +108,7 @@ class ExampleUnitTest {
 //        println(MathCode.separateSquares(parseToIntArray("[[522261215,954313664,461744743],[628661372,718610752,21844764],[619734768,941310679,91724451],[352367502,656774918,591943726],[860247066,905800565,853111524],[817098516,868361139,817623995],[580894327,654069233,691552059],[182377086,256660052,911357],[151104008,908768329,890809906],[983970552,992192635,462847045]]")))
 
 //        println(
-//            GraphCode.findChampion(4, parseToIntArray("[[0,2],[1,3],[1,2]]")
-//            )
+//            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)
 //        )
 
 //        println(MatrixCode.sortMatrix(parseToIntArray("[[1,7,3],[9,8,2],[4,5,6]]")))
