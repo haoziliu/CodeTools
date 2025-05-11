@@ -6306,9 +6306,9 @@ object ArrayCode {
     }
 
     fun minOperations(nums: IntArray): Int {
-        val map = TreeMap<Int, MutableList<Int>>()
+        val map = TreeMap<Int, LinkedList<Int>>()
         for (i in nums.indices) {
-            map.getOrPut(nums[i]) { mutableListOf() }.add(i + 1) // 1..n
+            map.getOrPut(nums[i]) { LinkedList() }.addFirst(i + 1) // 1..n
         }
         val splits = TreeSet<Int>().apply {
             add(0)
@@ -6324,8 +6324,8 @@ object ArrayCode {
                     lastStart = start
                     result++
                 }
+                splits.add(id)
             }
-            splits.addAll(ids)
         }
         return result
     }
