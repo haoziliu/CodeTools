@@ -10,6 +10,7 @@ import kotlin.math.min
 
 
 object ArrayCode {
+    private val MODULO = 1_000_000_007
 
     fun twoSum(nums: IntArray, target: Int): IntArray {
 //        for (i in nums.indices) {
@@ -5234,16 +5235,15 @@ object ArrayCode {
     }
 
     fun numOfSubarrays(arr: IntArray): Int {
-        val MOD = 1_000_000_007
         var result = 0
         var oddCount = 0
         var prefix = 0
         for (i in arr.indices) {
             prefix = (prefix + arr[i]) % 2
             if (prefix == 0) {
-                result = (result + oddCount) % MOD
+                result = (result + oddCount) % MODULO
             } else {
-                result = (result + 1 + i - oddCount) % MOD
+                result = (result + 1 + i - oddCount) % MODULO
                 oddCount++
             }
         }
@@ -5759,7 +5759,6 @@ object ArrayCode {
     }
 
     fun countPairsSumPowersOfTwo(deliciousness: IntArray): Int {
-        val MODULO = 1_000_000_007
         val freq = mutableMapOf<Int, Int>()
         var maxNum = 0
         for (num in deliciousness) {
@@ -6198,7 +6197,6 @@ object ArrayCode {
     }
 
     fun numTilings(n: Int): Int {
-        val MODULO = 1_000_000_007
         //        val dp = LongArray(n + 1)
         //        dp[0] = 1L
         //        for (i in 1..n) {

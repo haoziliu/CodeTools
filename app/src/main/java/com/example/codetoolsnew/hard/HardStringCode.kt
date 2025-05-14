@@ -5,6 +5,7 @@ import kotlin.math.abs
 import kotlin.math.pow
 
 object HardStringCode {
+    private val MODULO = 1_000_000_007
 
     fun findRotateSteps(ring: String, key: String): Int {
         //abcdefgxxxxxxgcbxx
@@ -753,7 +754,6 @@ object HardStringCode {
     }
 
     fun numWays(words: Array<String>, target: String): Int {
-        val MODULO = 1_000_000_007
         val wordLength = words[0].length
         val targetLength = target.length
         val freq = Array(wordLength) { IntArray(26) }

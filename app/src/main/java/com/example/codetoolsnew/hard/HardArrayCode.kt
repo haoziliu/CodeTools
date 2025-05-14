@@ -11,6 +11,7 @@ import kotlin.math.min
 
 
 object HardArrayCode {
+    private val MODULO = 1_000_000_007
 
     fun firstMissingPositive(nums: IntArray): Int {
         // [1,2,-1] -> 3
@@ -2417,7 +2418,6 @@ object HardArrayCode {
     }
 
     fun maximumScore(nums: List<Int>, k: Int): Int {
-        val MODULO = 1_000_000_007
         val n = nums.size
         var maxNum = 0
         for (num in nums) {
@@ -2671,7 +2671,6 @@ object HardArrayCode {
     }
 
     fun countIdealArrays(n: Int, maxValue: Int): Int {
-        val MOD = 1_000_000_007
         val MAX_CHAIN_LENGTH = 15
         val maxDim = maxOf(n, maxValue)
 
@@ -2692,7 +2691,7 @@ object HardArrayCode {
             for (value in length..maxDim) {
                 comb[length][value] = combPrefix[length - 1][value - 1]
                 combPrefix[length][value] =
-                    (comb[length][value] + combPrefix[length][value - 1]) % MOD
+                    (comb[length][value] + combPrefix[length][value - 1]) % MODULO
             }
         }
 
@@ -2714,7 +2713,7 @@ object HardArrayCode {
         // 累加结果：每条长度为 k 的链，有 C(n-1, k-1) 种插空方式
         var result = 0L
         for (length in 1 until MAX_CHAIN_LENGTH) {
-            result = (result + chainCountByLength[length] * comb[length][n] % MOD) % MOD
+            result = (result + chainCountByLength[length] * comb[length][n] % MODULO) % MODULO
         }
 
         return result.toInt()

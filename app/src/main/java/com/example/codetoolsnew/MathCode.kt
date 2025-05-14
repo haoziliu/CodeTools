@@ -6,6 +6,8 @@ import kotlin.math.abs
 import kotlin.math.sqrt
 
 object MathCode {
+    private val MODULO = 1_000_000_007
+
     fun isPalindrome(x: Int): Boolean {
         if (x < 0) return false
 //        val s = x.toString()
@@ -568,7 +570,6 @@ object MathCode {
     }
 
     fun modPow(base: Long, exponent: Long): Long {
-        val MODULO = 1_000_000_007
         var result = 1L
         var b = base % MODULO
         var exp = exponent

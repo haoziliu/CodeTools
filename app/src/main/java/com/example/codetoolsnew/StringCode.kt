@@ -6,6 +6,8 @@ import kotlin.math.abs
 import kotlin.math.max
 
 object StringCode {
+    private val MODULO = 1_000_000_007
+
     fun longestCommonPrefix(strs: Array<String>): String {
         //        if (strs.isEmpty()) return ""
         //        var prefix = strs[0]
@@ -1766,7 +1768,6 @@ object StringCode {
     }
 
     fun countGoodStrings(low: Int, high: Int, zero: Int, one: Int): Int {
-        val MODULO = 1_000_000_007
         var count = 0
         val dp = IntArray(high + 1)
         dp[0] = 1
@@ -1914,5 +1915,26 @@ object StringCode {
             }
         }
         return dp[0]
+    }
+
+    fun lengthAfterTransformations(s: String, t: Int): Int {
+        val freq = IntArray(26)
+        for (c in s) {
+            freq[c - 'a']++
+        }
+
+        repeat (t) {
+            val zCount = freq[25]
+            System.arraycopy(freq, 0, freq, 1, 25)
+            freq[0] = zCount
+            freq[1] = (freq[1] + zCount) % MODULO
+        }
+
+        var sum = 0
+        for (i in 0 until 26) {
+            sum = (sum + freq[i]) % MODULO
+        }
+
+        return sum
     }
 }
