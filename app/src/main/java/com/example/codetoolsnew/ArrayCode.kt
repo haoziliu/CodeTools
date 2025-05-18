@@ -6254,8 +6254,8 @@ object ArrayCode {
         val DIRECTIONS = arrayOf(1 to 0, -1 to 0, 0 to 1, 0 to -1)
         val m = moveTime.size
         val n = moveTime[0].size
-        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third } )
-        val minTime = Array(m) { IntArray(n) {Int.MAX_VALUE} }
+        val pq = PriorityQueue<Triple<Int, Int, Int>>(compareBy { it.third })
+        val minTime = Array(m) { IntArray(n) { Int.MAX_VALUE } }
         pq.offer(Triple(0, 0, 0))
         minTime[0][0] = 0 // 或者使用visited，在入队就标记。不能在出队才标记。
         while (pq.isNotEmpty()) {
@@ -6279,6 +6279,7 @@ object ArrayCode {
     fun minTimeToReachShiftCost(moveTime: Array<IntArray>): Int {
         // cost shifting between 1 and 2
         val DIRECTIONS = arrayOf(1 to 0, -1 to 0, 0 to 1, 0 to -1)
+
         data class Node(val x: Int, val y: Int, val time: Int, val cost: Int)
 
         val m = moveTime.size
@@ -6296,7 +6297,14 @@ object ArrayCode {
                 val newCost = if (node.cost == 1) 2 else 1
                 if (newX in 0 until m && newY in 0 until n && !visited[newX][newY]) {
                     visited[newX][newY] = true
-                    pq.offer(Node(newX, newY, maxOf(node.time, moveTime[newX][newY]) + node.cost, newCost))
+                    pq.offer(
+                        Node(
+                            newX,
+                            newY,
+                            maxOf(node.time, moveTime[newX][newY]) + node.cost,
+                            newCost
+                        )
+                    )
                 }
             }
         }
@@ -6325,6 +6333,47 @@ object ArrayCode {
                 splits.add(id)
             }
         }
+        return result
+    }
+
+    fun getWordsInLongestSubsequence(words: Array<String>, groups: IntArray): List<String> {
+
+        fun isValid(word1: String, word2: String): Boolean {
+            if (word1.length != word2.length) return false
+            var distance = 0
+            for (i in word1.indices) {
+                if (word1[i] != word2[i]) {
+                    if (++distance > 1) return false
+                }
+            }
+            return true
+        }
+
+        val n = words.size
+        val count = IntArray(n) { 1 }
+        val previous = IntArray(n) { it }
+        var maxCount = 1
+        var tail = 0
+        for (i in 1 until n) {
+            for (j in 0 until i) {
+                if (groups[j] != groups[i] && isValid(words[j], words[i])) {
+                    if (count[j] + 1 > count[i]) {
+                        count[i] = count[j] + 1
+                        previous[i] = j
+                    }
+                }
+            }
+            if (count[i] > maxCount) {
+                maxCount = count[i]
+                tail = i
+            }
+        }
+        val result = mutableListOf<String>()
+        while (previous[tail] != tail) {
+            result.add(0, words[tail])
+            tail = previous[tail]
+        }
+        result.add(0, words[tail])
         return result
     }
 }

@@ -2915,4 +2915,66 @@ object HardArrayCode {
         }
         return right
     }
+
+    fun colorTheGrid(m: Int, n: Int): Int {
+        // 1. 计算 3^m
+        var maxMask = 1
+        repeat(m) { maxMask *= 3 }
+
+        // 2. 生成所有列内合法的状态（上下不相同）
+        val states = mutableListOf<Int>()
+        for (mask in 0 until maxMask) {
+            var tmp = mask
+            var prevColor = -1
+            var valid = true
+            for (i in 0 until m) {
+                val color = tmp % 3
+                tmp /= 3
+                if (color == prevColor) {
+                    valid = false
+                    break
+                }
+                prevColor = color
+            }
+            if (valid) states.add(mask)
+        }
+        val S = states.size
+
+        // 3. 预处理列间兼容性：同一行颜色不能相同
+        val compatible = Array(S) { BooleanArray(S) }
+        for (i in 0 until S) {
+            for (j in 0 until S) {
+                var a = states[i]
+                var b = states[j]
+                var okPair = true
+                for (k in 0 until m) {
+                    if (a % 3 == b % 3) {
+                        okPair = false
+                        break
+                    }
+                    a /= 3
+                    b /= 3
+                }
+                compatible[i][j] = okPair
+            }
+        }
+
+        // 4. 列 DP
+        var previous = LongArray(S) { 1L } // 第一列每个状态都只有 1 种方式
+        repeat(n - 1) {
+            val current = LongArray(S)
+            for (j in 0 until S) {
+                for (i in 0 until S) {
+                    if (compatible[i][j]) {
+                        current[j] = (current[j] + previous[i]) % MODULO
+                    }
+                }
+            }
+            previous = current
+        }
+
+        // 5. 汇总结果
+        return (previous.sum() % MODULO).toInt()
+    }
+
 }
