@@ -1,9 +1,6 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
-import com.example.codetools.GraphCode
-import com.example.codetools.TreeCode
-import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -89,12 +86,12 @@ class ExampleUnitTest {
 //
 
 
-        println(
-            HardArrayCode.colorTheGrid(2, 2)
-        )
 //        println(
-//            ArrayCode.minOperations(intArrayOf(0,2))
+//            HardArrayCode.colorTheGrid(2, 2)
 //        )
+        println(
+            ArrayCode.minZeroArrayApplyExactlyToSubset(intArrayOf(8), parseToIntArray("[[0,0,9],[0,0,9],[0,0,1],[0,0,6],[0,0,1]]"))
+        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))

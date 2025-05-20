@@ -6376,4 +6376,39 @@ object ArrayCode {
         result.add(0, words[tail])
         return result
     }
+
+    fun minZeroArrayApplyExactlyToSubset(nums: IntArray, queries: Array<IntArray>): Int {
+        // queries: [[0,2,1],[0,2,1],[1,1,3]]
+        var result = -1
+        for (i in nums.indices) {
+            val target = nums[i]
+            if (target == 0) {
+                result = maxOf(result, 0)
+                continue
+            }
+            val canReach = BooleanArray(target + 1)
+            canReach[0] = true
+            for (index in queries.indices) {
+                val (l, r, v) = queries[index]
+                if (i !in l..r) continue
+                if (target >= v) {
+                    canReach[target] = canReach[target - v]
+                }
+                if (canReach[target]) {
+                    result = maxOf(result, index + 1)
+                    break
+                } else {
+                    for (num in target - 1 downTo v) {
+                        if (!canReach[num]) {
+                            canReach[num] = canReach[num - v]
+                        }
+                    }
+                }
+            }
+            if (!canReach[target]) {
+                return -1
+            }
+        }
+        return result
+    }
 }
