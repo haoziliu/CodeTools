@@ -6411,4 +6411,35 @@ object ArrayCode {
         }
         return result
     }
+
+    fun maxRemovalToMakeZero(nums: IntArray, queries: Array<IntArray>): Int {
+        // 3362. zero-array-transformation-iii
+        val leftPQ = PriorityQueue<IntArray>(compareBy{ it[0]} )
+        for (query in queries) {
+            leftPQ.offer(query)
+        }
+        val rightPQ = PriorityQueue<IntArray>(compareByDescending{ it[1]} )
+        var skipped = 0
+        val diff = IntArray(nums.size + 1)
+        var prefix = 0
+        for (i in nums.indices) {
+            while (leftPQ.isNotEmpty() && leftPQ.peek()!![0] <= i) {
+                rightPQ.offer(leftPQ.poll()!!)
+            }
+            prefix += diff[i]
+            var target = nums[i] - prefix
+            while (target > 0) {
+                if (rightPQ.isEmpty()) return -1
+                val (_, r) = rightPQ.poll()!!
+                if (r < i) {
+                    skipped++
+                } else {
+                    diff[r + 1]--
+                    target--
+                    prefix++
+                }
+            }
+        }
+        return rightPQ.size + skipped
+    }
 }

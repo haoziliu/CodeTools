@@ -90,7 +90,7 @@ class ExampleUnitTest {
 //            HardArrayCode.colorTheGrid(2, 2)
 //        )
         println(
-            ArrayCode.minZeroArrayApplyExactlyToSubset(intArrayOf(8), parseToIntArray("[[0,0,9],[0,0,9],[0,0,1],[0,0,6],[0,0,1]]"))
+            ArrayCode.maxRemovalToMakeZero(intArrayOf(0,0,3), parseToIntArray("[[0,2],[1,1],[0,0],[0,0]]"))
         )
 
 //        println(
