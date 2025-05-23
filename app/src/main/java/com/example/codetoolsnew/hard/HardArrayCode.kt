@@ -363,6 +363,30 @@ object HardArrayCode {
     }
 
     fun maximumXORValueSum(nums: IntArray, k: Int, edges: Array<IntArray>): Long {
+        //        // better solution
+        //        var isFlippedOdd = false
+        //        var flippedMinDiff = Int.MAX_VALUE // flipped > original, minimum delta
+        //        var unFlippedMinDiff = Int.MAX_VALUE // flipped < original, minimum abs delta
+        //        var sum = 0L
+        //
+        //        for (num in nums) {
+        //            val flipped = num xor k
+        //            val newDiff = flipped - num
+        //            if (flipped > num) {
+        //                isFlippedOdd = !isFlippedOdd
+        //                sum += flipped
+        //                flippedMinDiff = minOf(flippedMinDiff, flipped - num)
+        //            } else {
+        //                sum += num
+        //                unFlippedMinDiff = minOf(unFlippedMinDiff, num - flipped)
+        //            }
+        //        }
+        //        if (isFlippedOdd) {
+        //            return sum - minOf(flippedMinDiff, unFlippedMinDiff)
+        //        } else {
+        //            return sum
+        //        }
+
         var isFlippedOdd = false
         var flippedMinDiff = Int.MAX_VALUE // flipped > original, minimum delta
         var indexOfFlippedMinDiff = -1
