@@ -6442,4 +6442,32 @@ object ArrayCode {
         }
         return rightPQ.size + skipped
     }
+
+    fun longestPalindrome(words: Array<String>): Int {
+        // 2131.Longest Palindrome by Concatenating Two Letter Words
+        val freq = IntArray(26 * 26)
+        var doubleCount = 0
+        var result = 0
+        for (word in words) {
+            val code = (word[0] - 'a') * 26 + (word[1] - 'a')
+            val reverse = (word[1] - 'a') * 26 + (word[0] - 'a')
+            if (freq[reverse] > 0) {
+                result += 4
+                freq[reverse]--
+                if (code == reverse) {
+                    doubleCount--
+                }
+            } else {
+                freq[code]++
+                if (code == reverse) {
+                    doubleCount++
+                }
+            }
+        }
+        return if (doubleCount > 0) {
+            result + 2
+        } else {
+            result
+        }
+    }
 }
