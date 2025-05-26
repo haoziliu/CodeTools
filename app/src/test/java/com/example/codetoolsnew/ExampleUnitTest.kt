@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -86,12 +87,12 @@ class ExampleUnitTest {
 //
 
 
-//        println(
-//            HardArrayCode.colorTheGrid(2, 2)
-//        )
         println(
-            ArrayCode.maxRemovalToMakeZero(intArrayOf(0,0,3), parseToIntArray("[[0,2],[1,1],[0,0],[0,0]]"))
+            HardArrayCode.largestPathValue("hhqhuqhqff", parseToIntArray("[[0,1],[0,2],[2,3],[3,4],[3,5],[5,6],[2,7],[6,7],[7,8],[3,8],[5,8],[8,9],[3,9],[6,9]]"))
         )
+//        println(
+//            ArrayCode.maxRemovalToMakeZero(intArrayOf(0,0,3), parseToIntArray("[[0,2],[1,1],[0,0],[0,0]]"))
+//        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))

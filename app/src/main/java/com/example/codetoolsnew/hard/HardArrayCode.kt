@@ -3001,4 +3001,38 @@ object HardArrayCode {
         return (previous.sum() % MODULO).toInt()
     }
 
+    fun largestPathValue(colors: String, edges: Array<IntArray>): Int {
+        val n = colors.length
+        val inDegree = IntArray(n)
+        val graph = Array(n) { mutableListOf<Int>() }
+        for ((u, v) in edges) {
+            graph[u].add(v)
+            inDegree[v]++
+        }
+        var processed = 0
+        val dp = Array(n) { IntArray(26) } // arrived at i, color j's max count
+        val queue = LinkedList<Int>()
+        for (i in 0 until n) {
+            if (inDegree[i] == 0) {
+                queue.offer(i)
+                dp[i][colors[i] - 'a'] = 1
+            }
+        }
+        var result = 1
+        while (queue.isNotEmpty()) {
+            val node = queue.poll()!!
+            processed++
+            for (next in graph[node]) {
+                val nextColor = colors[next] - 'a'
+                for (color in 0 until 26) {
+                    dp[next][color] = maxOf(dp[next][color], dp[node][color] + if (color == nextColor) 1 else 0)
+                    result = maxOf(result, dp[next][color])
+                }
+                if (--inDegree[next] == 0) {
+                    queue.offer(next)
+                }
+            }
+        }
+        return if (processed == n) result else -1
+    }
 }
