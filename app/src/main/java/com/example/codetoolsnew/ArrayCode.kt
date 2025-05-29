@@ -6470,4 +6470,44 @@ object ArrayCode {
             result
         }
     }
+
+    fun maxTargetNodes(edges1: Array<IntArray>, edges2: Array<IntArray>, k: Int): IntArray {
+        // 3372 maximize-the-number-of-target-nodes-after-connecting-trees-i
+        val n = edges1.size + 1
+        val graph1 = Array(n) { mutableListOf<Int>() }
+        for ((u, v) in edges1) {
+            graph1[u].add(v)
+            graph1[v].add(u)
+        }
+        val m = edges2.size + 1
+        val graph2 = Array(m) { mutableListOf<Int>() }
+        for ((u, v) in edges2) {
+            graph2[u].add(v)
+            graph2[v].add(u)
+        }
+
+        fun dfs(index: Int, parent: Int, graph: Array<MutableList<Int>>, depth: Int, target: Int): Int {
+            if (depth > target) {
+                return 0
+            } else if (depth == target) {
+                return 1
+            } else {
+                var count = 1
+                for (next in graph[index]) {
+                    if (next != parent) {
+                        count += dfs(next, index, graph, depth + 1, target)
+                    }
+                }
+                return count
+            }
+        }
+
+        var maxCount2 = 0
+        for (i in 0 until m) {
+            maxCount2  = maxOf(maxCount2, dfs(i, -1, graph2, 0, k - 1))
+        }
+        return IntArray(n) {
+            dfs(it, -1, graph1, 0, k) + maxCount2
+        }
+    }
 }
