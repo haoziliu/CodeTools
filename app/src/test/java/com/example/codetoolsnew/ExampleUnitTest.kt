@@ -91,7 +91,7 @@ class ExampleUnitTest {
 //            HardArrayCode.largestPathValue("hhqhuqhqff", parseToIntArray("[[0,1],[0,2],[2,3],[3,4],[3,5],[5,6],[2,7],[6,7],[7,8],[3,8],[5,8],[8,9],[3,9],[6,9]]"))
 //        )
         println(
-            ArrayCode.maxTargetNodes(parseToIntArray("[[0,1],[0,2],[2,3],[2,4]]"), parseToIntArray("[[0,1],[0,2],[0,3],[2,7],[1,4],[4,5],[4,6]]"), 2)
+            ArrayCode.closestMeetingNode(intArrayOf(1,2,3,4,5,6,7,0), 3, 1)
         )
 
 //        println(

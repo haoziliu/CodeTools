@@ -6414,11 +6414,11 @@ object ArrayCode {
 
     fun maxRemovalToMakeZero(nums: IntArray, queries: Array<IntArray>): Int {
         // 3362. zero-array-transformation-iii
-        val leftPQ = PriorityQueue<IntArray>(compareBy{ it[0]} )
+        val leftPQ = PriorityQueue<IntArray>(compareBy { it[0] })
         for (query in queries) {
             leftPQ.offer(query)
         }
-        val rightPQ = PriorityQueue<IntArray>(compareByDescending{ it[1]} )
+        val rightPQ = PriorityQueue<IntArray>(compareByDescending { it[1] })
         var skipped = 0
         val diff = IntArray(nums.size + 1)
         var prefix = 0
@@ -6486,7 +6486,13 @@ object ArrayCode {
             graph2[v].add(u)
         }
 
-        fun dfs(index: Int, parent: Int, graph: Array<MutableList<Int>>, depth: Int, target: Int): Int {
+        fun dfs(
+            index: Int,
+            parent: Int,
+            graph: Array<MutableList<Int>>,
+            depth: Int,
+            target: Int
+        ): Int {
             if (depth > target) {
                 return 0
             } else if (depth == target) {
@@ -6504,10 +6510,43 @@ object ArrayCode {
 
         var maxCount2 = 0
         for (i in 0 until m) {
-            maxCount2  = maxOf(maxCount2, dfs(i, -1, graph2, 0, k - 1))
+            maxCount2 = maxOf(maxCount2, dfs(i, -1, graph2, 0, k - 1))
         }
         return IntArray(n) {
             dfs(it, -1, graph1, 0, k) + maxCount2
         }
+    }
+
+    fun closestMeetingNode(edges: IntArray, node1: Int, node2: Int): Int {
+        val n = edges.size
+        val dist1 = IntArray(n) { -1 }
+        var distance = 0
+        var current = node1
+        while (current != -1 && dist1[current] == -1) {
+            dist1[current] = distance
+            current = edges[current]
+            distance++
+        }
+
+        val dist2 = IntArray(n) { -1 }
+        distance = 0
+        current = node2
+        while (current != -1 && dist2[current] == -1) {
+            dist2[current] = distance
+            current = edges[current]
+            distance++
+        }
+
+        var result = -1
+        var minDist = n
+        for (i in 0 until n) {
+            if (dist1[i] == -1 || dist2[i] == -1) continue
+            val bigger = maxOf(dist1[i], dist2[i])
+            if (bigger < minDist) {
+                minDist = bigger
+                result = i
+            }
+        }
+        return result
     }
 }
