@@ -6517,6 +6517,78 @@ object ArrayCode {
         }
     }
 
+    fun maxTargetNodes(edges1: Array<IntArray>, edges2: Array<IntArray>): IntArray {
+        // 3373 maximize-the-number-of-target-nodes-after-connecting-trees-ii
+        val n = edges1.size + 1
+        val graph1 = Array(n) { mutableListOf<Int>() }
+        for ((u, v) in edges1) {
+            graph1[u].add(v)
+            graph1[v].add(u)
+        }
+        val m = edges2.size + 1
+        val graph2 = Array(m) { mutableListOf<Int>()}
+        for ((u, v) in edges2) {
+            graph2[u].add(v)
+            graph2[v].add(u)
+        }
+        val queue = LinkedList<Pair<Int, Int>>()
+        queue.offer(0 to -1)
+        var depth = 0
+        var oddSum = 0
+        var evenSum = 0
+        while (queue.isNotEmpty()) {
+            val levelSize = queue.size
+            if (depth % 2 == 0) {
+                evenSum += levelSize
+            } else {
+                oddSum += levelSize
+            }
+            repeat(levelSize) {
+                val (node, previous) = queue.poll()!!
+                for (next in graph2[node]) {
+                    if (next == previous) continue
+                    queue.offer(next to node)
+                }
+            }
+            depth++
+        }
+        val maxGain2 = maxOf(evenSum, oddSum)
+
+        val result = IntArray(n)
+        val depthEven = BooleanArray(n)
+        queue.offer(0 to -1)
+        depth = 0
+        evenSum = 0
+        oddSum = 0
+        while (queue.isNotEmpty()) {
+            val levelSize = queue.size
+            val currentDepthEven = depth % 2 == 0
+            if (currentDepthEven) {
+                evenSum += levelSize
+            } else {
+                oddSum += levelSize
+            }
+            repeat(levelSize) {
+                val (node, previous) = queue.poll()!!
+                depthEven[node] = currentDepthEven
+                for (next in graph1[node]) {
+                    if (next == previous) continue
+                    queue.offer(next to node)
+                }
+            }
+            depth++
+        }
+
+        for (i in 0 until n) {
+            result[i] = if (depthEven[i]) {
+                evenSum + maxGain2
+            } else {
+                oddSum + maxGain2
+            }
+        }
+        return result
+    }
+
     fun closestMeetingNode(edges: IntArray, node1: Int, node2: Int): Int {
         val n = edges.size
         val dist1 = IntArray(n) { -1 }
