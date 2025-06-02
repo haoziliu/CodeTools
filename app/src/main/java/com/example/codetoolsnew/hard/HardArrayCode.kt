@@ -582,18 +582,22 @@ object HardArrayCode {
 
     fun candy(ratings: IntArray): Int {
         // at least 1; higher rating get more than neighbors
-        val candies = IntArray(ratings.size) { 1 }
-        for (i in 1..ratings.lastIndex) {
+        val n = ratings.size
+        if (n == 1) return 1
+        val candies = IntArray(n) { 1 }
+        for (i in 1 until n) {
             if (ratings[i] > ratings[i - 1]) {
                 candies[i] = candies[i - 1] + 1
             }
         }
-        for (i in ratings.lastIndex - 1 downTo 0) {
+        var result = ratings[n - 1]
+        for (i in n - 2 downTo 0) {
             if (ratings[i] > ratings[i + 1]) {
                 candies[i] = maxOf(candies[i], candies[i + 1] + 1)
             }
+            result += candies[i]
         }
-        return candies.sum()
+        return result
     }
 
     fun survivedRobotsHealths(
