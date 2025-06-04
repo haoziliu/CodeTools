@@ -1937,4 +1937,28 @@ object StringCode {
 
         return sum
     }
+
+    fun maximumSplitString(word: String, numFriends: Int): String {
+        // 3403 find-the-lexicographically-largest-string-from-the-box-i
+        if (numFriends == 1) return word
+        val targetLength = word.length - numFriends + 1
+        val sb = StringBuilder()
+        var ans = ""
+        for (end in word.indices) {
+            sb.append(word[end])
+            if (sb.length > targetLength) {
+                sb.deleteCharAt(0)
+            }
+            if (sb.toString() > ans) {
+                ans = sb.toString()
+            }
+        }
+        while (sb.isNotEmpty()) {
+            sb.deleteCharAt(0)
+            if (sb.toString() > ans) {
+                ans = sb.toString()
+            }
+        }
+        return ans
+    }
 }
