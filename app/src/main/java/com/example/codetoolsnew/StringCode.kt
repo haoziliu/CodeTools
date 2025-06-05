@@ -1714,7 +1714,7 @@ object StringCode {
 //        }
 //        return longest
 
-        fun isValid(length: Int) : Boolean {
+        fun isValid(length: Int): Boolean {
             val count = IntArray(26)
             var start = 0
             for (end in s.indices) {
@@ -1923,7 +1923,7 @@ object StringCode {
             freq[c - 'a']++
         }
 
-        repeat (t) {
+        repeat(t) {
             val zCount = freq[25]
             System.arraycopy(freq, 0, freq, 1, 25)
             freq[0] = zCount
@@ -1960,5 +1960,38 @@ object StringCode {
             }
         }
         return ans
+    }
+
+    fun smallestEquivalentString(s1: String, s2: String, baseStr: String): String {
+        // 1061 lexicographically-smallest-equivalent-string
+        val parent = IntArray(26) { it }
+
+        fun find(x: Int): Int {
+            if (parent[x] != x) {
+                parent[x] = find(parent[x])
+            }
+            return parent[x]
+        }
+
+        fun union(x: Int, y: Int) {
+            val rootX = find(x)
+            val rootY = find(y)
+            if (rootX != rootY) {
+                if (rootX < rootY) {
+                    parent[rootY] = rootX
+                } else {
+                    parent[rootX] = rootY
+                }
+            }
+        }
+
+        for (i in s1.indices) {
+            union(s1[i] - 'a', s2[i] - 'a')
+        }
+        val charArray = CharArray(baseStr.length)
+        for (i in baseStr.indices) {
+            charArray[i] = 'a' + find(baseStr[i] - 'a')
+        }
+        return String(charArray)
     }
 }
