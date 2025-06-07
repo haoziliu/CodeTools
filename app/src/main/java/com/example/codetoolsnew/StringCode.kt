@@ -1,7 +1,9 @@
 package com.example.codetools
 
-import java.util.*
-import kotlin.collections.ArrayDeque
+import java.util.LinkedList
+import java.util.PriorityQueue
+import java.util.Stack
+import java.util.TreeMap
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -1993,5 +1995,31 @@ object StringCode {
             charArray[i] = 'a' + find(baseStr[i] - 'a')
         }
         return String(charArray)
+    }
+
+    fun clearStars(s: String): String {
+        // 3170 lexicographically-minimum-string-after-removing-stars
+        val deleteMark = BooleanArray(s.length)
+        val letters = Array(26) { ArrayDeque<Int>() }
+        for (i in s.indices) {
+            if (s[i] == '*') {
+                for (letter in 0 until 26) {
+                    if (letters[letter].isNotEmpty()) {
+                        deleteMark[i] = true
+                        deleteMark[letters[letter].removeLast()] = true
+                        break
+                    }
+                }
+            } else {
+                letters[s[i] - 'a'].addLast(i)
+            }
+        }
+        val sb = StringBuilder()
+        for (i in s.indices) {
+            if (!deleteMark[i]) {
+                sb.append(s[i])
+            }
+        }
+        return sb.toString()
     }
 }
