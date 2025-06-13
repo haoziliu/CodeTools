@@ -6526,7 +6526,7 @@ object ArrayCode {
             graph1[v].add(u)
         }
         val m = edges2.size + 1
-        val graph2 = Array(m) { mutableListOf<Int>()}
+        val graph2 = Array(m) { mutableListOf<Int>() }
         for ((u, v) in edges2) {
             graph2[u].add(v)
             graph2[v].add(u)
@@ -6620,5 +6620,37 @@ object ArrayCode {
             }
         }
         return result
+    }
+
+    fun minimizeMaxDiffInPairs(nums: IntArray, p: Int): Int {
+        val n = nums.size
+        if (n == 1 || p == 0) return 0
+        nums.sort()
+
+        fun valid(maxDiff: Int): Boolean {
+            var validCount = 0
+            var index = 1
+            while (index < n) {
+                if (nums[index] - nums[index - 1] <= maxDiff) {
+                    if (++validCount == p) return true
+                    index += 2
+                } else {
+                    index++
+                }
+            }
+            return false
+        }
+
+        var left = 0
+        var right = 1_000_000_000
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            if (valid(mid)) {
+                right = mid - 1
+            } else {
+                left = mid + 1
+            }
+        }
+        return left
     }
 }

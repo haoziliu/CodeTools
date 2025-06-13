@@ -1,7 +1,9 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.TreeCode
 import com.example.codetools.hard.HardArrayCode
+import com.example.codetools.hard.HardStringCode
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -91,14 +93,18 @@ class ExampleUnitTest {
 //            HardArrayCode.largestPathValue("hhqhuqhqff", parseToIntArray("[[0,1],[0,2],[2,3],[3,4],[3,5],[5,6],[2,7],[6,7],[7,8],[3,8],[5,8],[8,9],[3,9],[6,9]]"))
 //        )
         println(
-            ArrayCode.maxTargetNodes(parseToIntArray("[[0,1],[1,2]]"), parseToIntArray("[[3,1],[8,2],[5,3],[5,4],[5,6],[9,5],[9,7],[0,8],[0,9]]"))
+            ArrayCode.minimizeMaxDiffInPairs(intArrayOf(1,3,4,5), 2)
         )
+
+//        println(
+//            TreeCode.findKthLexicographicallyNumber(1000, 990)
+//        )
 
 //        println(
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
-//        println(HardStringCode.longestCommonSubsequence("bbbaaaba", "bbababbb"))
+//        println(HardStringCode.maxDifference("1122211", 3))
 //        println(
 //            StringCode.removeOccurrences("daabcbaabcbc", "abc")
 //        )
