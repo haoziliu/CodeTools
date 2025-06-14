@@ -1,6 +1,8 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.MathCode
+import com.example.codetools.StringCode
 import com.example.codetools.TreeCode
 import com.example.codetools.hard.HardArrayCode
 import com.example.codetools.hard.HardStringCode
@@ -92,9 +94,9 @@ class ExampleUnitTest {
 //        println(
 //            HardArrayCode.largestPathValue("hhqhuqhqff", parseToIntArray("[[0,1],[0,2],[2,3],[3,4],[3,5],[5,6],[2,7],[6,7],[7,8],[3,8],[5,8],[8,9],[3,9],[6,9]]"))
 //        )
-        println(
-            ArrayCode.minimizeMaxDiffInPairs(intArrayOf(1,3,4,5), 2)
-        )
+//        println(
+//            ArrayCode.minimizeMaxDiffInPairs(intArrayOf(1,3,4,5), 2)
+//        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
@@ -108,8 +110,7 @@ class ExampleUnitTest {
 //        println(
 //            StringCode.removeOccurrences("daabcbaabcbc", "abc")
 //        )
-
-//        println(MathCode.separateSquares(parseToIntArray("[[522261215,954313664,461744743],[628661372,718610752,21844764],[619734768,941310679,91724451],[352367502,656774918,591943726],[860247066,905800565,853111524],[817098516,868361139,817623995],[580894327,654069233,691552059],[182377086,256660052,911357],[151104008,908768329,890809906],[983970552,992192635,462847045]]")))
+        println(MathCode.minMaxDifference(98749211))
 
 //        println(
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)

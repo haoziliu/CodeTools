@@ -583,4 +583,39 @@ object MathCode {
         }
         return result
     }
+
+
+    fun minMaxDifference(num: Int): Int {
+        var multiplier = 1
+        var current = num / 10
+        while (current != 0) {
+            current /= 10
+            multiplier *= 10
+        }
+        current = num
+        var toMax = -1
+        var toMin = -1
+        var result = 0
+        while (multiplier != 0) {
+            val digit = current / multiplier
+            var delta = 0
+            if (digit != toMax && toMax != -1) {
+                delta = digit
+            } else {
+                delta = 9
+                if (toMax == -1 && digit != 9) {
+                    toMax = digit
+                }
+            }
+            if (digit != toMin && toMin != -1) {
+                delta -= digit
+            } else if (toMin == -1 && digit != 0) {
+                toMin = digit
+            }
+            result += delta * multiplier
+            current %= multiplier
+            multiplier /= 10
+        }
+        return result
+    }
 }
