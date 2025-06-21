@@ -3,7 +3,6 @@ package com.example.codetools
 import java.util.LinkedList
 import java.util.PriorityQueue
 import java.util.Stack
-import java.util.TreeMap
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -2021,5 +2020,23 @@ object StringCode {
             }
         }
         return sb.toString()
+    }
+
+    fun minimumDeletionsToMakeKSpecial(word: String, k: Int): Int {
+        // 3085 minimum-deletions-to-make-string-k-special
+        val freq = IntArray(26)
+        for (c in word) {
+            freq[c - 'a']++
+        }
+        var minDeletions = Int.MAX_VALUE
+        for (x in freq) {
+            var deletions = 0
+            for (y in freq) {
+                deletions += if (y < x) y else maxOf(0, y - x - k)
+            }
+            minDeletions = minOf(minDeletions, deletions)
+        }
+
+        return minDeletions
     }
 }

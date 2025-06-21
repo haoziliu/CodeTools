@@ -107,10 +107,10 @@ class ExampleUnitTest {
 //        )
 
 //        println(HardStringCode.maxDifference("1122211", 3))
-//        println(
-//            StringCode.removeOccurrences("daabcbaabcbc", "abc")
-//        )
-        println(MathCode.minMaxDifference(98749211))
+        println(
+            StringCode.minimumDeletions("aabcaba", 0)
+        )
+//        println(MathCode.minMaxDifference(98749211))
 
 //        println(
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)
