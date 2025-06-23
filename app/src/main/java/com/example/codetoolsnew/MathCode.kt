@@ -618,4 +618,43 @@ object MathCode {
         }
         return result
     }
+
+    fun kMirrorSum(k: Int, n: Int): Long {
+        fun isBaseKMirror(num: Int): Boolean {
+            val kBase = num.toString(k)
+            var right = kBase.length - 1
+            var left = 0
+            while (left < right) {
+                if (kBase[left++] != kBase[right--]) return false
+            }
+            return true
+        }
+
+        var result = 0L
+        var count = 0
+        for (num in 1..9) {
+            if (isBaseKMirror(num)) {
+                result += num
+                if (++count == n) return result
+            }
+        }
+        for (length in 2 until 32) {
+            val seedLength = (length + 1) / 2
+            val start = Math.pow(10.0, (seedLength - 1).toDouble()).toInt()
+            val end = Math.pow(10.0, seedLength.toDouble()).toInt() - 1
+            for (part in start..end) {
+                val s = part.toString()
+                var suffix = s.reversed()
+                if (length % 2 != 0) {
+                    suffix = suffix.substring(1)
+                }
+                val num = (s + suffix).toInt()
+                if (isBaseKMirror(num)) {
+                    result += num
+                    if (++count == n) return result
+                }
+            }
+        }
+        return result
+    }
 }
