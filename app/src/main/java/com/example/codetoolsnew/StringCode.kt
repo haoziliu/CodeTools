@@ -2039,4 +2039,27 @@ object StringCode {
 
         return minDeletions
     }
+
+    fun longestSubsequenceValueLessOrEqualK(s: String, k: Int): Int {
+        val n = s.length
+        var length = 0
+        for (c in s) {
+            if (c == '0') {
+                length++
+            }
+        }
+        var current = 0L
+        for (i in 0 until minOf(n, 32)) {
+            if (s[n - 1 - i] == '1') {
+                val newValue = (1L shl i) + current
+                if (newValue <= k.toLong()) {
+                    current = newValue
+                    length++
+                } else {
+                    break
+                }
+            }
+        }
+        return length
+    }
 }
