@@ -106,10 +106,10 @@ class ExampleUnitTest {
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
-//        println(HardStringCode.maxDifference("1122211", 3))
-        println(
-            StringCode.longestSubsequence("0001101010", 5)
-        )
+        println(HardStringCode.longestSubsequenceRepeatedK("letsleetcode", 2))
+//        println(
+//            StringCode.longestSubsequence("0001101010", 5)
+//        )
 //        println(MathCode.kMirrorSum(2, 5))
 
 //        println(

@@ -890,4 +890,64 @@ object HardStringCode {
         }
         return sb.toString()
     }
+
+    fun longestSubsequenceRepeatedK(s: String, k: Int): String {
+        val freq = IntArray(26)
+        for (c in s) {
+            freq[c - 'a']++
+        }
+        val possible = IntArray(26) { i ->
+            freq[i] / k
+        }
+
+        fun test(potential: String): Boolean {
+            if (potential == "") return false
+            var i = 0
+            var count = 0
+            for (c in s) {
+                if (c == potential[i]) {
+                    i++
+                    if (i == potential.length) {
+                        count++
+                        i = 0
+                        if (count == k) return true
+                    }
+                }
+            }
+            return false
+        }
+
+        val targetLength = s.length / k
+        var maxLength = 0
+        val sb = StringBuilder()
+        var result = ""
+
+        fun dfs() {
+            if (sb.length == targetLength) {
+                return
+            }
+            for (i in 25 downTo 0) {
+                if (possible[i] > 0) {
+                    sb.append('a' + i)
+                    possible[i]--
+
+                    dfs()
+
+                    if (sb.length > maxLength) {
+                        val candidate = sb.toString()
+                        if (test(candidate)) {
+                            result = candidate
+                            maxLength = sb.length
+                        }
+                    }
+
+                    sb.deleteAt(sb.length - 1)
+                    possible[i]++
+                }
+            }
+        }
+
+        dfs()
+        return result
+    }
 }
