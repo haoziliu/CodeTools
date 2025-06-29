@@ -657,4 +657,29 @@ object MathCode {
         }
         return result
     }
+
+    fun numSubseq(nums: IntArray, target: Int): Int {
+        nums.sort()
+        val n = nums.size
+        var result = 0
+        var left = 0
+        var right = n - 1
+
+        // Precompute powers of 2 for efficiency
+        val pow2 = IntArray(n) { 1 }
+        for (i in 1 until n) {
+            pow2[i] = (pow2[i - 1] * 2) % MODULO
+        }
+
+        while (left <= right) {
+            if (nums[left] + nums[right] <= target) {
+                result = (result + pow2[right - left]) % MODULO
+                left++ // Try a larger minimum
+            } else {
+                right-- // Try a smaller maximum
+            }
+        }
+
+        return result
+    }
 }

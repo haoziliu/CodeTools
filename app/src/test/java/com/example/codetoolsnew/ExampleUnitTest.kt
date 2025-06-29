@@ -106,11 +106,11 @@ class ExampleUnitTest {
 //            BitCode.maxEqualRowsAfterFlips(parseToArray("[[0,0,0],[0,0,1],[1,1,0]]"))
 //        )
 
-        println(HardStringCode.longestSubsequenceRepeatedK("letsleetcode", 2))
+//        println(HardStringCode.longestSubsequenceRepeatedK("letsleetcode", 2))
 //        println(
 //            StringCode.longestSubsequence("0001101010", 5)
 //        )
-//        println(MathCode.kMirrorSum(2, 5))
+        println(MathCode.numSubseq(intArrayOf(3,5,6,7), 6))
 
 //        println(
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)
