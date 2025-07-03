@@ -345,4 +345,9 @@ object BitCode {
         }
         return result
     }
+
+    fun kthCharacter(k: Int): Char {
+        return 'a' + Integer.bitCount(k - 1)
+    }
+
 }

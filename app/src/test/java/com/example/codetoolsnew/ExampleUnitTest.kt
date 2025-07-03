@@ -91,9 +91,9 @@ class ExampleUnitTest {
 //
 
 
-//        println(
-//            HardArrayCode.largestPathValue("hhqhuqhqff", parseToIntArray("[[0,1],[0,2],[2,3],[3,4],[3,5],[5,6],[2,7],[6,7],[7,8],[3,8],[5,8],[8,9],[3,9],[6,9]]"))
-//        )
+        println(
+            HardArrayCode.possibleStringCount("aabbccdd", 7)
+        )
 //        println(
 //            ArrayCode.minimizeMaxDiffInPairs(intArrayOf(1,3,4,5), 2)
 //        )
@@ -110,7 +110,7 @@ class ExampleUnitTest {
 //        println(
 //            StringCode.longestSubsequence("0001101010", 5)
 //        )
-        println(MathCode.numSubseq(intArrayOf(3,5,6,7), 6))
+//        println(MathCode.numSubseq(intArrayOf(3,5,6,7), 6))
 
 //        println(
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)

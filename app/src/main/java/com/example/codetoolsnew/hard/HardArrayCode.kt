@@ -3029,7 +3029,8 @@ object HardArrayCode {
             for (next in graph[node]) {
                 val nextColor = colors[next] - 'a'
                 for (color in 0 until 26) {
-                    dp[next][color] = maxOf(dp[next][color], dp[node][color] + if (color == nextColor) 1 else 0)
+                    dp[next][color] =
+                        maxOf(dp[next][color], dp[node][color] + if (color == nextColor) 1 else 0)
                     result = maxOf(result, dp[next][color])
                 }
                 if (--inDegree[next] == 0) {
@@ -3038,5 +3039,55 @@ object HardArrayCode {
             }
         }
         return if (processed == n) result else -1
+    }
+
+
+    fun possibleStringCount(word: String, k: Int): Int {
+        val n = word.length
+        if (n == 0) return 0
+        val groups = mutableListOf<Int>()
+        var count = 1
+        for (i in 0 until n) {
+            if (i > 0) {
+                if (word[i] == word[i - 1]) {
+                    count++
+                } else {
+                    groups.add(count)
+                    count = 1
+                }
+            }
+        }
+        groups.add(count)
+
+        var total = 1L
+        for (i in groups) {
+            total = (total * i) % MODULO
+        }
+        if (k <= groups.size) {
+            return (total % MODULO).toInt()
+        }
+
+        var prev = IntArray(k)
+        prev[0] = 1
+        for (i in groups) {
+            val current = IntArray(k)
+            var sum = 0L
+            for (j in 0 until k) {
+                if (j > 0) {
+                    sum = (sum + prev[j - 1]) % MODULO
+                }
+                if (j > i) {
+                    sum = (sum - prev[j - i - 1] + MODULO) % MODULO
+                }
+                current[j] = sum.toInt()
+            }
+            prev = current
+        }
+
+        var invalid = 0L
+        for (i in groups.size until k) {
+            invalid = (invalid + prev[i]) % MODULO
+        }
+        return ((total - invalid + MODULO) % MODULO).toInt()
     }
 }
