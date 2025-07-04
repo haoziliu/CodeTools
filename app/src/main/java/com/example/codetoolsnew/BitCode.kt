@@ -347,7 +347,27 @@ object BitCode {
     }
 
     fun kthCharacter(k: Int): Char {
-        return 'a' + Integer.bitCount(k - 1)
+//        return 'a' + Integer.bitCount(k - 1)
+        val arr = IntArray(513)
+        for (i in 0 until 9) {
+            val cou = 1 shl i
+            for (j in 0 until cou) {
+                arr[cou + j] = (arr[j] + 1) % 26
+            }
+        }
+        return 'a' + arr[k - 1]
     }
 
+    fun kthCharacter(k: Long, operations: IntArray): Char {
+        var index = 0
+        var kth = k - 1
+        var count = 0
+        while (kth > 0) {
+            if (operations[index++] == 1) {
+                count += (kth and 1L).toInt()
+            }
+            kth = kth shr 1
+        }
+        return 'a' + (count % 26)
+    }
 }
