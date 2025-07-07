@@ -94,17 +94,17 @@ class ExampleUnitTest {
 //        println(
 //            HardArrayCode.possibleStringCount("aabbccdd", 7)
 //        )
-//        println(
-//            ArrayCode.minimizeMaxDiffInPairs(intArrayOf(1,3,4,5), 2)
-//        )
+        println(
+            ArrayCode.maxEvents(parseToIntArray("[[1,5],[1,5],[1,5],[2,3],[2,3]]"))
+        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
 //        )
 
-        println(
-            BitCode.kthCharacter(101)
-        )
+//        println(
+//            BitCode.kthCharacter(101)
+//        )
 
 //        println(HardStringCode.longestSubsequenceRepeatedK("letsleetcode", 2))
 //        println(

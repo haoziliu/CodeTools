@@ -6653,4 +6653,28 @@ object ArrayCode {
         }
         return left
     }
+
+    fun maxEvents(events: Array<IntArray>): Int {
+        val pq = PriorityQueue(compareBy<IntArray> { it[0] })
+        for (event in events) {
+            pq.offer(event)
+        }
+        val pqEnd = PriorityQueue(compareBy<IntArray> { it[1] })
+        var day = 0
+        var count = 0
+        while (pq.isNotEmpty() || pqEnd.isNotEmpty()) {
+            while (pq.isNotEmpty() && pq.peek()!![0] <= day) {
+                pqEnd.offer(pq.poll()!!)
+            }
+            if (pqEnd.isNotEmpty()) {
+                if (pqEnd.poll()!![1] >= day) {
+                    count++
+                    day++
+                }
+            } else {
+                day = pq.peek()!![0]
+            }
+        }
+        return count
+    }
 }
