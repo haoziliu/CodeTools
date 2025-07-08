@@ -3090,4 +3090,52 @@ object HardArrayCode {
         }
         return ((total - invalid + MODULO) % MODULO).toInt()
     }
+
+    fun maxEventValue(events: Array<IntArray>, k: Int): Int {
+        events.sortBy { it[0] }
+        val n = events.size
+        val memo = Array(n) { IntArray(k + 1) { -1 } }
+
+        fun findStartAfter(time: Int): Int {
+            var left = 0
+            var right = n - 1
+            while (left <= right) {
+                val mid = left + ((right - left) shr 1)
+                if (events[mid][0] > time) {
+                    right = mid - 1
+                } else {
+                    left = mid + 1
+                }
+            }
+            return left
+        }
+
+//        val dp = Array(n + 1) { IntArray(k + 1) { 0 } }
+//        val next = IntArray(n) {
+//            findStartAfter(events[it][1])
+//        }
+//        for (i in n - 1 downTo 0) {
+//            for (j in 1..k) {
+//                dp[i][j] = maxOf(dp[i + 1][j], events[i][2] + dp[next[i]][j - 1])
+//            }
+//        }
+//
+//        return dp[0][k]
+
+        fun solve(index: Int, remain: Int): Int {
+            if (index >= n || remain == 0) {
+                return 0
+            }
+            if (memo[index][remain] != -1) {
+                return memo[index][remain]
+            }
+            val notTake = solve(index + 1, remain)
+            val nextIndex = findStartAfter(events[index][1])
+            val take = events[index][2] + solve(nextIndex, remain - 1)
+            memo[index][remain] = maxOf(notTake, take)
+            return memo[index][remain]
+        }
+
+        return solve(0, k)
+    }
 }

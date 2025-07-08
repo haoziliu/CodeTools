@@ -91,12 +91,12 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-//        println(
-//            HardArrayCode.possibleStringCount("aabbccdd", 7)
-//        )
         println(
-            ArrayCode.maxEvents(parseToIntArray("[[1,5],[1,5],[1,5],[2,3],[2,3]]"))
+            HardArrayCode.maxEventValue(parseToIntArray("[[1,3,5],[2,5,6],[4,6,5],[7,8,4],[5,9,8]]"), 2)
         )
+//        println(
+//            ArrayCode.maxEvents(parseToIntArray("[[1,5],[1,5],[1,5],[2,3],[2,3]]"))
+//        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
