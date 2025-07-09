@@ -6677,4 +6677,26 @@ object ArrayCode {
         }
         return count
     }
+
+    fun maxContinuousFreeTime(eventTime: Int, k: Int, startTime: IntArray, endTime: IntArray): Int {
+        val n = startTime.size
+        val spaces = IntArray(n + 1)
+        spaces[0] = startTime[0]
+        spaces[n] = eventTime - endTime[n - 1]
+        for (i in 1 until n) {
+            spaces[i] = startTime[i] - endTime[i - 1]
+        }
+
+        var left = 0
+        var sum = 0
+        var maxSum = 0
+        for (right in spaces.indices) {
+            sum += spaces[right]
+            while (right - left > k) {
+                sum -= spaces[left++]
+            }
+            maxSum = maxOf(maxSum, sum)
+        }
+        return maxSum
+    }
 }
