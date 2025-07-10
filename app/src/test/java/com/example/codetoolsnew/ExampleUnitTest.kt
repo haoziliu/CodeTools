@@ -89,7 +89,7 @@ class ExampleUnitTest {
 //            HardArrayCode.maxEventValue(parseToIntArray("[[1,3,5],[2,5,6],[4,6,5],[7,8,4],[5,9,8]]"), 2)
 //        )
         println(
-            ArrayCode.maxContinuousFreeTime(21, 1, intArrayOf(7,10,16), intArrayOf(10,14,18))
+            ArrayCode.maxContinuousFreeTime(10, intArrayOf(0,7,9), intArrayOf(1,8,10))
         )
 
 //        println(

@@ -6679,6 +6679,7 @@ object ArrayCode {
     }
 
     fun maxContinuousFreeTime(eventTime: Int, k: Int, startTime: IntArray, endTime: IntArray): Int {
+        // arrange k times, keep relative order
         val n = startTime.size
         val spaces = IntArray(n + 1)
         spaces[0] = startTime[0]
@@ -6698,5 +6699,75 @@ object ArrayCode {
             maxSum = maxOf(maxSum, sum)
         }
         return maxSum
+    }
+
+    fun maxContinuousFreeTime(eventTime: Int, startTime: IntArray, endTime: IntArray): Int {
+        // arrange 1 time, can change relative order
+        val n = startTime.size
+        val spaces = IntArray(n + 1)
+        spaces[0] = startTime[0]
+        spaces[n] = eventTime - endTime[n - 1]
+        for (i in 1 until n) {
+            spaces[i] = startTime[i] - endTime[i - 1]
+        }
+        val beforeMax = IntArray(n + 1)
+        val afterMax = IntArray(n + 1)
+        for (i in 1..n) {
+            beforeMax[i] = maxOf(beforeMax[i - 1], spaces[i - 1])
+            afterMax[n - i] = maxOf(afterMax[n - i + 1], spaces[n - i + 1])
+        }
+        var result = 0
+        for (i in 0 until n) {
+            val duration = endTime[i] - startTime[i]
+            // find max before space[i] and max after space[i + 1]
+            val sum = spaces[i] + spaces[i + 1] +
+                    if (beforeMax[i] >= duration || afterMax[i + 1] >= duration) {
+                        duration
+                    } else {
+                        0
+                    }
+            result = maxOf(result, sum)
+        }
+        return result
+//        val n = startTime.size
+//        val spaces = IntArray(n + 1)
+//        spaces[0] = startTime[0]
+//        spaces[n] = eventTime - endTime[n - 1]
+//        for (i in 1 until n) {
+//            spaces[i] = startTime[i] - endTime[i - 1]
+//        }
+//        val pq = PriorityQueue<Int>(compareBy { spaces[it]} )
+//        for (i in 0..n) {
+//            if (pq.size < 3) {
+//                pq.offer(i)
+//            } else if (spaces[pq.peek()!!] < spaces[i]) {
+//                pq.poll()
+//                pq.offer(i)
+//            }
+//        }
+//        val top3 = LinkedList<Int>()
+//        while (pq.isNotEmpty()) {
+//            top3.addFirst(pq.poll()!!)
+//        }
+//        var result = 0
+//        for (i in 0 until n) {
+//            val duration = endTime[i] - startTime[i]
+//            var moveTo = -1
+//            for (j in top3.indices) {
+//                val spaceIndex = top3[j]
+//                if (spaceIndex != i && spaceIndex != i + 1 && spaces[spaceIndex] >= duration) {
+//                    moveTo = spaceIndex
+//                    break
+//                }
+//            }
+//            val sum = spaces[i] + spaces[i + 1] +
+//                    if (moveTo == -1) {
+//                        0
+//                    } else {
+//                        duration
+//                    }
+//            result = maxOf(result, sum)
+//        }
+//        return result
     }
 }
