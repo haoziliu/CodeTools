@@ -1314,48 +1314,37 @@ object HardArrayCode {
     }
 
     fun mostBooked(n: Int, meetings: Array<IntArray>): Int {
-        data class Room(val index: Int, var endAt: Long)
+        data class Room(val index: Int, var end: Long)
 
-        val roomMeetings = IntArray(n)
-        var mostRoom = 0
-        val occupied = PriorityQueue<Room>(compareBy { it.endAt })
-        val available = PriorityQueue<Room>(compareBy { it.index })
         meetings.sortBy { it[0] }
-        var delayedTo = 0L
-        for ((start, end) in meetings) {
-            val realStart = if (start < delayedTo) {
-                delayedTo
-            } else start * 1L
-            val duration = end - start
-
-            // free up
-            while (occupied.isNotEmpty() && occupied.peek()!!.endAt <= realStart) {
-                available.offer(occupied.poll()!!)
-            }
-            val nextRoom = if (available.isNotEmpty()) {
-                available.poll()!!.apply { endAt = realStart + duration }
-            } else if (occupied.size < n) {
-                Room(occupied.size, realStart + duration)
-            } else {
-                // delay
-                delayedTo = occupied.peek()!!.endAt
-                // free up all end at the same time
-                while (occupied.isNotEmpty() && occupied.peek()!!.endAt == delayedTo) {
-                    available.offer(occupied.poll()!!)
-                }
-                available.poll()!!.apply { endAt = delayedTo + duration }
-            }
-            roomMeetings[nextRoom.index]++
-            if (roomMeetings[nextRoom.index] > roomMeetings[mostRoom]) {
-                mostRoom = nextRoom.index
-            } else if (roomMeetings[nextRoom.index] == roomMeetings[mostRoom]) {
-                mostRoom = minOf(mostRoom, nextRoom.index)
-            }
-
-            occupied.offer(nextRoom)
+        val hold = IntArray(n)
+        var maxIndex = 0
+        val pqFree = PriorityQueue<Int>()
+        val pqTaken = PriorityQueue(compareBy<Room> { it.end }.thenBy { it.index })
+        for (i in 0 until n) {
+            pqFree.offer(i)
         }
-
-        return mostRoom
+        for (meeting in meetings) {
+            val meetingStart = meeting[0].toLong()
+            val meetingEnd = meeting[1].toLong()
+            val duration = meetingEnd - meetingStart
+            while (pqTaken.isNotEmpty() && pqTaken.peek()!!.end <= meetingStart) {
+                pqFree.offer(pqTaken.poll()!!.index)
+            }
+            val room = if (pqFree.isNotEmpty()) {
+                Room(pqFree.poll()!!, meetingEnd)
+            } else {
+                pqTaken.poll()!!.apply { end += duration }
+            }
+            pqTaken.offer(room)
+            hold[room.index]++
+            if (hold[room.index] > hold[maxIndex] ||
+                hold[room.index] == hold[maxIndex] && maxIndex > room.index
+            ) {
+                maxIndex = room.index
+            }
+        }
+        return maxIndex
     }
 
     fun smallestRange(nums: List<List<Int>>): IntArray {
