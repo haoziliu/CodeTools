@@ -3127,4 +3127,57 @@ object HardArrayCode {
 
         return solve(0, k)
     }
+
+    fun earliestAndLatest(n: Int, firstPlayer: Int, secondPlayer: Int): IntArray {
+        // brute-force not optimised
+        val firstBit = 1 shl (n - firstPlayer)
+        val secondBit = 1 shl (n - secondPlayer)
+        var minMeet = Int.MAX_VALUE
+        var maxMeet = 0
+
+        fun processState(state: Int, l: Int, r: Int, next: MutableSet<Int>): Boolean {
+            if (state.countOneBits() < 2) {
+                return false
+            }
+            var left = l
+            var right = r
+            while (left > right && (left and state == 0 || right and state == 0)) {
+                if (left and state == 0) {
+                    left = left shr 1
+                }
+                if (right and state == 0) {
+                    right = right shl 1
+                }
+            }
+            if (left <= right) {
+                next.add(state)
+                return false
+            }
+            if (left == firstBit && right == secondBit) {
+                return true
+            }
+            return processState(state xor left, left shr 1, right shl 1, next) ||
+                    processState(state xor right, left shr 1, right shl 1, next)
+        }
+
+        var round = 0
+        var queue = mutableSetOf<Int>()
+        var next = mutableSetOf<Int>()
+        queue.add((1 shl n) - 1)
+        while (queue.isNotEmpty()) {
+            round++
+            next.clear()
+            for (state in queue) {
+                val found = processState(state, 1 shl (n - 1), 1, next)
+                if (found) {
+                    minMeet = minOf(minMeet, round)
+                    maxMeet = maxOf(maxMeet, round)
+                }
+            }
+            val tmp = queue
+            queue = next
+            next = tmp
+        }
+        return intArrayOf(minMeet, maxMeet)
+    }
 }

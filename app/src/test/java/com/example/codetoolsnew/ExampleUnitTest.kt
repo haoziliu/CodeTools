@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -85,12 +86,12 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-//        println(
-//            HardArrayCode.maxEventValue(parseToIntArray("[[1,3,5],[2,5,6],[4,6,5],[7,8,4],[5,9,8]]"), 2)
-//        )
         println(
-            ArrayCode.maxContinuousFreeTime(10, intArrayOf(0,7,9), intArrayOf(1,8,10))
+            HardArrayCode.earliestAndLatest(11, 2, 4).joinToString()
         )
+//        println(
+//            ArrayCode.maxContinuousFreeTime(10, intArrayOf(0,7,9), intArrayOf(1,8,10))
+//        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
