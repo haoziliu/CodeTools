@@ -119,44 +119,37 @@ object SortCode {
 
     fun radixSort(arr: IntArray) {
         if (arr.size < 2) return
-        val maxVal = arr.maxOrNull() ?: return
+        val n = arr.size
 
-        fun countingSortByDigit(exp: Int) {
-            val n = arr.size
-            val output = IntArray(n) // 存储排序结果的临时数组
-            val count = IntArray(10) { 0 } // 计数数组，存放 0-9 每个数字的出现次数
+        fun countingSort(shift: Int) {
+            val output = IntArray(n)
+            val bucket = IntArray(256)
 
-            // 1. 统计当前位上每个数字 (0-9) 的出现次数
             for (i in 0 until n) {
-                val digit = (arr[i] / exp) % 10
-                count[digit]++
+                val digit = (arr[i] shr shift) and 0xFF
+                bucket[digit]++
             }
 
-            // 2. 累加计数，count[i] 现在表示 <= i 的数字的总个数
-            //    这一步是为了确定每个元素在 output 数组中的最终位置 (实现稳定性)
-            for (i in 1 until 10) {
-                count[i] += count[i - 1]
+            var count = 0
+            for (i in 0 until 256) {
+                val tmp = bucket[i]
+                bucket[i] = count
+                count += tmp
             }
 
-            // 3. 从后向前遍历原数组，以保证稳定性
-            //    根据 count 数组找到它在 output 中的正确位置
-            for (i in n - 1 downTo 0) {
-                val digit = (arr[i] / exp) % 10
-                output[count[digit] - 1] = arr[i]
-                count[digit]--
-            }
-
-            // 4. 将排序好的 output 数组复制回原数组
             for (i in 0 until n) {
-                arr[i] = output[i]
+                val digit = (arr[i] shr shift) and 0xFF
+                output[bucket[digit]] = arr[i]
+                bucket[digit]++
             }
+
+            System.arraycopy(output, 0, arr, 0, n)
         }
 
-        var exp = 1 // 代表当前的位数 (1, 10, 100, ...)
-        while (maxVal / exp > 0) {
-            countingSortByDigit(exp)
-            exp *= 10
-        }
+        countingSort(0)
+        countingSort(8)
+        countingSort(16)
+        countingSort(24)
     }
 
     fun mergeSort(nums: IntArray): IntArray {

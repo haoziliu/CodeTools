@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.SortCode
 import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
 
@@ -86,9 +87,9 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
-            HardArrayCode.earliestAndLatest(11, 2, 4).joinToString()
-        )
+//        println(
+//            HardArrayCode.earliestAndLatest(11, 2, 4).joinToString()
+//        )
 //        println(
 //            ArrayCode.maxContinuousFreeTime(10, intArrayOf(0,7,9), intArrayOf(1,8,10))
 //        )
@@ -112,5 +113,9 @@ class ExampleUnitTest {
 //        )
 
 //        println(MatrixCode.sortMatrix(parseToIntArray("[[1,7,3],[9,8,2],[4,5,6]]")))
+
+        println(
+            SortCode.radixSort(intArrayOf(170, 45, 75, 90, 802, 24, 2, 66))
+        )
     }
 }
