@@ -370,4 +370,21 @@ object BitCode {
         }
         return 'a' + (count % 26)
     }
+
+    fun maximumSubsequence(nums: IntArray): Int {
+        // (sub[0] + sub[1]) % 2 == (sub[1] + sub[2]) % 2 == ... == (sub[x - 2] + sub[x - 1]) % 2
+        var lastBit = nums[0] and 1
+        var zeroCount = if (lastBit == 0) 1 else 0
+        var alterCount = 1
+        for (i in 1 until nums.size) {
+            if (nums[i] and 1 == 0) {
+                zeroCount++
+            }
+            if (nums[i] and 1 != lastBit) {
+                alterCount++
+                lastBit = lastBit xor 1
+            }
+        }
+        return maxOf(zeroCount, nums.size - zeroCount, alterCount)
+    }
 }
