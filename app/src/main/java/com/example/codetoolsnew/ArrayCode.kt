@@ -6770,4 +6770,40 @@ object ArrayCode {
 //        }
 //        return result
     }
+
+
+    fun maximumSubsequence(nums: IntArray): Int {
+        // (sub[0] + sub[1]) % 2 == (sub[1] + sub[2]) % 2 == ... == (sub[x - 2] + sub[x - 1]) % 2
+        var lastBit = nums[0] and 1
+        var zeroCount = if (lastBit == 0) 1 else 0
+        var alterCount = 1
+        for (i in 1 until nums.size) {
+            if (nums[i] and 1 == 0) {
+                zeroCount++
+            }
+            if (nums[i] and 1 != lastBit) {
+                alterCount++
+                lastBit = lastBit xor 1
+            }
+        }
+        return maxOf(zeroCount, nums.size - zeroCount, alterCount)
+    }
+
+    fun maximumSubsequence(nums: IntArray, k: Int): Int {
+        // (sub[0] + sub[1]) % k == (sub[1] + sub[2]) % k == ... == (sub[x - 2] + sub[x - 1]) % k
+        val n = nums.size
+        var result = 0
+        for (target in 0 until k) {
+            val dp = IntArray(k)
+            var max = 0
+            for (i in 1..n) {
+                val num = nums[i - 1] % k
+                val other = (target + k - num) % k
+                dp[num] = dp[other] + 1
+                max = maxOf(max, dp[num])
+            }
+            result = maxOf(result, max)
+        }
+        return result
+    }
 }

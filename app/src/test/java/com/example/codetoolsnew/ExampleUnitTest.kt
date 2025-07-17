@@ -90,9 +90,9 @@ class ExampleUnitTest {
 //        println(
 //            HardArrayCode.earliestAndLatest(11, 2, 4).joinToString()
 //        )
-//        println(
-//            ArrayCode.maxContinuousFreeTime(10, intArrayOf(0,7,9), intArrayOf(1,8,10))
-//        )
+        println(
+            ArrayCode.maximumSubsequence(intArrayOf(1,4,2,3,1,4), 3)
+        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
@@ -114,8 +114,8 @@ class ExampleUnitTest {
 
 //        println(MatrixCode.sortMatrix(parseToIntArray("[[1,7,3],[9,8,2],[4,5,6]]")))
 
-        println(
-            SortCode.radixSort(intArrayOf(170, 45, 75, 90, 802, 24, 2, 66))
-        )
+//        println(
+//            SortCode.radixSort(intArrayOf(170, 45, 75, 90, 802, 24, 2, 66))
+//        )
     }
 }
