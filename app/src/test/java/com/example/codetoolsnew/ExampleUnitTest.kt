@@ -87,12 +87,12 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-//        println(
-//            HardArrayCode.earliestAndLatest(11, 2, 4).joinToString()
-//        )
         println(
-            ArrayCode.maximumSubsequence(intArrayOf(1,4,2,3,1,4), 3)
+            HardArrayCode.minimumDifferenceAfterRemoval(intArrayOf(7,9,5,8,1,3))
         )
+//        println(
+//            ArrayCode.maximumSubsequence(intArrayOf(1,4,2,3,1,4), 3)
+//        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)

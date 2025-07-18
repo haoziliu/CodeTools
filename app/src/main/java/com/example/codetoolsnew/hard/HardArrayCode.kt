@@ -3180,4 +3180,47 @@ object HardArrayCode {
         }
         return intArrayOf(minMeet, maxMeet)
     }
+
+    fun minimumDifferenceAfterRemoval(nums: IntArray): Long {
+        // len = n * 3, remove n. diff = firstHalf - secondHalf
+        val len = nums.size
+        val n = len / 3
+        var sum = 0L
+        val leftPQ = PriorityQueue<Int>(reverseOrder())
+        val leftSumAt = LongArray(len)
+        val mostLeft = n - 1
+        val mostRight = 2 * n - 1
+
+        for (i in 0..mostRight) {
+            val current = nums[i]
+            if (i <= mostLeft) {
+                sum += current
+                leftPQ.offer(current)
+            } else if (current <= leftPQ.peek()!!) {
+                val toRemove = leftPQ.poll()!!
+                sum += current - toRemove
+                leftPQ.offer(current)
+            }
+            leftSumAt[i] = sum
+        }
+
+        var result = sum
+        val rightPQ = PriorityQueue<Int>()
+        sum = 0
+        for (i in len - 1 downTo mostLeft + 1) {
+            val current = nums[i]
+            if (i > mostRight) {
+                sum += current
+                rightPQ.offer(current)
+            } else if (current >= rightPQ.peek()!!) {
+                val toRemove = rightPQ.poll()!!
+                sum += current - toRemove
+                rightPQ.offer(current)
+            }
+            if (leftSumAt[i - 1] != 0L) {
+                result = minOf(result, leftSumAt[i - 1] - sum)
+            }
+        }
+        return result
+    }
 }
