@@ -3193,7 +3193,7 @@ object HardArrayCode {
 
         for (i in 0..mostRight) {
             val current = nums[i]
-            if (i <= mostLeft) {
+            if (leftPQ.size < n) {
                 sum += current
                 leftPQ.offer(current)
             } else if (current <= leftPQ.peek()!!) {
@@ -3209,7 +3209,7 @@ object HardArrayCode {
         sum = 0
         for (i in len - 1 downTo mostLeft + 1) {
             val current = nums[i]
-            if (i > mostRight) {
+            if (rightPQ.size < n) {
                 sum += current
                 rightPQ.offer(current)
             } else if (current >= rightPQ.peek()!!) {

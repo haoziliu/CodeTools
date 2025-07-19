@@ -4249,12 +4249,11 @@ object ArrayCode {
                 result.add(sb.toString())
                 return
             }
-            for ((key, node) in node.children) {
-                val startIndex = sb.length
+            for ((key, next) in node.children) {
+                val length = sb.length
                 sb.append("/$key")
-                val endIndex = sb.length
-                dfs(node)
-                sb.delete(startIndex, endIndex)
+                dfs(next)
+                sb.setLength(length)
             }
         }
 
