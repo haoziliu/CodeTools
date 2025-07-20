@@ -3223,4 +3223,63 @@ object HardArrayCode {
         }
         return result
     }
+
+    fun deleteDuplicateFolder(paths: List<List<String>>): List<List<String>> {
+        class TrieNode {
+            val children = TreeMap<String, TrieNode>()
+            var marked = false
+        }
+
+        fun buildTrie(): TrieNode {
+            val root = TrieNode()
+            for (path in paths) {
+                var node = root
+                for (name in path) {
+                    node = node.children.getOrPut(name) { TrieNode() }
+                }
+            }
+            return root
+        }
+
+        val root = buildTrie()
+        val childrenToNode = mutableMapOf<Int, MutableList<TrieNode>>()
+
+        fun buildChildToNodeKey(node: TrieNode): Int {
+            if (node.children.isEmpty()) return "".hashCode()
+
+            val key = buildString {
+                for ((childKey, childNode) in node.children) {
+                    append(childKey.hashCode())
+                    append(buildChildToNodeKey(childNode))
+                }
+            }
+            val keyHash = key.hashCode()
+            childrenToNode.getOrPut(keyHash) { mutableListOf() }.add(node)
+            return keyHash
+        }
+
+        for ((_, node) in root.children) {
+            buildChildToNodeKey(node)
+        }
+        for ((_, nodes) in childrenToNode) {
+            if (nodes.size > 1) {
+                for (node in nodes) {
+                    node.marked = true
+                }
+            }
+        }
+
+        val result = mutableListOf<List<String>>()
+        fun dfs(node: TrieNode, path: MutableList<String>) {
+            for ((name, child) in node.children) {
+                if (child.marked) continue
+                path.add(name)
+                result.add(path.toList())
+                dfs(child, path)
+                path.removeAt(path.size - 1)
+            }
+        }
+        dfs(root, mutableListOf())
+        return result
+    }
 }

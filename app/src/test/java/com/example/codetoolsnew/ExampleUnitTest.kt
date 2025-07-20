@@ -88,7 +88,10 @@ class ExampleUnitTest {
 //
 
         println(
-            HardArrayCode.minimumDifferenceAfterRemoval(intArrayOf(7,9,5,8,1,3))
+            //[[],[],[],[],[],[]]
+            HardArrayCode.deleteDuplicateFolder(listOf(listOf("a"), listOf("c"), listOf("d"), listOf("a","b"), listOf("c","b"), listOf("a","b","x"),
+            listOf("a","b","x","y"), listOf("w"), listOf("w","y")
+            ))
         )
 //        println(
 //            ArrayCode.maximumSubsequence(intArrayOf(1,4,2,3,1,4), 3)
