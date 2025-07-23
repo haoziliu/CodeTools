@@ -1008,24 +1008,20 @@ object StringCode {
             smaller = x
         }
         s.forEach { char ->
-            if (char == second && charStack.peek() == first) {
+            if (char == second && charStack.peekLast() == first) {
                 score += bigger
-                charStack.pop()
+                charStack.pollLast()
             } else {
-                charStack.push(char)
+                charStack.offerLast(char)
             }
         }
-        val intermediateStack = LinkedList<Char>()
-        while (charStack.isNotEmpty()) {
-            intermediateStack.push(charStack.pop())
-        }
-        while (intermediateStack.isNotEmpty()) {
-            val char = intermediateStack.pop()
-            if (char == first && charStack.peek() == second) {
+        val stack2 = LinkedList<Char>()
+        charStack.forEach { char ->
+            if (char == first && stack2.peekLast() == second) {
                 score += smaller
-                charStack.pop()
+                stack2.pollLast()
             } else {
-                charStack.push(char)
+                stack2.offerLast(char)
             }
         }
         return score
