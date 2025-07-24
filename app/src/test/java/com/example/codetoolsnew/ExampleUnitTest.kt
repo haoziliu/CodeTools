@@ -17,6 +17,7 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
     private fun parseToIntArray(input: String): Array<IntArray> {
         // 去除首尾的方括号
         val trimmedInput = input.trim().removePrefix("[").removeSuffix("]")
@@ -88,10 +89,11 @@ class ExampleUnitTest {
 //
 
         println(
-            //[[],[],[],[],[],[]]
-            HardArrayCode.deleteDuplicateFolder(listOf(listOf("a"), listOf("c"), listOf("d"), listOf("a","b"), listOf("c","b"), listOf("a","b","x"),
-            listOf("a","b","x","y"), listOf("w"), listOf("w","y")
-            ))
+            HardArrayCode.minimumScore(
+                intArrayOf(26,20,10,20),
+                parseToIntArray("[[1,3],[1,2],[0,1]]")
+            )
+
         )
 //        println(
 //            ArrayCode.maximumSubsequence(intArrayOf(1,4,2,3,1,4), 3)

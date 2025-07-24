@@ -3282,4 +3282,60 @@ object HardArrayCode {
         dfs(root, mutableListOf())
         return result
     }
+
+    fun minimumScore(nums: IntArray, edges: Array<IntArray>): Int {
+        val n = nums.size
+        val edgeMap = Array(n) { mutableListOf<Int>() }
+        for ((a, b) in edges) {
+            edgeMap[a].add(b)
+            edgeMap[b].add(a)
+        }
+        val subXorSum = IntArray(n) { nums[it] }
+        val parentMap = IntArray(n) { -1 }
+        val arrive = IntArray(n)
+        val leave = IntArray(n)
+        var time = 0
+
+        fun dfs(node: Int, parent: Int) {
+            arrive[node] = ++time
+            for (child in edgeMap[node]) {
+                if (child == parent) continue
+                parentMap[child] = node
+                dfs(child, node)
+                subXorSum[node] = subXorSum[node] xor subXorSum[child]
+            }
+            leave[node] = ++time
+        }
+
+        dfs(0, -1)
+
+        val allSum = subXorSum[0]
+        var minDiff = Int.MAX_VALUE
+        for (firstEdgeIndex in 0 until n - 1) {
+            val (node1, node2) = edges[firstEdgeIndex]
+            val child1 = if (parentMap[node1] == node2) node1 else node2
+            for (secondEdgeIndex in firstEdgeIndex + 1 until n - 1) {
+                val (node3, node4) = edges[secondEdgeIndex]
+                val child2 = if (parentMap[node3] == node4) node3 else node4
+                val sum = IntArray(3)
+
+                if (arrive[child1] < arrive[child2] && leave[child2] < leave[child1]) {
+                    sum[0] = subXorSum[child1]
+                    sum[1] = subXorSum[child2] xor subXorSum[child1]
+                    sum[2] = allSum xor subXorSum[child2]
+                } else if (arrive[child2] < arrive[child1] && leave[child1] < leave[child2]) {
+                    sum[0] = subXorSum[child2]
+                    sum[1] = subXorSum[child1] xor subXorSum[child2]
+                    sum[2] = allSum xor subXorSum[child1]
+                } else {
+                    sum[0] = subXorSum[child1]
+                    sum[1] = subXorSum[child2]
+                    sum[2] = allSum xor subXorSum[child1] xor subXorSum[child2]
+                }
+                minDiff = minOf(minDiff, maxOf(sum[0], sum[1], sum[2]) - minOf(sum[0], sum[1], sum[2]))
+            }
+        }
+
+        return minDiff
+    }
 }
