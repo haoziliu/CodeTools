@@ -6805,4 +6805,33 @@ object ArrayCode {
         }
         return result
     }
+
+    fun maximumSumAfterDeletingAtMostOne(arr: IntArray): Int {
+        var hasDeletion = arr[0]
+        var noDeletion = arr[0]
+        var result = arr[0]
+        for (i in 1 until arr.size) {
+            hasDeletion = maxOf(noDeletion, hasDeletion + arr[i])
+            noDeletion = maxOf(noDeletion + arr[i], arr[i])
+            result = maxOf(result, hasDeletion, noDeletion)
+        }
+        return result
+//        val n = arr.size
+//        val leftMax = IntArray(n)
+//        leftMax[0] = arr[0]
+//        var result = arr[0]
+//        for (i in 1 until n) {
+//            leftMax[i] = maxOf(leftMax[i - 1] + arr[i], arr[i])
+//            result = maxOf(result, leftMax[i])
+//        }
+//        val rightMax = IntArray(n)
+//        rightMax[n - 1] = arr[n - 1]
+//        for (i in n - 2 downTo 0) {
+//            rightMax[i] = maxOf(rightMax[i + 1] + arr[i], arr[i])
+//        }
+//        for (i in 1 until n - 1) {
+//            result = maxOf(result, leftMax[i - 1] + rightMax[i + 1])
+//        }
+//        return result
+    }
 }

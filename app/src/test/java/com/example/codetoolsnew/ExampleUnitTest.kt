@@ -88,16 +88,16 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
-            HardArrayCode.minimumScore(
-                intArrayOf(26,20,10,20),
-                parseToIntArray("[[1,3],[1,2],[0,1]]")
-            )
-
-        )
 //        println(
-//            ArrayCode.maximumSubsequence(intArrayOf(1,4,2,3,1,4), 3)
+//            HardArrayCode.minimumScore(
+//                intArrayOf(26,20,10,20),
+//                parseToIntArray("[[1,3],[1,2],[0,1]]")
+//            )
+//
 //        )
+        println(
+            ArrayCode.maximumSumAfterDeletingAtMostOne(intArrayOf(-50))
+        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
