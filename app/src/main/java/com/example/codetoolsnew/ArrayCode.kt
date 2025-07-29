@@ -3383,21 +3383,64 @@ object ArrayCode {
     }
 
     fun smallestCountSubarraysWithMaximumOr(nums: IntArray): IntArray {
-//        val size = nums.size
-//        val suffixOr = IntArray(size)
-//        suffixOr[size - 1] = nums[size - 1]
-//        for (i in size - 2 downTo 0) {
-//            suffixOr[i] = suffixOr[i + 1] or nums[i]
-//        }
-//        val result = IntArray(size)
-//        for (i in 0 until size) {
-//            var orSum = 0
-//            for (j in i until size) {
-//                orSum = orSum or nums[j]
-//                if (orSum == suffixOr[i]) {
-//                    result[i] = j - i + 1
-//                    break
+//        val total = IntArray(32)
+//        var target = 0
+//        for (num in nums) {
+//            var current = num
+//            var index = 0
+//            while (current != 0) {
+//                if (current and 1 == 1) {
+//                    if (total[index]++ == 0) {
+//                        target++
+//                    }
 //                }
+//                current = current shr 1
+//                index++
+//            }
+//        }
+//
+//        val bitCount = IntArray(32)
+//        var distinct = 0
+//
+//        fun addNum(num: Int) {
+//            var current = num
+//            var index = 0
+//            while (current != 0) {
+//                if (current and 1 == 1) {
+//                    if (bitCount[index]++ == 0) {
+//                        distinct++
+//                    }
+//                }
+//                index++
+//                current = current shr 1
+//            }
+//        }
+//
+//        fun removeNum(num: Int) {
+//            var current = num
+//            var index = 0
+//            while (current != 0) {
+//                if (current and 1 == 1) {
+//                    if (--bitCount[index] == 0) {
+//                        distinct--
+//                    }
+//                    if (--total[index] == 0) {
+//                        target--
+//                    }
+//                }
+//                index++
+//                current = current shr 1
+//            }
+//        }
+//
+//        val result = IntArray(nums.size)
+//        var left = 0
+//        for (right in nums.indices) {
+//            addNum(nums[right])
+//            while (left <= right && distinct == target) {
+//                result[left] = right - left + 1
+//                removeNum(nums[left])
+//                left++
 //            }
 //        }
 //        return result

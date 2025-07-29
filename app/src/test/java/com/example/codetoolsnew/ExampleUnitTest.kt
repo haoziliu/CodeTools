@@ -96,7 +96,7 @@ class ExampleUnitTest {
 //
 //        )
         println(
-            ArrayCode.maximumSumAfterDeletingAtMostOne(intArrayOf(-50))
+            ArrayCode.smallestCountSubarraysWithMaximumOr(intArrayOf(1,0,2,1,3))
         )
 
 //        println(
