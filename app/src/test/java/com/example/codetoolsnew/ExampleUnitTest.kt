@@ -96,7 +96,7 @@ class ExampleUnitTest {
 //
 //        )
         println(
-            ArrayCode.smallestCountSubarraysWithMaximumOr(intArrayOf(1,0,2,1,3))
+            ArrayCode.subarrayUniqueBitwiseORs(intArrayOf(293167395, 801135726, 234952708, 182751363, 626064488, 354379537, 715576183, 489770865))
         )
 
 //        println(

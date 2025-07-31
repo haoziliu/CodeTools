@@ -6877,4 +6877,32 @@ object ArrayCode {
 //        }
 //        return result
     }
+
+    fun subarrayUniqueBitwiseORs(arr: IntArray): Int {
+        val seen = mutableSetOf<Int>()
+        val lastSeen = IntArray(30) { -1 }
+        for (i in arr.indices) {
+            var current = arr[i]
+            if (current == 0) {
+                seen.add(0)
+                continue
+            }
+            var bit = 0
+            var minIndex = i
+            while (current != 0) {
+                if (current and 1 == 1) {
+                    minIndex = minOf(minIndex, lastSeen[bit])
+                    lastSeen[bit] = i
+                }
+                current = current shr 1
+                bit++
+            }
+            var orSum = 0
+            for (j in i downTo minIndex + 1) {
+                orSum = orSum or arr[j]
+                seen.add(orSum)
+            }
+        }
+        return seen.size
+    }
 }
