@@ -6,6 +6,7 @@ import java.util.PriorityQueue
 import java.util.Stack
 import java.util.TreeMap
 import kotlin.math.abs
+import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.min
 
@@ -3332,7 +3333,8 @@ object HardArrayCode {
                     sum[1] = subXorSum[child2]
                     sum[2] = allSum xor subXorSum[child1] xor subXorSum[child2]
                 }
-                minDiff = minOf(minDiff, maxOf(sum[0], sum[1], sum[2]) - minOf(sum[0], sum[1], sum[2]))
+                minDiff =
+                    minOf(minDiff, maxOf(sum[0], sum[1], sum[2]) - minOf(sum[0], sum[1], sum[2]))
             }
         }
 
@@ -3370,5 +3372,35 @@ object HardArrayCode {
             }
         }
         return count + maxGain
+    }
+
+    fun minCostOfSwap(basket1: IntArray, basket2: IntArray): Long {
+        val balance = TreeMap<Int, Int>()
+        var minCost = Int.MAX_VALUE
+        for (cost in basket1) {
+            minCost = minOf(minCost, cost)
+            balance[cost] = balance.getOrDefault(cost, 0) + 1
+        }
+        for (cost in basket2) {
+            minCost = minOf(minCost, cost)
+            balance[cost] = balance.getOrDefault(cost, 0) - 1
+        }
+        val option1 = 2 * minCost
+        var toSwap = 0
+        for ((cost, count) in balance) {
+            if (count % 2 == 1) return -1
+            toSwap += abs(count) shr 1
+        }
+        toSwap = toSwap shr 1
+        var totalCost = 0L
+        for ((cost, count) in balance) {
+            val currentCount = abs(count) / 2
+            totalCost += 1L * minOf(option1, cost) * minOf(toSwap, currentCount)
+            toSwap -= minOf(toSwap, currentCount)
+            if (toSwap == 0) {
+                break
+            }
+        }
+        return totalCost
     }
 }

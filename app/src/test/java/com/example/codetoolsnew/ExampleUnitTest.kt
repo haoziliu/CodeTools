@@ -88,16 +88,16 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-//        println(
-//            HardArrayCode.minimumScore(
-//                intArrayOf(26,20,10,20),
-//                parseToIntArray("[[1,3],[1,2],[0,1]]")
-//            )
-//
-//        )
         println(
-            ArrayCode.subarrayUniqueBitwiseORs(intArrayOf(293167395, 801135726, 234952708, 182751363, 626064488, 354379537, 715576183, 489770865))
+            HardArrayCode.minCostOfSwap(
+                intArrayOf(1,2,2,2,4,4,5,5,5,5),
+                intArrayOf(1,1,1,2,3,3,5,5,5,5)
+            )
+
         )
+//        println(
+//            ArrayCode.subarrayUniqueBitwiseORs(intArrayOf(293167395, 801135726, 234952708, 182751363, 626064488, 354379537, 715576183, 489770865))
+//        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
