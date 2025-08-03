@@ -3403,4 +3403,26 @@ object HardArrayCode {
         }
         return totalCost
     }
+
+    fun maxTotalFruits(fruits: Array<IntArray>, startPos: Int, k: Int): Int {
+
+        fun validWindow(l: Int, r: Int): Boolean {
+            val goRight = abs(startPos - r) + r - l
+            val goLeft = abs(startPos - l) + r - l
+            return goRight <= k || goLeft <= k
+        }
+
+        var left = 0
+        var sum = 0
+        var maxSum = 0
+        for (right in fruits.indices) {
+            sum += fruits[right][1]
+            while (left <= right && !validWindow(fruits[left][0], fruits[right][0])) {
+                sum -= fruits[left][1]
+                left++
+            }
+            maxSum = maxOf(maxSum, sum)
+        }
+        return maxSum
+    }
 }

@@ -89,9 +89,8 @@ class ExampleUnitTest {
 //
 
         println(
-            HardArrayCode.minCostOfSwap(
-                intArrayOf(1,2,2,2,4,4,5,5,5,5),
-                intArrayOf(1,1,1,2,3,3,5,5,5,5)
+            HardArrayCode.maxTotalFruits(
+                parseToIntArray("[[2,8],[6,3],[8,6]]"), 5,4
             )
 
         )
