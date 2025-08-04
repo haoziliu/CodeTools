@@ -88,15 +88,15 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
-            HardArrayCode.maxTotalFruits(
-                parseToIntArray("[[2,8],[6,3],[8,6]]"), 5,4
-            )
-
-        )
 //        println(
-//            ArrayCode.subarrayUniqueBitwiseORs(intArrayOf(293167395, 801135726, 234952708, 182751363, 626064488, 354379537, 715576183, 489770865))
+//            HardArrayCode.maxTotalFruits(
+//                parseToIntArray("[[2,8],[6,3],[8,6]]"), 5,4
+//            )
+//
 //        )
+        println(
+            ArrayCode.maxTotalFruit(intArrayOf(1,2,3,2,2,3,3,2,1,1,2,3,3,2,2,1,1,3))
+        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
