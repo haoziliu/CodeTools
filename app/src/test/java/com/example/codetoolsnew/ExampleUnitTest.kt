@@ -95,7 +95,7 @@ class ExampleUnitTest {
 //
 //        )
         println(
-            ArrayCode.maxTotalFruit(intArrayOf(1,2,3,2,2,3,3,2,1,1,2,3,3,2,2,1,1,3))
+            ArrayCode.numOfUnplacedFruits(intArrayOf(3,6,1), intArrayOf(6,4,7))
         )
 
 //        println(
