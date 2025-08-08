@@ -6940,7 +6940,7 @@ object ArrayCode {
             val mid = start + ((end - start) shr 1)
             node.left = buildTree(start, mid)
             node.right = buildTree(mid + 1, end)
-            node.value = maxOf(node.left!!.value,  node.right!!.value)
+            node.value = maxOf(node.left!!.value, node.right!!.value)
             return node
         }
 
@@ -6968,5 +6968,29 @@ object ArrayCode {
             }
         }
         return remains
+    }
+
+    fun soupServings(n: Int): Double {
+        if (n > 4500) return 1.0
+        val units = (n + 24) / 25
+        val memo = Array(units + 1) { DoubleArray(units + 1) { -1.0 } }
+
+        fun calcProb(a: Int, b: Int): Double {
+            if (a <= 0 && b <= 0) return 0.5
+            if (a <= 0) return 1.0
+            if (b <= 0) return 0.0
+
+            if (memo[a][b] >= 0.0) return memo[a][b]
+
+            val prob = 0.25 * (calcProb(a - 4, b) +
+                    calcProb(a - 3, b - 1) +
+                    calcProb(a - 2, b - 2) +
+                    calcProb(a - 1, b - 3))
+
+            memo[a][b] = prob
+            return prob
+        }
+
+        return calcProb(units, units)
     }
 }
