@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.MathCode
 import com.example.codetools.SortCode
 import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
@@ -94,9 +95,9 @@ class ExampleUnitTest {
 //            )
 //
 //        )
-        println(
-            ArrayCode.soupServings(100)
-        )
+//        println(
+//            ArrayCode.soupServings(100)
+//        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
@@ -110,7 +111,7 @@ class ExampleUnitTest {
 //        println(
 //            StringCode.longestSubsequence("0001101010", 5)
 //        )
-//        println(MathCode.numSubseq(intArrayOf(3,5,6,7), 6))
+        println(MathCode.productQueries(233424240, parseToIntArray("[[3, 11]]")))
 
 //        println(
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)

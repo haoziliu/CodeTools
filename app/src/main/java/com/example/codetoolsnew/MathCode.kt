@@ -420,7 +420,8 @@ object MathCode {
 
         fun add(num1: Pair<Int, Int>, num2: Pair<Int, Int>): Pair<Int, Int> {
             val denominator = lcm(num1.second, num2.second)
-            val numerator = denominator / num1.second * num1.first + denominator / num2.second * num2.first
+            val numerator =
+                denominator / num1.second * num1.first + denominator / num2.second * num2.first
             val gcd = abs(gcd(numerator, denominator))
             return Pair(numerator / gcd, denominator / gcd)
         }
@@ -465,7 +466,7 @@ object MathCode {
         return sum
     }
 
-    fun generatePrimes(under: Int) : IntArray{
+    fun generatePrimes(under: Int): IntArray {
         val isPrime = BooleanArray(under) { true }
         isPrime[0] = false
         isPrime[1] = false
@@ -528,7 +529,7 @@ object MathCode {
         }
 
         var result = 0
-        for (i in 1 .. n) {
+        for (i in 1..n) {
             result += test(i)
         }
         return result
@@ -542,7 +543,7 @@ object MathCode {
             end = maxOf(end, y * 1.0 + l)
         }
 
-        fun compare(line: Double) : Int {
+        fun compare(line: Double): Int {
             var s1 = 0.0
             var s2 = 0.0
             for ((x, y, l) in squares) {
@@ -681,5 +682,79 @@ object MathCode {
         }
 
         return result
+    }
+
+    fun isPowerOfTwo(n: Int): Boolean {
+        return n > 0 && (n and (n - 1) == 0)
+    }
+
+    fun reorderedPowerOf2(n: Int): Boolean {
+        fun isPowerOf2(num: Int): Boolean {
+            return num and (num - 1) == 0
+        }
+
+        val freq = IntArray(10)
+        var current = n
+        while (current != 0) {
+            val digit = current % 10
+            freq[digit]++
+            current /= 10
+        }
+
+        fun dfs(num: Int): Boolean {
+            if (freq.sum() == 0) {
+                return isPowerOf2(num)
+            }
+            var found = false
+            for (digit in 0..9) {
+                if (num == 0 && digit == 0) continue
+                if (freq[digit] != 0) {
+                    freq[digit]--
+                    found = found || dfs(num * 10 + digit)
+                    freq[digit]++
+                }
+            }
+            return found
+        }
+
+        return dfs(0)
+    }
+
+    fun productQueries(n: Int, queries: Array<IntArray>): IntArray {
+        var index = 0
+        var current = n
+        var lastSum = 0
+        val prefixSum = mutableListOf(0)
+        while (current != 0) {
+            if (current and 1 == 1) {
+                prefixSum.add(lastSum + index)
+                lastSum += index
+            }
+            current = current shr 1
+            index++
+        }
+
+        val cache = Array(31) { IntArray(31) }
+
+        return IntArray(queries.size) { i ->
+            val left = queries[i][0]
+            val right = queries[i][1]
+            if (cache[left][right] != 0) {
+                return@IntArray cache[left][right]
+            } else {
+                var power = prefixSum[queries[i][1] + 1] - prefixSum[queries[i][0]]
+                var result = 1L
+                var base = 2L
+                while (power > 0) {
+                    if (power and 1 == 1) {
+                        result = (result * base) % MODULO
+                    }
+                    base = (base * base) % MODULO
+                    power = power shr 1
+                }
+                cache[left][right] = result.toInt()
+                return@IntArray cache[left][right]
+            }
+        }
     }
 }
