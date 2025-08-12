@@ -757,4 +757,22 @@ object MathCode {
             }
         }
     }
+
+
+    fun numberOfWays(n: Int, x: Int): Int {
+        // ways-to-express-an-integer-as-sum-of-powers
+        val dp = IntArray(n + 1)
+        dp[0] = 1
+        for (i in 1..n) {
+            var num = i
+            for (times in 0 until x - 1) {
+                if (num > n) break
+                num *= i
+            }
+            for (j in n downTo num) {
+                dp[j] = (dp[j] + dp[j - num]) % MODULO
+            }
+        }
+        return dp[n]
+    }
 }
