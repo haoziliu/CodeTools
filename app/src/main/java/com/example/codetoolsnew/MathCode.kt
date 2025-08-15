@@ -720,6 +720,25 @@ object MathCode {
         return dfs(0)
     }
 
+    fun isPowerOfThree(n: Int): Boolean {
+        // 3^19 is the largest power of 3 that fits in an int
+        return n > 0 && 1162261467 % n == 0
+    }
+
+    fun isPowerOfFour(n: Int): Boolean {
+        // n will have only one 1 bit, and n - 1 is divisible by 3, because 4^n = (3 + 1)^n
+          return n > 0 && (n and (n - 1)) == 0 && (n - 1) % 3 == 0
+//        if (n <= 0) return false
+//        var current = n
+//        var index = -1
+//        while (current > 0) {
+//            index++
+//            if (current and 1 == 1 && current != 1) return false
+//            current = current shr 1
+//        }
+//        return index % 2 == 0
+    }
+
     fun productQueries(n: Int, queries: Array<IntArray>): IntArray {
         var index = 0
         var current = n
