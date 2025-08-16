@@ -6993,4 +6993,69 @@ object ArrayCode {
 
         return calcProb(units, units)
     }
+
+    fun perfectPairs(nums: IntArray): Long {
+        val sorted = nums.sortedBy { abs(it) }
+
+        fun isValid(i: Int, j: Int): Boolean {
+            val res1 = abs(sorted[i] - sorted[j])
+            val res2 = abs(sorted[i] + sorted[j])
+            val abs1 = abs(sorted[i])
+            val abs2 = abs(sorted[j])
+            val minRes: Int
+            val maxRes: Int
+            val minNum: Int
+            val maxNum: Int
+            if (res1 < res2) {
+                minRes = res1
+                maxRes = res2
+            } else {
+                minRes = res2
+                maxRes = res1
+            }
+            if (abs1 < abs2) {
+                minNum = abs1
+                maxNum = abs2
+            } else {
+                minNum = abs2
+                maxNum = abs1
+            }
+            return minRes <= minNum && maxRes >= maxNum
+        }
+
+        var result = 0L
+        var left = 0
+        for (right in 1 until sorted.size) {
+            while (left < right && !isValid(left, right)) {
+                left++
+            }
+            if (left < right) {
+                result += right - left
+            }
+        }
+        return result
+    }
+
+    fun minCostWithReverse(n: Int, edges: Array<IntArray>): Int {
+        val edgesMap = Array(n) { mutableMapOf<Int, Int>() }
+        for ((u, v, w) in edges) {
+            edgesMap[u][v] = minOf(edgesMap[u].getOrDefault(v, Int.MAX_VALUE), w)
+            edgesMap[v][u] = minOf(edgesMap[v].getOrDefault(u, Int.MAX_VALUE), w shl 1)
+        }
+        val dist = IntArray(n) { Int.MAX_VALUE }
+        val pq = PriorityQueue<Pair<Int, Int>>(compareBy { it.second }) // node, cost
+        pq.offer(0 to 0)
+        dist[0] = 0
+        while (pq.isNotEmpty()) {
+            val (node, cost) = pq.poll()!!
+            if (node == n - 1) return cost
+            for ((next, weight) in edgesMap[node]) {
+                val newCost = cost + weight
+                if (newCost > dist[next]) continue
+                dist[next] = newCost
+                pq.offer(next to newCost)
+            }
+        }
+        return -1
+    }
 }
