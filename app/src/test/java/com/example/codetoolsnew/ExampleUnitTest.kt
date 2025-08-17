@@ -95,9 +95,9 @@ class ExampleUnitTest {
 //            )
 //
 //        )
-        println(
-            ArrayCode.minCost(4, parseToIntArray("[[0,1,3],[3,1,1],[2,3,4],[0,2,2]]"))
-        )
+//        println(
+//            ArrayCode.minCost(4, parseToIntArray("[[0,1,3],[3,1,1],[2,3,4],[0,2,2]]"))
+//        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
@@ -111,7 +111,7 @@ class ExampleUnitTest {
 //        println(
 //            StringCode.longestSubsequence("0001101010", 5)
 //        )
-//        println(MathCode.isPowerOfFour(16))
+        println(MathCode.new21Game(21, 17, 10))
 
 //        println(
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)

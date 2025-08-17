@@ -794,4 +794,23 @@ object MathCode {
         }
         return dp[n]
     }
+
+    fun new21Game(n: Int, k: Int, maxPts: Int): Double {
+        if (k == 0 || n >= k + maxPts) {
+            return 1.0
+        }
+
+        val dp = DoubleArray(k + maxPts)
+        var windowSum = 0.0
+        for (i in k until k + maxPts) {
+            dp[i] = if (i <= n) 1.0 else 0.0
+            windowSum += dp[i]
+        }
+
+        for (i in k - 1 downTo 0) {
+            dp[i] = windowSum / maxPts
+            windowSum = windowSum - dp[i + maxPts] + dp[i]
+        }
+        return dp[0]
+    }
 }
