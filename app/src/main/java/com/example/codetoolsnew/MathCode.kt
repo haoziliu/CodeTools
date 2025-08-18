@@ -727,7 +727,7 @@ object MathCode {
 
     fun isPowerOfFour(n: Int): Boolean {
         // n will have only one 1 bit, and n - 1 is divisible by 3, because 4^n = (3 + 1)^n
-          return n > 0 && (n and (n - 1)) == 0 && (n - 1) % 3 == 0
+        return n > 0 && (n and (n - 1)) == 0 && (n - 1) % 3 == 0
 //        if (n <= 0) return false
 //        var current = n
 //        var index = -1
@@ -813,4 +813,39 @@ object MathCode {
         }
         return dp[0]
     }
+
+    fun judgePoint24(cards: IntArray): Boolean {
+        val array = doubleArrayOf(
+            cards[0].toDouble(),
+            cards[1].toDouble(),
+            cards[2].toDouble(),
+            cards[3].toDouble()
+        )
+
+        fun compute(x: Double, y: Double): DoubleArray {
+            return doubleArrayOf(x + y, x - y, y - x, x * y, x / y, y / x)
+        }
+
+        fun dfs(nums: DoubleArray): Boolean {
+            if (nums.size == 1) return abs(nums[0] - 24) < 0.0001
+
+            for (i in nums.indices) {
+                for (j in i + 1 until nums.size) {
+                    val next = DoubleArray(nums.size - 1)
+                    var index = 0
+                    for (k in nums.indices) {
+                        if (k != i && k != j) next[index++] = nums[k]
+                    }
+                    for (d in compute(nums[i], nums[j])) {
+                        next[next.size - 1] = d
+                        if (dfs(next)) return true
+                    }
+                }
+            }
+            return false
+        }
+
+        return dfs(array)
+    }
+
 }
