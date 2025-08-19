@@ -848,4 +848,16 @@ object MathCode {
         return dfs(array)
     }
 
+    fun zeroFilledSubarray(nums: IntArray): Long {
+        var count = 0L
+        var streak = 0
+        for (i in nums.indices) {
+            if (nums[i] != 0) {
+                streak = 0
+            } else {
+                count += ++streak
+            }
+        }
+        return count
+    }
 }
