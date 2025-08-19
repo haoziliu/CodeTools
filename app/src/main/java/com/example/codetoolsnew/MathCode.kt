@@ -860,4 +860,39 @@ object MathCode {
         }
         return count
     }
+
+    fun numberOfArithmeticSlices(nums: IntArray): Int {
+        var count = 0
+        var streak = 0
+        for (i in 2 until nums.size) {
+            if (nums[i] - nums[i - 1] != nums[i - 1] - nums[i - 2]) {
+                streak = 0
+            } else {
+                count += ++streak
+            }
+        }
+        return count
+    }
+
+    fun checkArithmeticSubarrays(nums: IntArray, l: IntArray, r: IntArray): List<Boolean> {
+        val result = BooleanArray(l.size)
+
+        fun isValid(subArray: IntArray): Boolean {
+            if (subArray.size <= 1) return false
+            if (subArray.size == 2) return true
+            subArray.sort()
+            for (i in 2 until subArray.size) {
+                if (subArray[i] - subArray[i - 1] != subArray[i - 1] - subArray[i - 2]) {
+                    return false
+                }
+            }
+            return true
+        }
+
+        for (i in l.indices) {
+            result[i] = isValid(nums.copyOfRange(l[i], r[i] + 1))
+        }
+
+        return result.toList()
+    }
 }

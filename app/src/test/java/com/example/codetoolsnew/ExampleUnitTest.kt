@@ -111,7 +111,7 @@ class ExampleUnitTest {
 //        println(
 //            StringCode.longestSubsequence("0001101010", 5)
 //        )
-        println(MathCode.new21Game(21, 17, 10))
+        println(MathCode.checkArithmeticSubarrays(intArrayOf(4,6,5,9,3,7), intArrayOf(0,0,2), intArrayOf(2,3,5)))
 
 //        println(
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)
