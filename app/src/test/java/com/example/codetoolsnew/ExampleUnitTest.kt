@@ -95,9 +95,9 @@ class ExampleUnitTest {
 //            )
 //
 //        )
-//        println(
-//            ArrayCode.minCost(4, parseToIntArray("[[0,1,3],[3,1,1],[2,3,4],[0,2,2]]"))
-//        )
+        println(
+            ArrayCode.minCostToHome(intArrayOf(4, 2), intArrayOf(4,0),intArrayOf(175, 1876, 4417, 3561, 1545), intArrayOf(9606, 43, 1442, 6708, 533, 337))
+        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
@@ -111,7 +111,7 @@ class ExampleUnitTest {
 //        println(
 //            StringCode.longestSubsequence("0001101010", 5)
 //        )
-        println(MathCode.checkArithmeticSubarrays(intArrayOf(4,6,5,9,3,7), intArrayOf(0,0,2), intArrayOf(2,3,5)))
+//        println(MathCode.checkArithmeticSubarrays(intArrayOf(4,6,5,9,3,7), intArrayOf(0,0,2), intArrayOf(2,3,5)))
 
 //        println(
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)

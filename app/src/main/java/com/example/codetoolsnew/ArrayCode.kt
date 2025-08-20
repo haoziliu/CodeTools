@@ -7058,4 +7058,24 @@ object ArrayCode {
         }
         return -1
     }
+
+    fun minCostToHome(
+        startPos: IntArray,
+        homePos: IntArray,
+        rowCosts: IntArray,
+        colCosts: IntArray
+    ): Int {
+        var cost = 0
+        val rowStart = if (startPos[0] < homePos[0]) startPos[0] + 1 else homePos[0]
+        val rowEnd = if (startPos[0] < homePos[0]) homePos[0] else startPos[0] - 1
+        for (row in rowStart..rowEnd) {
+            cost += rowCosts[row]
+        }
+        val colStart = if (startPos[1] < homePos[1]) startPos[1] + 1 else homePos[1]
+        val colEnd = if (startPos[1] < homePos[1]) homePos[1] else startPos[1] - 1
+        for (col in colStart..colEnd) {
+            cost += colCosts[col]
+        }
+        return cost
+    }
 }
