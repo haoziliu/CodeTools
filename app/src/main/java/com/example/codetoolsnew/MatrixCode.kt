@@ -1146,4 +1146,42 @@ object MatrixCode {
         }
         return grid
     }
+
+    fun numSubmat(mat: Array<IntArray>): Int {
+//        val n = mat[0].size
+//        var count = 0
+//        val heights = IntArray(n)
+//        for (rows in mat) {
+//            for (col in 0 until n) {
+//                heights[col] = if (rows[col] == 0) 0 else heights[col] + 1
+//
+//                var minHeight = Int.MAX_VALUE
+//                for (newCol in col downTo 0) {
+//                    if (rows[newCol] == 0) break
+//                    minHeight = minOf(minHeight, heights[newCol])
+//                    count += minHeight
+//                }
+//            }
+//        }
+//        return count
+        val n = mat[0].size
+        var count = 0
+        val heights = IntArray(n)
+        for (rows in mat) {
+            val stack = LinkedList<Triple<Int, Int, Int>>() // index, prev, height
+            stack.push(Triple(-1, 0, -1))
+            for (i in 0 until n) {
+                heights[i] = if (rows[i] == 0) 0 else heights[i] + 1
+
+                while (stack.isNotEmpty() && stack.peek()!!.third >= heights[i]) {
+                    stack.pop()
+                }
+                val left = stack.peek()!!
+                val curr = left.second + (i - left.first) * heights[i]
+                stack.push(Triple(i, curr, heights[i]))
+                count += curr
+            }
+        }
+        return count
+    }
 }

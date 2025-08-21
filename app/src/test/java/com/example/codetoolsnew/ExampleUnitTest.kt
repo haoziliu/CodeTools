@@ -2,6 +2,7 @@ package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
 import com.example.codetools.MathCode
+import com.example.codetools.MatrixCode
 import com.example.codetools.SortCode
 import com.example.codetools.hard.HardArrayCode
 import org.junit.Test
@@ -95,9 +96,9 @@ class ExampleUnitTest {
 //            )
 //
 //        )
-        println(
-            ArrayCode.minCostToHome(intArrayOf(4, 2), intArrayOf(4,0),intArrayOf(175, 1876, 4417, 3561, 1545), intArrayOf(9606, 43, 1442, 6708, 533, 337))
-        )
+//        println(
+//            ArrayCode.minCostToHome(intArrayOf(4, 2), intArrayOf(4,0),intArrayOf(175, 1876, 4417, 3561, 1545), intArrayOf(9606, 43, 1442, 6708, 533, 337))
+//        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
@@ -117,7 +118,7 @@ class ExampleUnitTest {
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)
 //        )
 
-//        println(MatrixCode.sortMatrix(parseToIntArray("[[1,7,3],[9,8,2],[4,5,6]]")))
+        println(MatrixCode.numSubmat(parseToIntArray("[[0,1,1,0],[0,1,1,1],[1,1,1,0]]\n")))
 
 //        println(
 //            SortCode.radixSort(intArrayOf(170, 45, 75, 90, 802, 24, 2, 66))
