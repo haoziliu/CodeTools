@@ -118,7 +118,7 @@ class ExampleUnitTest {
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)
 //        )
 
-        println(MatrixCode.numSubmat(parseToIntArray("[[0,1,1,0],[0,1,1,1],[1,1,1,0]]\n")))
+        println(MatrixCode.minimumSum(parseToIntArray("[[1,0,0,1],[0,0,0,0],[1,0,0,0]]")))
 
 //        println(
 //            SortCode.radixSort(intArrayOf(170, 45, 75, 90, 802, 24, 2, 66))

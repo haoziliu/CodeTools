@@ -1184,4 +1184,107 @@ object MatrixCode {
         }
         return count
     }
+
+    fun minimumSum(grid: Array<IntArray>): Int {
+        val m = grid.size
+        val n = grid[0].size
+        var minSum = Int.MAX_VALUE
+
+        fun getBoundingBoxArea(r1: Int, c1: Int, r2: Int, c2: Int): Int {
+            var top = Int.MAX_VALUE
+            var bottom = -1
+            var left = Int.MAX_VALUE
+            var right = -1
+            var foundOne = false
+
+            for (r in r1..r2) {
+                for (c in c1..c2) {
+                    if (grid[r][c] == 1) {
+                        foundOne = true
+                        top = minOf(top, r)
+                        bottom = maxOf(bottom, r)
+                        left = minOf(left, c)
+                        right = maxOf(right, c)
+                    }
+                }
+            }
+
+            return if (!foundOne) 0 else (bottom - top + 1) * (right - left + 1)
+        }
+
+
+        for (i in 0 until m - 1) {
+            val area1 = getBoundingBoxArea(0, 0, i, n - 1)
+            if (area1 == 0) continue
+            for (j in i + 1 until m - 1) {
+                val area2 = getBoundingBoxArea(i + 1, 0, j, n - 1)
+                val area3 = getBoundingBoxArea(j + 1, 0, m - 1, n - 1)
+                if (area1 > 0 && area2 > 0 && area3 > 0) {
+                    minSum = minOf(minSum, area1 + area2 + area3)
+                }
+            }
+        }
+
+        for (i in 0 until n - 2) {
+            val area1 = getBoundingBoxArea(0, 0, m - 1, i)
+            if (area1 == 0) continue
+            for (j in i + 1 until n - 1) {
+                val area2 = getBoundingBoxArea(0, i + 1, m - 1, j)
+                val area3 = getBoundingBoxArea(0, j + 1, m - 1, n - 1)
+                if (area1 > 0 && area2 > 0 && area3 > 0) {
+                    minSum = minOf(minSum, area1 + area2 + area3)
+                }
+            }
+        }
+
+        for (i in 0 until m - 1) {
+            val area1 = getBoundingBoxArea(0, 0, i, n - 1)
+            if (area1 == 0) continue
+            for (j in 0 until n - 1) {
+                val area2 = getBoundingBoxArea(i + 1, 0, m - 1, j)
+                val area3 = getBoundingBoxArea(i + 1, j + 1, m - 1, n - 1)
+                if (area1 > 0 && area2 > 0 && area3 > 0) {
+                    minSum = minOf(minSum, area1 + area2 + area3)
+                }
+            }
+        }
+
+        for (i in 0 until m - 1) {
+            val area1 = getBoundingBoxArea(i + 1, 0, m - 1, n - 1)
+            if (area1 == 0) continue
+            for (j in 0 until n - 1) {
+                val area2 = getBoundingBoxArea(0, 0, i, j)
+                val area3 = getBoundingBoxArea(0, j + 1, i, n - 1)
+                if (area1 > 0 && area2 > 0 && area3 > 0) {
+                    minSum = minOf(minSum, area1 + area2 + area3)
+                }
+            }
+        }
+
+        for (j in 0 until n - 1) {
+            val area1 = getBoundingBoxArea(0, 0, m - 1, j)
+            if (area1 == 0) continue
+            for (i in 0 until m - 1) {
+                val area2 = getBoundingBoxArea(0, j + 1, i, n - 1)
+                val area3 = getBoundingBoxArea(i + 1, j + 1, m - 1, n - 1)
+                if (area1 > 0 && area2 > 0 && area3 > 0) {
+                    minSum = minOf(minSum, area1 + area2 + area3)
+                }
+            }
+        }
+
+        for (j in 0 until n - 1) {
+            val area1 = getBoundingBoxArea(0, j + 1, m - 1, n - 1)
+            if (area1 == 0) continue
+            for (i in 0 until m - 1) {
+                val area2 = getBoundingBoxArea(0, 0, i, j)
+                val area3 = getBoundingBoxArea(i + 1, 0, m - 1, j)
+                if (area1 > 0 && area2 > 0 && area3 > 0) {
+                    minSum = minOf(minSum, area1 + area2 + area3)
+                }
+            }
+        }
+
+        return minSum
+    }
 }
