@@ -1287,4 +1287,44 @@ object MatrixCode {
 
         return minSum
     }
+
+    fun findDiagonalOrder(mat: Array<IntArray>): IntArray {
+        val m = mat.size
+        val n = mat[0].size
+        val result = IntArray(m * n)
+        var up = true
+        var index = 0
+        var i = 0
+        var j = 0
+        while (i < m - 1 || j < n - 1) {
+            result[index++] = mat[i][j]
+            if (up) {
+                if (i == 0 || j == n - 1) {
+                    up = false
+                    if (j != n - 1) {
+                        j++
+                    } else {
+                        i++
+                    }
+                } else {
+                    i--
+                    j++
+                }
+            } else {
+                if (i == m - 1 || j == 0) {
+                    up = true
+                    if (i != m - 1) {
+                        i++
+                    } else {
+                        j++
+                    }
+                } else {
+                    i++
+                    j--
+                }
+            }
+        }
+        result[index] = mat[i][j]
+        return result
+    }
 }
