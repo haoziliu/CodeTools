@@ -3457,4 +3457,52 @@ object HardArrayCode {
         }
         return dp[n - 1][n - 1] + dp[n - 2][n - 1] + dp[n - 1][n - 2]
     }
+
+    fun lenOfVDiagonal(grid: Array<IntArray>): Int {
+        val DIRECTIONS = arrayOf(-1 to 1, 1 to 1, 1 to -1, -1 to -1)
+        val m = grid.size
+        val n = grid[0].size
+        val memo = Array(m) { Array(n) { IntArray(8) { -1 } } }
+
+        fun dfs(i: Int, j: Int, di: Int, turned: Int): Int {
+            val stateIndex = di * 2 + turned // flatten the status
+            if (memo[i][j][stateIndex] != -1) return memo[i][j][stateIndex]
+            val nextCell = if (grid[i][j] == 0) 2 else 0
+            val newX = i + DIRECTIONS[di].first
+            val newY = j + DIRECTIONS[di].second
+            var maxLen = 1
+            if (newX in 0 until m && newY in 0 until n && grid[newX][newY] == nextCell) {
+                maxLen = dfs(newX, newY, di, turned) + 1
+            }
+            if (turned == 0) {
+                val turnedDi = (di + 1) % 4
+                val turnedX = i + DIRECTIONS[turnedDi].first
+                val turnedY = j + DIRECTIONS[turnedDi].second
+                if (turnedX in 0 until m && turnedY in 0 until n && grid[turnedX][turnedY] == nextCell) {
+                    maxLen = maxOf(maxLen, dfs(turnedX, turnedY, turnedDi, 1) + 1)
+                }
+            }
+            memo[i][j][stateIndex] = maxLen
+            return maxLen
+        }
+
+        var result = 0
+        var hasOne = false
+        for (i in 0 until m) {
+            for (j in 0 until n) {
+                if (grid[i][j] == 1) {
+                    hasOne = true
+                    for (di in 0..3) {
+                        val newX = i + DIRECTIONS[di].first
+                        val newY = j + DIRECTIONS[di].second
+                        if (newX in 0 until m && newY in 0 until n && grid[newX][newY] == 2) {
+                            result = maxOf(result, dfs(newX, newY, di, 0) + 1)
+                        }
+                    }
+                }
+            }
+        }
+        if (result == 0 && hasOne) return 1
+        return result
+    }
 }

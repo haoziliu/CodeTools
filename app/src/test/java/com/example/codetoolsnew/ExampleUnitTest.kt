@@ -90,12 +90,13 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-//        println(
-//            HardArrayCode.maxCollectedFruits(
-//                parseToIntArray("[[871,321,560,643,991],[534,665,315,283,267],[193,976,533,82,3],[600,28,984,34,985],[35,51,895,713,342]]")
-//            )
-//
-//        )
+        println(
+            HardArrayCode.lenOfVDiagonal(
+                parseToIntArray("[[1]]")
+//                parseToIntArray("[[2,2,1,2,2],[2,0,2,2,0],[2,0,1,1,0],[1,0,2,2,2],[2,0,0,2,2]]")
+            )
+
+        )
 //        println(
 //            ArrayCode.minCostToHome(intArrayOf(4, 2), intArrayOf(4,0),intArrayOf(175, 1876, 4417, 3561, 1545), intArrayOf(9606, 43, 1442, 6708, 533, 337))
 //        )
@@ -118,7 +119,7 @@ class ExampleUnitTest {
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)
 //        )
 
-        println(MatrixCode.findDiagonalOrder(parseToIntArray("[[1,2,3],[4,5,6],[7,8,9]]\n")))
+//        println(MatrixCode.findDiagonalOrder(parseToIntArray("[[1,2,3],[4,5,6],[7,8,9]]\n")))
 
 //        println(
 //            SortCode.radixSort(intArrayOf(170, 45, 75, 90, 802, 24, 2, 66))
