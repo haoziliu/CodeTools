@@ -3505,4 +3505,43 @@ object HardArrayCode {
         if (result == 0 && hasOne) return 1
         return result
     }
+
+    fun solveSudoku(board: Array<CharArray>): Unit {
+        val rows = Array(9) { BooleanArray(9) }
+        val cols = Array(9) { BooleanArray(9) }
+        val boxes = Array(9) { BooleanArray(9) }
+
+        for (i in 0 until 9) {
+            for (j in 0 until 9) {
+                if (board[i][j] == '.') continue
+                val numIndex = board[i][j] - '1'
+                rows[i][numIndex] = true
+                cols[j][numIndex] = true
+                boxes[i / 3 * 3 + j / 3][numIndex] = true
+            }
+        }
+
+        fun dfs(i: Int, j: Int): Boolean {
+            if (i == 9) return true
+            if (j == 9) return dfs(i + 1, 0)
+            if (board[i][j] != '.') return dfs(i, j + 1)
+            val boxIndex = i / 3 * 3 + j / 3
+            for (numIndex in 0 until 9) {
+                if (!rows[i][numIndex] && !cols[j][numIndex] && !boxes[boxIndex][numIndex]) {
+                    board[i][j] = '1' + numIndex
+                    rows[i][numIndex] = true
+                    cols[j][numIndex] = true
+                    boxes[boxIndex][numIndex] = true
+                    if (dfs(i, j + 1)) return true
+                    board[i][j] = '.'
+                    rows[i][numIndex] = false
+                    cols[j][numIndex] = false
+                    boxes[boxIndex][numIndex] = false
+                }
+            }
+            return false
+        }
+
+        dfs(0, 0)
+    }
 }
