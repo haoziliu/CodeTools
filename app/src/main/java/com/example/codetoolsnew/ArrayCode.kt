@@ -4863,28 +4863,33 @@ object ArrayCode {
     }
 
     fun maxAverageRatio(classes: Array<IntArray>, extraStudents: Int): Double {
-        class SchoolClass(var pass: Int, var total: Int) : Comparable<SchoolClass> {
-            fun ratio(): Double = pass * 1.0 / total
-            fun canIncrease() = (pass * 1.0 + 1.0) / (total + 1.0) - ratio()
 
-            override fun compareTo(other: SchoolClass): Int {
-                return other.canIncrease().compareTo(canIncrease())
+        class Student(var pass: Double, var total: Double) : Comparable<Student> {
+            var ratio = pass / total
+            var prio = (pass + 1) / (total + 1) - ratio
+
+            fun inc() {
+                ratio = ++pass / ++total
+                prio = (pass + 1) / (total + 1) - ratio
             }
+
+            override fun compareTo(other: Student) = other.prio.compareTo(prio)
         }
 
-        val pq = PriorityQueue<SchoolClass>()
-        for ((pass, total) in classes) {
-            pq.offer(SchoolClass(pass, total))
+        val pq = PriorityQueue<Student>()
+        for (student in classes) {
+            pq.offer(Student(student[0].toDouble(), student[1].toDouble()))
         }
-        var assigned = 0
-        while (assigned < extraStudents) {
-            val current = pq.poll()!!
-            current.pass++
-            current.total++
-            pq.offer(current)
-            assigned++
+        for (i in 0 until extraStudents) {
+            val student = pq.poll()!!
+            student.inc()
+            pq.offer(student)
         }
-        return pq.sumOf { it.ratio() } / pq.size
+        var sum = 0.0
+        for (student in pq) {
+            sum += student.ratio
+        }
+        return sum / classes.size
     }
 
     fun finalPrices(prices: IntArray): IntArray {
