@@ -7083,4 +7083,17 @@ object ArrayCode {
         }
         return cost
     }
+
+    fun makeTheIntegerZero(num1: Int, num2: Int): Int {
+        var result = 0
+        var remain = num1.toLong() // num1 - num2*result
+        while (remain > num2 + result) {
+            result++
+            remain -= num2
+            if (remain.countOneBits() <= result) {
+                return result
+            }
+        }
+        return -1
+    }
 }

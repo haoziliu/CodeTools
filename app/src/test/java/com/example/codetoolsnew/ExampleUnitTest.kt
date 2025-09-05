@@ -1,13 +1,18 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
-import com.example.codetools.MathCode
-import com.example.codetools.MatrixCode
-import com.example.codetools.SortCode
-import com.example.codetools.hard.HardArrayCode
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -90,16 +95,15 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
-            HardArrayCode.lenOfVDiagonal(
-                parseToIntArray("[[1]]")
-//                parseToIntArray("[[2,2,1,2,2],[2,0,2,2,0],[2,0,1,1,0],[1,0,2,2,2],[2,0,0,2,2]]")
-            )
-
-        )
 //        println(
-//            ArrayCode.minCostToHome(intArrayOf(4, 2), intArrayOf(4,0),intArrayOf(175, 1876, 4417, 3561, 1545), intArrayOf(9606, 43, 1442, 6708, 533, 337))
+//            HardArrayCode.lenOfVDiagonal(
+//                parseToIntArray("[[1]]")
+////                parseToIntArray("[[2,2,1,2,2],[2,0,2,2,0],[2,0,1,1,0],[1,0,2,2,2],[2,0,0,2,2]]")
+//            )
 //        )
+        println(
+            ArrayCode.makeTheIntegerZero(3, -2)
+        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
@@ -124,5 +128,39 @@ class ExampleUnitTest {
 //        println(
 //            SortCode.radixSort(intArrayOf(170, 45, 75, 90, 802, 24, 2, 66))
 //        )
+
+//        val mutex = Mutex()
+//        runBlocking {
+//            var count = 0
+//            withContext(Dispatchers.Default) {
+//                repeat(1000) {
+//                    launch {
+//                        count++
+//                    }
+//                }
+//            }
+//            delay(1000)
+//            println("final count $count")
+//            count = 0
+//            withContext(Dispatchers.Default) {
+//                repeat(1000) {
+//                    launch {
+//                        mutex.withLock {
+//                            count++
+//                        }
+//                    }
+//                }
+//            }
+//            delay(1000)
+//            println("final count $count")
+//            count = 0
+//            repeat(1000) {
+//                launch {
+//                    count++
+//                }
+//            }
+//            delay(1000)
+//            println("final count $count")
+//        }
     }
 }
