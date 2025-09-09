@@ -102,7 +102,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.makeTheIntegerZero(3, -2)
+            ArrayCode.peopleAwareOfSecret(6,2,4)
         )
 
 //        println(

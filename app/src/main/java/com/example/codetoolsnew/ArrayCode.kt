@@ -7096,4 +7096,25 @@ object ArrayCode {
         }
         return -1
     }
+
+    fun peopleAwareOfSecret(n: Int, delay: Int, forget: Int): Int {
+        val MOD = 1_000_000_007
+        val forgetOn = IntArray(n + 1)
+        val shareOn = IntArray(n + 1)
+        shareOn[delay] = 1
+        forgetOn[forget] = 1
+        var count = 1
+        var active = 0
+        for (day in 1 until n) {
+            active = (active + MOD - forgetOn[day] + shareOn[day]) % MOD
+            count = (count + MOD - forgetOn[day] + active) % MOD
+            if (day + delay <= n) {
+                shareOn[day + delay] = active
+            }
+            if (day + forget <= n) {
+                forgetOn[day + forget] = active
+            }
+        }
+        return count
+    }
 }
