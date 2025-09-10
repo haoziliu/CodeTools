@@ -7117,4 +7117,37 @@ object ArrayCode {
         }
         return count
     }
+
+    fun minimumTeachings(n: Int, languages: Array<IntArray>, friendships: Array<IntArray>): Int {
+        fun langInCommon(user1: Int, user2: Int): Boolean {
+            for (lang1 in languages[user1 - 1]) {
+                for (lang2 in languages[user2 - 1]) {
+                    if (lang1 == lang2) {
+                        return true
+                    }
+                }
+            }
+            return false
+        }
+
+        val toTeach = mutableSetOf<Int>()
+        for ((u, v) in friendships) {
+            if (!langInCommon(u, v)) {
+                toTeach.add(u)
+                toTeach.add(v)
+            }
+        }
+
+        val langKnownBy = IntArray(n + 1)
+        var mostCommon = 0
+        for (user in toTeach) {
+            for (lang in languages[user - 1]) {
+                if (++langKnownBy[lang] > langKnownBy[mostCommon]) {
+                    mostCommon = lang
+                }
+            }
+        }
+
+        return toTeach.size - langKnownBy[mostCommon]
+    }
 }
