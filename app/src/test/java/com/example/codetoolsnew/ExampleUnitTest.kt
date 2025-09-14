@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.StringCode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -101,9 +102,9 @@ class ExampleUnitTest {
 ////                parseToIntArray("[[2,2,1,2,2],[2,0,2,2,0],[2,0,1,1,0],[1,0,2,2,2],[2,0,0,2,2]]")
 //            )
 //        )
-        println(
-            ArrayCode.peopleAwareOfSecret(6,2,4)
-        )
+//        println(
+//            ArrayCode.peopleAwareOfSecret(6,2,4)
+//        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
@@ -114,9 +115,9 @@ class ExampleUnitTest {
 //        )
 
 //        println(HardStringCode.longestSubsequenceRepeatedK("letsleetcode", 2))
-//        println(
-//            StringCode.longestSubsequence("0001101010", 5)
-//        )
+        println(
+            StringCode.spellchecker(arrayOf("KiTe","kite","hare","Hare"), arrayOf("kite","Kite","KiTe","Hare","HARE","Hear","hear","keti","keet","keto"))
+        )
 //        println(MathCode.checkArithmeticSubarrays(intArrayOf(4,6,5,9,3,7), intArrayOf(0,0,2), intArrayOf(2,3,5)))
 
 //        println(

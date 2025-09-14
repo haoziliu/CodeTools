@@ -2058,4 +2058,49 @@ object StringCode {
         }
         return length
     }
+
+    fun spellchecker(wordlist: Array<String>, queries: Array<String>): Array<String> {
+        val exact = mutableSetOf<String>()
+        val caseMap = mutableMapOf<String, String>()
+        val vowelMap = mutableMapOf<String, String>()
+
+        fun ignoreVowel(text: String): String {
+            val chars = text.lowercase().toCharArray()
+            for (i in chars.indices) {
+                if (chars[i] == 'a' || chars[i] == 'e' || chars[i] == 'i' || chars[i] == 'o' || chars[i] == 'u') {
+                    chars[i] = '_'
+                }
+            }
+            return String(chars)
+        }
+
+        for (word in wordlist) {
+            exact.add(word)
+            val lowerWord = word.lowercase()
+            if (lowerWord !in caseMap) {
+                caseMap[lowerWord] = word
+            }
+            val ignoreVowelWord = ignoreVowel(word)
+            if (ignoreVowelWord !in vowelMap) {
+                vowelMap[ignoreVowelWord] = word
+            }
+        }
+        val result = Array(queries.size) { "" }
+        for (i in result.indices) {
+            if (queries[i] in exact) {
+                result[i] = queries[i]
+                continue
+            }
+            val lowerWord = queries[i].lowercase()
+            if (lowerWord in caseMap) {
+                result[i] = caseMap[lowerWord]!!
+                continue
+            }
+            val ignoreVowelWord = ignoreVowel(queries[i])
+            if (ignoreVowelWord in vowelMap) {
+                result[i] = vowelMap[ignoreVowelWord]!!
+            }
+        }
+        return result
+    }
 }
