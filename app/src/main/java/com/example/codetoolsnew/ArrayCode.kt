@@ -7150,4 +7150,33 @@ object ArrayCode {
 
         return toTeach.size - langKnownBy[mostCommon]
     }
+
+    class FoodRatings(foods: Array<String>, cuisines: Array<String>, ratings: IntArray) {
+
+        val foodCuisine = mutableMapOf<String, String>()
+        val cuisineFood = mutableMapOf<String, TreeSet<String>>()
+        val foodRating = mutableMapOf<String, Int>()
+
+        init {
+            for (i in foods.indices) {
+                foodCuisine[foods[i]] = cuisines[i]
+                foodRating[foods[i]] = ratings[i]
+                cuisineFood.getOrPut(cuisines[i]) {
+                    TreeSet<String>(compareByDescending<String> { foodRating[it]!! }.thenBy { it })
+                }.add(foods[i])
+            }
+        }
+
+        fun changeRating(food: String, newRating: Int) {
+            val cuisine = foodCuisine[food]!!
+            val foodSet = cuisineFood[cuisine]!!
+            foodSet.remove(food)
+            foodRating[food] = newRating
+            foodSet.add(food)
+        }
+
+        fun highestRated(cuisine: String): String {
+            return cuisineFood[cuisine]!!.first()!!
+        }
+    }
 }
