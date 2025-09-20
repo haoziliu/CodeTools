@@ -7179,4 +7179,134 @@ object ArrayCode {
             return cuisineFood[cuisine]!!.first()!!
         }
     }
+
+    class TaskManager(tasks: List<List<Int>>) {
+        val taskToUser = mutableMapOf<Int, Int>()
+        val taskToPriority = mutableMapOf<Int, Int>()
+        val priorityToTasks = TreeMap<Int, TreeSet<Int>>()
+
+        init {
+            for ((userId, taskId, priority) in tasks) {
+                add(userId, taskId, priority)
+            }
+        }
+
+        fun add(userId: Int, taskId: Int, priority: Int) {
+            taskToUser[taskId] = userId
+            taskToPriority[taskId] = priority
+            priorityToTasks.getOrPut(priority) {
+                TreeSet<Int>(compareByDescending { it })
+            }.add(taskId)
+        }
+
+        fun edit(taskId: Int, newPriority: Int) {
+            removeTaskFromPriority(taskId)
+            taskToPriority[taskId] = newPriority
+            priorityToTasks.getOrPut(newPriority) {
+                TreeSet<Int>(compareByDescending { it })
+            }.add(taskId)
+        }
+
+        fun removeTaskFromPriority(taskId: Int) {
+            val oldPriority = taskToPriority[taskId]!!
+            if (priorityToTasks[oldPriority]!!.size == 1) {
+                priorityToTasks.remove(oldPriority)!!
+            } else {
+                priorityToTasks[oldPriority]!!.remove(taskId)
+            }
+        }
+
+        fun rmv(taskId: Int) {
+            removeTaskFromPriority(taskId)
+            taskToPriority.remove(taskId)
+            taskToUser.remove(taskId)
+        }
+
+        fun execTop(): Int {
+            if (priorityToTasks.isEmpty()) return -1
+            val taskId = if (priorityToTasks.lastEntry()!!.value.size == 1) {
+                priorityToTasks.pollLastEntry()!!.value!!.firstOrNull()
+            } else {
+                priorityToTasks.lastEntry()!!.value!!.pollFirst()
+            }
+            if (taskId == null) return -1
+            val result = taskToUser[taskId]!!
+            taskToPriority.remove(taskId)
+            taskToUser.remove(taskId)
+            return result
+        }
+    }
+
+    class Router(val memoryLimit: Int) {
+
+        data class Packet(val source: Int, val destination: Int, val timestamp: Int)
+
+        val queue = LinkedList<Packet>()
+        val packetSet = mutableSetOf<Packet>()
+        val destMap = mutableMapOf<Int, MutableList<Packet>>()
+
+        fun addPacket(source: Int, destination: Int, timestamp: Int): Boolean {
+            val newPacket = Packet(source, destination, timestamp)
+            if (newPacket in packetSet) {
+                return false
+            } else {
+                if (queue.size == memoryLimit) {
+                    val first = queue.removeFirst()!!
+                    destMap[first.destination]!!.removeFirst()
+                    packetSet.remove(first)
+                }
+                queue.addLast(newPacket)
+                packetSet.add(newPacket)
+                destMap.getOrPut(destination) { mutableListOf<Packet>() }.add(newPacket)
+                return true
+            }
+        }
+
+        fun forwardPacket(): IntArray {
+            return if (queue.isNotEmpty()) {
+                val first = queue.removeFirst()!!
+                destMap[first.destination]!!.removeFirst()
+                packetSet.remove(first)
+                intArrayOf(first.source, first.destination, first.timestamp)
+            } else {
+                intArrayOf()
+            }
+        }
+
+        fun searchLeftMost(target: Int, packets: List<Packet>): Int {
+            var left = 0
+            var right = packets.size - 1
+            while (left <= right) {
+                val mid = left + ((right - left) shr 1)
+                if (packets[mid].timestamp >= target) {
+                    right = mid - 1
+                } else {
+                    left = mid + 1
+                }
+            }
+            return left
+        }
+
+        fun searchRightMost(target: Int, packets: List<Packet>): Int {
+            var left = 0
+            var right = packets.size - 1
+            while (left <= right) {
+                val mid = left + ((right - left) shr 1)
+                if (packets[mid].timestamp <= target) {
+                    left = mid + 1
+                } else {
+                    right = mid - 1
+                }
+            }
+            return right
+        }
+
+        fun getCount(destination: Int, startTime: Int, endTime: Int): Int {
+            val destPackets = destMap.getOrDefault(destination, emptyList())
+            val left = searchLeftMost(startTime, destPackets)
+            val right = searchRightMost(endTime, destPackets)
+            return right - left + 1
+        }
+
+    }
 }
