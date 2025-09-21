@@ -5,6 +5,7 @@ import java.util.LinkedList
 import java.util.PriorityQueue
 import java.util.Stack
 import java.util.TreeMap
+import java.util.TreeSet
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.max
@@ -3543,5 +3544,57 @@ object HardArrayCode {
         }
 
         dfs(0, 0)
+    }
+
+    class MovieRentingSystem(n: Int, entries: Array<IntArray>) {
+        data class Movie(
+            val id: Int,
+            val shop: Int,
+            val price: Int
+        ) : Comparable<Movie> {
+            override fun compareTo(other: Movie): Int {
+                return if (price != other.price) {
+                    price.compareTo(other.price)
+                } else if (shop != other.shop) {
+                    shop.compareTo(other.shop)
+                } else {
+                    id.compareTo(other.id)
+                }
+            }
+        }
+
+        val priceMap = Array(n) { mutableMapOf<Int, Int>() } // shop, movie
+        val rented = TreeSet<Movie>()
+        val available = mutableMapOf<Int, TreeSet<Movie>>()
+
+        init {
+            for ((shop, movie, price) in entries) {
+                val obj = Movie(movie, shop, price)
+                available.getOrPut(movie) {
+                    TreeSet<Movie>()
+                }.add(obj)
+                priceMap[shop][movie] = price
+            }
+        }
+
+        fun search(movie: Int): List<Int> {
+            return available[movie]?.take(5)?.map { it.shop } ?: listOf()
+        }
+
+        fun rent(shop: Int, movie: Int) {
+            val obj = Movie(movie, shop, priceMap[shop][movie]!!)
+            available[movie]!!.remove(obj)!!
+            rented.add(obj)
+        }
+
+        fun drop(shop: Int, movie: Int) {
+            val obj = Movie(movie, shop, priceMap[shop][movie]!!)
+            rented.remove(obj)
+            available[movie]!!.add(obj)
+        }
+
+        fun report(): List<List<Int>> {
+            return rented.take(5).map { listOf(it.shop, it.id) }
+        }
     }
 }
