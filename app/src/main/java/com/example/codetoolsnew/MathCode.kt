@@ -895,4 +895,33 @@ object MathCode {
 
         return result.toList()
     }
+
+    fun fractionToDecimal(numerator: Int, denominator: Int): String {
+        if (numerator == 0) return "0"
+        val sb = StringBuilder()
+        if (numerator < 0 && denominator > 0 || numerator > 0 && denominator < 0) {
+            sb.append('-')
+        }
+        val num = abs(numerator.toLong())
+        val den = abs(denominator.toLong())
+        val seen = mutableMapOf<Long, Int>()
+        sb.append(num / den)
+        var remainer = num % den
+        if (remainer == 0L) return sb.toString()
+        sb.append('.')
+        while (remainer != 0L) {
+            if (remainer in seen) {
+                val start = seen[remainer]!!
+                sb.insert(start, '(')
+                sb.append(')')
+                break
+            }
+            seen[remainer] = sb.length
+
+            remainer *= 10
+            sb.append(remainer / den)
+            remainer %= den
+        }
+        return sb.toString()
+    }
 }

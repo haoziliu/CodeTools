@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.MathCode
 import com.example.codetools.StringCode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -118,7 +119,7 @@ class ExampleUnitTest {
 //        println(
 //            StringCode.spellchecker(arrayOf("KiTe","kite","hare","Hare"), arrayOf("kite","Kite","KiTe","Hare","HARE","Hear","hear","keti","keet","keto"))
 //        )
-//        println(MathCode.checkArithmeticSubarrays(intArrayOf(4,6,5,9,3,7), intArrayOf(0,0,2), intArrayOf(2,3,5)))
+        println(MathCode.fractionToDecimal(1,1))
 
 //        println(
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)
@@ -129,13 +130,5 @@ class ExampleUnitTest {
 //        println(
 //            SortCode.radixSort(intArrayOf(170, 45, 75, 90, 802, 24, 2, 66))
 //        )
-
-        val taskManager = ArrayCode.TaskManager(listOf(listOf(1,101,10), listOf(2,102,20), listOf(3,103,15)))
-        taskManager.add(4,104,5)
-        taskManager.edit(102,8)
-        println(taskManager.execTop())
-        taskManager.rmv(101)
-        taskManager.add(5,105,15)
-        println(taskManager.execTop())
     }
 }
