@@ -7307,6 +7307,29 @@ object ArrayCode {
             val right = searchRightMost(endTime, destPackets)
             return right - left + 1
         }
+    }
 
+    fun minimumTotal(triangle: List<List<Int>>): Int {
+        val m = triangle.size
+        val n = triangle[m - 1].size
+        val dp = IntArray(n) { Int.MAX_VALUE }
+        dp[0] = triangle[0][0]
+        if (m == 1) return dp[0]
+        var result = Int.MAX_VALUE
+        for (row in 1 until m) {
+            for (col in row downTo 0) {
+                if (col == 0) {
+                    dp[col] = dp[col] + triangle[row][col]
+                } else if (col == row) {
+                    dp[col] = dp[col - 1] + triangle[row][col]
+                } else {
+                    dp[col] = minOf(dp[col - 1], dp[col]) + triangle[row][col]
+                }
+                if (row == m - 1) {
+                    result = minOf(result, dp[col])
+                }
+            }
+        }
+        return result
     }
 }

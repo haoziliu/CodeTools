@@ -103,9 +103,9 @@ class ExampleUnitTest {
 ////                parseToIntArray("[[2,2,1,2,2],[2,0,2,2,0],[2,0,1,1,0],[1,0,2,2,2],[2,0,0,2,2]]")
 //            )
 //        )
-//        println(
-//            ArrayCode.peopleAwareOfSecret(6,2,4)
-//        )
+        println(
+            ArrayCode.minimumTotal(parseToList("[[2],[3,4],[6,5,7],[4,1,8,3]]"))
+        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
@@ -119,7 +119,7 @@ class ExampleUnitTest {
 //        println(
 //            StringCode.spellchecker(arrayOf("KiTe","kite","hare","Hare"), arrayOf("kite","Kite","KiTe","Hare","HARE","Hear","hear","keti","keet","keto"))
 //        )
-        println(MathCode.fractionToDecimal(1,1))
+//        println(MathCode.fractionToDecimal(1,1))
 
 //        println(
 //            GraphCode.maxWeight(4, parseToIntArray("[[0,1,4],[0,2,3],[1,2,9],[2,3,5],[0,3,5]]"), 2, 11)
