@@ -104,7 +104,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.minimumTotal(parseToList("[[2],[3,4],[6,5,7],[4,1,8,3]]"))
+            ArrayCode.triangleNumber(intArrayOf(24,3,82,22,35,84,19))
         )
 
 //        println(

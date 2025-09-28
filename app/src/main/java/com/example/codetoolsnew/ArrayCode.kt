@@ -7332,4 +7332,23 @@ object ArrayCode {
         }
         return result
     }
+
+    fun triangleNumber(nums: IntArray): Int {
+        nums.sort()
+        val n = nums.size
+        var count = 0
+        for (k in n - 1 downTo 2) {
+            var left = 0
+            var right = k - 1
+            while (left < right) {
+                if (nums[left] + nums[right] > nums[k]) {
+                    count += right - left
+                    right--
+                } else {
+                    left++
+                }
+            }
+        }
+        return count
+    }
 }
