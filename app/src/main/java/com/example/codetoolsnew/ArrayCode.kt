@@ -7351,4 +7351,46 @@ object ArrayCode {
         }
         return count
     }
+
+    fun pacificAtlantic(heights: Array<IntArray>): List<List<Int>> {
+        val directions = arrayOf(1 to 0, 0 to 1, -1 to 0, 0 to -1)
+        val m = heights.size
+        val n = heights[0].size
+        val reach = Array(m) { IntArray(n) } // 01: atlantic; 10: pacific
+
+        fun dfs(x: Int, y: Int, ocean: Int) {
+            reach[x][y] = reach[x][y] or ocean
+            for ((dx, dy) in directions) {
+                val newX = x + dx
+                val newY = y + dy
+                if (newX !in 0 until m || newY !in 0 until n || (reach[newX][newY] and ocean != 0)) continue
+                if (heights[newX][newY] >= heights[x][y]) {
+                    dfs(newX, newY, ocean)
+                }
+            }
+        }
+
+        for (j in 0 until n) {
+            dfs(0, j, 0x10)
+        }
+        for (i in 1 until m) {
+            dfs(i, 0, 0x10)
+        }
+        for (i in 0 until m) {
+            dfs(i, 0, 0x01)
+        }
+        for (j in 1 until n) {
+            dfs(0, j, 0x01)
+        }
+
+        val result = mutableListOf<List<Int>>()
+        for (i in 0 until m) {
+            for (j in 0 until n) {
+                if (reach[i][j] == 0x11) {
+                    result.add(listOf(i, j))
+                }
+            }
+        }
+        return result
+    }
 }

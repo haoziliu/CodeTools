@@ -233,8 +233,8 @@ object HardArrayCode {
                 if (newX !in 0 until m || newY !in 0 until n || visited[newX][newY]) continue
                 if (heightMap[newX][newY] < heightMap[i][j]) {
                     sum += heightMap[i][j] - heightMap[newX][newY]
+                    heightMap[newX][newY] = heightMap[i][j] // 更新水位
                 }
-                heightMap[newX][newY] = maxOf(heightMap[i][j], heightMap[newX][newY]) // 更新水位
                 visited[newX][newY] = true
                 pq.offer(newX to newY)
             }

@@ -104,7 +104,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.triangleNumber(intArrayOf(24,3,82,22,35,84,19))
+            ArrayCode.pacificAtlantic(parseToIntArray("[[1,2],[1,2]]"))
         )
 
 //        println(
