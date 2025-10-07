@@ -7393,4 +7393,29 @@ object ArrayCode {
         }
         return result
     }
+
+    fun avoidFlood(rains: IntArray): IntArray {
+        val result = IntArray(rains.size) { 1 }
+        val lakeLastRain = mutableMapOf<Int, Int>()
+        val dryDays = TreeSet<Int>()
+        for (i in rains.indices) {
+            val lake = rains[i]
+            if (lake != 0) {
+                if (lake in lakeLastRain) {
+                    val lastRainDay = lakeLastRain[lake]
+                    val availableDryDay = dryDays.higher(lastRainDay)
+                    if (availableDryDay == null) {
+                        return intArrayOf()
+                    }
+                    result[availableDryDay] = lake
+                    dryDays.remove(availableDryDay)
+                }
+                lakeLastRain[lake] = i
+                result[i] = -1
+            } else {
+                dryDays.add(i)
+            }
+        }
+        return result
+    }
 }
