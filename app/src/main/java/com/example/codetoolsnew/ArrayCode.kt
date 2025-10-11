@@ -7418,4 +7418,20 @@ object ArrayCode {
         }
         return result
     }
+
+    fun maximumTotalDamage(power: IntArray): Long {
+        val totalDamage = TreeMap<Int, Long>()
+        for (spell in power) {
+            totalDamage[spell] = totalDamage.getOrDefault(spell, 0) + spell.toLong()
+        }
+        val dp = TreeMap<Int, Long>()
+        dp[0] = 0L
+        for ((spell, damage) in totalDamage) {
+            dp[spell] = maxOf(
+                dp.lastEntry()?.value ?: 0L,
+                (dp.lowerEntry(spell - 2)?.value ?: 0) + damage
+            )
+        }
+        return dp.lastEntry()?.value ?: 0L
+    }
 }

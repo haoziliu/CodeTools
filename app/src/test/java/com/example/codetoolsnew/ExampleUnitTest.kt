@@ -104,7 +104,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.pacificAtlantic(parseToIntArray("[[1,2],[1,2]]"))
+            ArrayCode.maximumTotalDamage(intArrayOf(7,1,6,6))
         )
 
 //        println(
