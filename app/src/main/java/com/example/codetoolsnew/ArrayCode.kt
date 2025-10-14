@@ -7434,4 +7434,18 @@ object ArrayCode {
         }
         return dp.lastEntry()?.value ?: 0L
     }
+
+    fun hasIncreasingSubarrays(nums: List<Int>, k: Int): Boolean {
+        val n = nums.size
+        val dp = IntArray(n) { 1 }
+        for (i in 1 until n) {
+            if (nums[i] > nums[i - 1]) {
+                dp[i] = dp[i - 1] + 1
+            }
+        }
+        for (i in k - 1 until n - k) {
+            if (dp[i] >= k && dp[i + k] >= k) return true
+        }
+        return false
+    }
 }

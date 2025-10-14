@@ -104,7 +104,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.maximumTotalDamage(intArrayOf(7,1,6,6))
+            ArrayCode.hasIncreasingSubarrays(listOf(0,4,16,20,-6), 2)
         )
 
 //        println(
