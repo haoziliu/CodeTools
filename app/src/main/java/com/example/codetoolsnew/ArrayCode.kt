@@ -7448,4 +7448,19 @@ object ArrayCode {
         }
         return false
     }
+
+    fun findSmallestInteger(nums: IntArray, value: Int): Int {
+        val reminderCount = IntArray(value)
+        for (num in nums) {
+            val remain = (num % value + value) % value
+            reminderCount[remain]++
+        }
+        var minRemainder = 0
+        for (i in 0 until value) {
+            if (reminderCount[i] < reminderCount[minRemainder]) {
+                minRemainder = i
+            }
+        }
+        return minRemainder + reminderCount[minRemainder] * value
+    }
 }
