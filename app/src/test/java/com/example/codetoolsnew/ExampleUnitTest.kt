@@ -104,7 +104,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.hasIncreasingSubarrays(listOf(0,4,16,20,-6), 2)
+            ArrayCode.findLexSmallestString("5525", 9, 2)
         )
 
 //        println(

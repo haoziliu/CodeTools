@@ -7463,4 +7463,37 @@ object ArrayCode {
         }
         return minRemainder + reminderCount[minRemainder] * value
     }
+
+    fun findLexSmallestString(s: String, a: Int, b: Int): String {
+        var result = s
+        val seen = mutableSetOf<String>()
+        val queue = LinkedList<String>()
+        queue.offer(s)
+        seen.add(s)
+
+        while (queue.isNotEmpty()) {
+            val current = queue.poll()!!
+            result = minOf(result, current)
+
+            val charArray = current.toCharArray()
+            while (true) {
+                for (i in 1 until s.length step 2) {
+                    charArray[i] = '0' + (charArray[i] - '0' + a) % 10
+                }
+                val newText = String(charArray)
+                if (newText in seen) break
+                queue.offer(newText)
+                seen.add(newText)
+            }
+            while (true) {
+                val prefix = current.substring(0, b)
+                val suffix = current.substring(b)
+                val newText = "$suffix$prefix"
+                if (newText in seen) break
+                queue.offer(newText)
+                seen.add(newText)
+            }
+        }
+        return result
+    }
 }
