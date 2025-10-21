@@ -7496,4 +7496,32 @@ object ArrayCode {
         }
         return result
     }
+
+    fun maxFrequency(nums: IntArray, k: Int, numOperations: Int): Int {
+        var max = 0
+        val map = mutableMapOf<Int, Int>()
+        for (num in nums) {
+            map[num] = map.getOrDefault(num, 0) + 1
+            max = maxOf(max, num)
+        }
+
+        val n = max + k + 1
+        val prefix = IntArray(n + 1)
+        for (i in 0 until n) {
+            prefix[i + 1] = prefix[i] + map.getOrDefault(i, 0)
+        }
+
+        var maxFreq = 0
+        for (i in 1 until n) {
+            val left = maxOf(0, i - k)
+            val right = minOf(n - 1, i + k)
+
+            val total = prefix[right + 1] - prefix[left]
+            val add = total - map.getOrDefault(i, 0)
+            val freq = map.getOrDefault(i, 0) + minOf(numOperations, add)
+            maxFreq = maxOf(maxFreq, freq)
+        }
+        return maxFreq
+    }
+
 }
