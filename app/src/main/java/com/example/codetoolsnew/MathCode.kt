@@ -924,4 +924,26 @@ object MathCode {
         }
         return sb.toString()
     }
+
+    fun nextBeautifulNumber(n: Int): Int {
+        // <= 1224444
+        fun isBalanced(num: Int): Boolean {
+            val freq = IntArray(10)
+            var current = num
+            while (current != 0) {
+                val digit = current % 10
+                if (digit == 0 || ++freq[digit] > digit) return false
+                current /= 10
+            }
+            for (i in 1..9) {
+                if (freq[i] != 0 && freq[i] != i) return false
+            }
+            return true
+        }
+
+        for (num in n + 1..1224444) {
+            if (isBalanced(num)) return num
+        }
+        return 0
+    }
 }
