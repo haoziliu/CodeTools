@@ -7,7 +7,6 @@ import java.util.Stack
 import java.util.TreeMap
 import java.util.TreeSet
 import kotlin.math.abs
-import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.min
 
@@ -3596,5 +3595,17 @@ object HardArrayCode {
         fun report(): List<List<Int>> {
             return rented.take(5).map { listOf(it.shop, it.id) }
         }
+    }
+
+    fun minNumberOperations(target: IntArray): Int {
+        var result = 0
+        var previousHeight = 0
+        for (height in target) {
+            if (height > previousHeight) {
+                result += height - previousHeight
+            }
+            previousHeight = height
+        }
+        return result
     }
 }
