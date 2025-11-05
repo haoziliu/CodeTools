@@ -7524,4 +7524,120 @@ object ArrayCode {
         return maxFreq
     }
 
+    fun minCost(colors: String, neededTime: IntArray): Int {
+        val colorArray = colors.toCharArray()
+        var maxIndex = 0
+        var sameSum = 0
+        var result = 0
+        for (i in colorArray.indices) {
+            if (colorArray[i] != colorArray[maxIndex]) {
+                result += sameSum - neededTime[maxIndex]
+                maxIndex = i
+                sameSum = 0
+            } else if (neededTime[i] > neededTime[maxIndex]) {
+                maxIndex = i
+            }
+            sameSum += neededTime[i]
+        }
+        result += sameSum - neededTime[maxIndex]
+        return result
+    }
+
+    fun findXSum(nums: IntArray, k: Int, x: Int): LongArray {
+        data class Element(val num: Int, val freq: Int) : Comparable<Element> {
+            val sum = num.toLong() * freq
+            override fun compareTo(other: Element): Int {
+                return if (freq == other.freq) {
+                    num.compareTo(other.num)
+                } else {
+                    freq.compareTo(other.freq)
+                }
+            }
+        }
+
+        val n = nums.size
+        val result = LongArray(n - k + 1)
+        val freq = mutableMapOf<Int, Int>()
+        val topX = TreeSet<Element>()
+        val others = TreeSet<Element>(reverseOrder())
+        var sum = 0L
+        var left = 0
+
+        fun balanceSets() {
+            while (topX.size > x) {
+                val worstInTopX = topX.pollFirst()!!
+                sum -= worstInTopX.num.toLong() * worstInTopX.freq
+                others.add(worstInTopX)
+            }
+
+            while (topX.size < x && others.isNotEmpty()) {
+                val bestInOthers = others.pollFirst()!!
+                sum += bestInOthers.num.toLong() * bestInOthers.freq
+                topX.add(bestInOthers)
+            }
+
+            if (topX.isNotEmpty() && others.isNotEmpty() && others.first() > topX.first()) {
+                val worstInTopX = topX.pollFirst()!!
+                val bestInOthers = others.pollFirst()!!
+                sum -= worstInTopX.num.toLong() * worstInTopX.freq
+                sum += bestInOthers.num.toLong() * bestInOthers.freq
+                topX.add(bestInOthers)
+                others.add(worstInTopX)
+            }
+        }
+
+        fun removeElement(num: Int, oldFreq: Int) {
+            if (oldFreq == 0) return
+            val oldEl = Element(num, oldFreq)
+            if (topX.remove(oldEl)) {
+                sum -= oldEl.sum
+            } else {
+                others.remove(oldEl)
+            }
+        }
+
+        fun addElement(num: Int, newFreq: Int) {
+            if (newFreq == 0) return
+            val newEl = Element(num, newFreq)
+            if (topX.size < x) {
+                topX.add(newEl)
+                sum += newEl.sum
+            } else if (topX.first() < newEl) {
+                val worst = topX.pollFirst()!!
+                sum -= worst.sum
+                others.add(worst)
+                topX.add(newEl)
+                sum += newEl.sum
+            } else {
+                others.add(newEl)
+            }
+        }
+
+        for (right in nums.indices) {
+            val rightNum = nums[right]
+            val oldFreqRight = freq.getOrDefault(rightNum, 0)
+            val newFreqRight = oldFreqRight + 1
+            freq[rightNum] = newFreqRight
+            removeElement(rightNum, oldFreqRight)
+            addElement(rightNum, newFreqRight)
+            if (right - left + 1 > k) {
+                val leftNum = nums[left]
+                val oldFreqLeft = freq[leftNum]!!
+                val newFreqLeft = oldFreqLeft - 1
+                freq[leftNum] = newFreqLeft
+                removeElement(leftNum, oldFreqLeft)
+                addElement(leftNum, newFreqLeft)
+                balanceSets()
+                if (newFreqLeft == 0) {
+                    freq.remove(leftNum)
+                }
+                left++
+            }
+            if (right - left + 1 == k) {
+                result[left] = sum
+            }
+        }
+        return result
+    }
+
 }

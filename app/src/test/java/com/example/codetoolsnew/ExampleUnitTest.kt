@@ -98,13 +98,14 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
-            HardArrayCode.minNumberOperations(intArrayOf(3,2,5,4,7,2,3)
-            )
-        )
 //        println(
-//            ArrayCode.findLexSmallestString("5525", 9, 2)
+//            HardArrayCode.minNumberOperations(intArrayOf(3,2,5,4,7,2,3)
+//            )
 //        )
+        println(
+            ArrayCode.findXSum( intArrayOf(1000000000,1000000000,1000000000,1000000000,1000000000,1000000000
+            ),6,1)
+        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
