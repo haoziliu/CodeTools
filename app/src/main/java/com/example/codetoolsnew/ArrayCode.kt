@@ -7640,4 +7640,56 @@ object ArrayCode {
         return result
     }
 
+    fun processQueries(c: Int, connections: Array<IntArray>, queries: Array<IntArray>): IntArray {
+        class UnionFind(val n: Int) {
+            val parent = IntArray(n) { it }
+            val rank = IntArray(n) { 1 }
+
+            fun find(x: Int): Int {
+                if (parent[x] != x) {
+                    parent[x] = find(parent[x])
+                }
+                return parent[x]
+            }
+
+            fun union(x: Int, y: Int) {
+                val rootX = find(x)
+                val rootY = find(y)
+                if (rootX != rootY) {
+                    if (rank[rootX] > rank[rootY]) {
+                        parent[rootY] = rootX
+                    } else if (rank[rootY] > rank[rootX]) {
+                        parent[rootX] = rootY
+                    } else {
+                        parent[rootY] = rootX
+                        rank[rootX]++
+                    }
+                }
+            }
+        }
+
+        val uf = UnionFind(c + 1)
+        for ((u, v) in connections) {
+            uf.union(u, v)
+        }
+        val rootToOnline = mutableMapOf<Int, TreeSet<Int>>()
+        for (i in 1..c) {
+            rootToOnline.getOrPut(uf.find(i)) { TreeSet<Int>() }.add(i)
+        }
+        val result = mutableListOf<Int>()
+        for ((operation, station) in queries) {
+            val group = rootToOnline[uf.find(station)]!!
+            if (operation == 1) {
+                if (group.contains(station)) {
+                    result.add(station)
+                } else {
+                    result.add(group.firstOrNull() ?: -1)
+                }
+            } else if (operation == 2) {
+                group.remove(station)
+            }
+        }
+        return result.toIntArray()
+    }
+
 }

@@ -103,8 +103,7 @@ class ExampleUnitTest {
 //            )
 //        )
         println(
-            ArrayCode.findXSum( intArrayOf(1000000000,1000000000,1000000000,1000000000,1000000000,1000000000
-            ),6,1)
+            ArrayCode.processQueries(5, parseToIntArray("[[1,2],[2,3],[3,4],[4,5]]"), parseToIntArray("[[1,3],[2,1],[1,1],[2,2],[1,2]]"))
         )
 
 //        println(
