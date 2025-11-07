@@ -98,13 +98,13 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-//        println(
-//            HardArrayCode.minNumberOperations(intArrayOf(3,2,5,4,7,2,3)
-//            )
-//        )
         println(
-            ArrayCode.processQueries(5, parseToIntArray("[[1,2],[2,3],[3,4],[4,5]]"), parseToIntArray("[[1,3],[2,1],[1,1],[2,2],[1,2]]"))
+            HardArrayCode.maxPower(intArrayOf(1,2,4,5,0),1,2
+            )
         )
+//        println(
+//            ArrayCode.processQueries(5, parseToIntArray("[[1,2],[2,3],[3,4],[4,5]]"), parseToIntArray("[[1,3],[2,1],[1,1],[2,2],[1,2]]"))
+//        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)

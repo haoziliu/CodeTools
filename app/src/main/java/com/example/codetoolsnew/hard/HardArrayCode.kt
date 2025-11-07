@@ -3608,4 +3608,55 @@ object HardArrayCode {
         }
         return result
     }
+
+    fun maxPower(stations: IntArray, r: Int, k: Int): Long {
+        val n = stations.size
+        val linear = LongArray(n + 1)
+        for (i in stations.indices) {
+            val power = stations[i].toLong()
+            linear[maxOf(i - r, 0)] += power
+            linear[minOf(i + r + 1, n)] -= power
+        }
+        var minPower = Long.MAX_VALUE
+        var maxPower = Long.MIN_VALUE
+        val originalPower = LongArray(n + 1)
+        var currentPower = 0L
+        for (i in stations.indices) {
+            currentPower += linear[i]
+            originalPower[i] = currentPower
+            minPower = minOf(minPower, currentPower)
+            maxPower = maxOf(maxPower, currentPower)
+        }
+
+        fun validate(minimum: Long): Boolean {
+            val newLinear = LongArray(n + 1)
+            var newStations = 0L
+            var addSum = 0L
+            for (i in stations.indices) {
+                addSum += newLinear[i]
+                val currentPower = originalPower[i] + addSum
+                if (currentPower < minimum) {
+                    val delta = minimum - currentPower
+                    newLinear[i] += delta
+                    addSum += delta
+                    newStations += delta
+                    if (newStations > k) return false
+                    newLinear[minOf(n, i + 2 * r + 1)] -= delta
+                }
+            }
+            return true
+        }
+
+        var left = minPower
+        var right = maxPower + k
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            if (validate(mid)) {
+                left = mid + 1
+            } else {
+                right = mid - 1
+            }
+        }
+        return right
+    }
 }
