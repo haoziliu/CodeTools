@@ -1,6 +1,7 @@
 package com.example.codetoolsnew
 
 import com.example.codetools.ArrayCode
+import com.example.codetools.BitCode
 import com.example.codetools.MathCode
 import com.example.codetools.StringCode
 import com.example.codetools.hard.HardArrayCode
@@ -98,10 +99,10 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
-            HardArrayCode.maxPower(intArrayOf(1,2,4,5,0),1,2
-            )
-        )
+//        println(
+//            HardArrayCode.maxPower(intArrayOf(1,2,4,5,0),1,2
+//            )
+//        )
 //        println(
 //            ArrayCode.processQueries(5, parseToIntArray("[[1,2],[2,3],[3,4],[4,5]]"), parseToIntArray("[[1,3],[2,1],[1,1],[2,2],[1,2]]"))
 //        )
@@ -110,9 +111,9 @@ class ExampleUnitTest {
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
 //        )
 
-//        println(
-//            BitCode.kthCharacter(101)
-//        )
+        println(
+            BitCode.minimumOneBitOperations(6)
+        )
 
 //        println(HardStringCode.longestSubsequenceRepeatedK("letsleetcode", 2))
 //        println(

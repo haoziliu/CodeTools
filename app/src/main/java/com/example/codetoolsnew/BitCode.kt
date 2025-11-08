@@ -371,4 +371,28 @@ object BitCode {
         return 'a' + (count % 26)
     }
 
+    fun minimumOneBitOperations(n: Int): Int {
+        val memo = mutableMapOf<Int, Int>()
+        memo[0] = 0
+        memo[1] = 1
+
+        fun solve(num: Int): Int {
+            if (num in memo) return memo[num]!!
+            var current = num
+            while (current != 0) {
+                val newNum = current and (current - 1)
+                if (newNum == 0) {
+                    break
+                }
+                current = newNum
+            }
+            val target = current or (current shr 1)
+            val rest = num xor target
+            val result = solve(current shr 1) + 1 + solve(rest)
+            memo[num] = result
+            return result
+        }
+
+        return solve(n)
+    }
 }
