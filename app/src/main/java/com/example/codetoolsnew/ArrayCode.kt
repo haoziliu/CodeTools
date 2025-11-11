@@ -7692,4 +7692,18 @@ object ArrayCode {
         return result.toIntArray()
     }
 
+    fun findMaxForm(strs: Array<String>, m: Int, n: Int): Int {
+        val pairs = strs.map { str ->
+            str.count { it == '0' } to str.count { it == '1' }
+        }
+        val dp = Array(m + 1) { IntArray(n + 1) }
+        for ((zeros, ones) in pairs) {
+            for (j in m downTo zeros) {
+                for (k in n downTo ones) {
+                    dp[j][k] = maxOf(dp[j][k], dp[j - zeros][k - ones] + 1)
+                }
+            }
+        }
+        return dp[m][n]
+    }
 }
