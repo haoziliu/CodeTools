@@ -3659,4 +3659,28 @@ object HardArrayCode {
         }
         return right
     }
+
+    fun maxRunTime(n: Int, batteries: IntArray): Long {
+
+        fun test(minutes: Long): Boolean {
+            var total = 0L
+            for (battery in batteries) {
+                total += minOf(minutes, battery.toLong())
+                if (total / n >= minutes) return true
+            }
+            return false
+        }
+
+        var left = 0L
+        var right = 1e15.toLong()
+        while (left <= right) {
+            val mid = left + ((right - left) shr 1)
+            if (test(mid)) {
+                left = mid + 1
+            } else {
+                right = mid - 1
+            }
+        }
+        return right
+    }
 }

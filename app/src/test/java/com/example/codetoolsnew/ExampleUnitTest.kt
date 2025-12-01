@@ -99,21 +99,22 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
+        println(
+            HardArrayCode.maxRunTime(
+                3, intArrayOf(10, 10, 5, 3)
+            )
+        )
 //        println(
-//            HardArrayCode.maxPower(intArrayOf(1,2,4,5,0),1,2
-//            )
-//        )
-//        println(
-//            ArrayCode.processQueries(5, parseToIntArray("[[1,2],[2,3],[3,4],[4,5]]"), parseToIntArray("[[1,3],[2,1],[1,1],[2,2],[1,2]]"))
+//            ArrayCode.minSubarrayRemoval(intArrayOf(3,1,4,2), 6)
 //        )
 
 //        println(
 //            TreeCode.findKthLexicographicallyNumber(1000, 990)
 //        )
 
-        println(
-            BitCode.minimumOneBitOperations(6)
-        )
+//        println(
+//            BitCode.minimumOneBitOperations(6)
+//        )
 
 //        println(HardStringCode.longestSubsequenceRepeatedK("letsleetcode", 2))
 //        println(
