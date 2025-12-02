@@ -7706,4 +7706,22 @@ object ArrayCode {
         }
         return dp[m][n]
     }
+
+    fun countTrapezoids(points: Array<IntArray>): Int {
+        val MODULO = 1_000_000_007
+        val yCount = mutableMapOf<Int, Int>()
+        for ((x, y) in points) {
+            yCount[y] = yCount.getOrDefault(y, 0) + 1
+        }
+        var result = 0L
+        var accumulated = 0L
+        for ((_, n) in yCount) {
+            val choices = 1L * n * (n - 1) / 2
+            if (choices == 0L) continue
+            val current = (choices % MODULO) * accumulated % MODULO
+            result = (result + current) % MODULO
+            accumulated = (accumulated + choices) % MODULO
+        }
+        return result.toInt()
+    }
 }
