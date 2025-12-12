@@ -7724,4 +7724,47 @@ object ArrayCode {
         }
         return result.toInt()
     }
+
+    fun countMentions(numberOfUsers: Int, events: List<List<String>>): IntArray {
+        val sorted = events.sortedWith(compareBy<List<String>> { it[1].toInt() }.thenByDescending { it[0] })
+        val result = IntArray(numberOfUsers)
+        val offline = IntArray(numberOfUsers) { -60 }
+        var alls = 0
+
+        for ((event, current, text) in sorted) {
+            if (event == "MESSAGE") {
+                when (text) {
+                    "ALL" -> alls++
+                    "HERE" -> {
+                        for (i in 0 until numberOfUsers) {
+                            if (offline[i] + 60 <= current.toInt()) {
+                                result[i]++
+                            }
+                        }
+                    }
+
+                    else -> {
+                        var id = 0
+                        for (c in text) {
+                            if (c == ' ') {
+                                result[id]++
+                                id = 0
+                            } else if (c.isDigit()) {
+                                id = id * 10 + c.digitToInt()
+                            }
+                        }
+                        result[id]++
+                    }
+                }
+            } else {
+                offline[text.toInt()] = current.toInt()
+            }
+        }
+        if (alls != 0) {
+            for (i in 0 until numberOfUsers) {
+                result[i] += alls
+            }
+        }
+        return result
+    }
 }
