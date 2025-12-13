@@ -7767,4 +7767,34 @@ object ArrayCode {
         }
         return result
     }
+
+    fun validateCoupons(code: Array<String>, businessLine: Array<String>, isActive: BooleanArray): List<String> {
+        val categoryToQueue = Array(4) { PriorityQueue<String>() }
+
+        fun charsValid(chars: String): Boolean {
+            if (chars.isEmpty()) return false
+            for (c in chars) {
+                if (c !in 'a'..'z' && c !in 'A'..'Z' && c !in '0'..'9' && c != '_') return false
+            }
+            return true
+        }
+
+        for (i in code.indices) {
+            if (!isActive[i] || !charsValid(code[i])) continue
+            when (businessLine[i]) {
+                "electronics" -> categoryToQueue[0].add(code[i])
+                "grocery" -> categoryToQueue[1].add(code[i])
+                "pharmacy" -> categoryToQueue[2].add(code[i])
+                "restaurant" -> categoryToQueue[3].add(code[i])
+                else -> {}
+            }
+        }
+        val result = mutableListOf<String>()
+        for (pq in categoryToQueue) {
+            while (pq.isNotEmpty()) {
+                result.add(pq.poll()!!)
+            }
+        }
+        return result
+    }
 }
