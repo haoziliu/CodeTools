@@ -844,6 +844,11 @@ object HardArrayCode {
                 }
             }
         }
+
+        fun reset(x: Int) {
+            parent[x] = x
+            rank[x] = 1
+        }
     }
 
     fun longestConsecutive(nums: IntArray): Int {
@@ -3682,5 +3687,44 @@ object HardArrayCode {
             }
         }
         return right
+    }
+
+    fun findAllPeople(n: Int, meetings: Array<IntArray>, firstPerson: Int): List<Int> {
+        meetings.sortBy { it[2] }
+
+        val uf = UnionFind(n)
+        uf.union(0, firstPerson)
+
+        var left = 0
+        var currentTime = 0
+        for (right in meetings.indices) {
+            val (u, v, t) = meetings[right]
+            if (t != currentTime) {
+                for (i in left until right) {
+                    val (x, y, _) = meetings[i]
+                    if (uf.find(x) != uf.find(0)) {
+                        uf.reset(x)
+                        uf.reset(y)
+                    }
+                }
+                left = right
+                currentTime = t
+            }
+            uf.union(u, v)
+        }
+        for (i in left until meetings.size) {
+            val (x, y, _) = meetings[i]
+            if (uf.find(x) != uf.find(0)) {
+                uf.reset(x)
+                uf.reset(y)
+            }
+        }
+        val result = mutableListOf<Int>()
+        for (people in 0 until n) {
+            if (uf.find(people) == uf.find(0)) {
+                result.add(people)
+            }
+        }
+        return result
     }
 }
