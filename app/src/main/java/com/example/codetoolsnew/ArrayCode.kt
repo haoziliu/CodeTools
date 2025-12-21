@@ -7797,4 +7797,31 @@ object ArrayCode {
         }
         return result
     }
+
+    fun minDeletionSize(strs: Array<String>): Int {
+        var result = 0
+        val length = strs[0].length
+        val validRow = BooleanArray(strs.size)
+        for (col in 0 until length) {
+            var foundInvalid = false
+            val validRows = mutableSetOf<Int>()
+            for (row in 1 until strs.size) {
+                if (validRow[row]) continue
+                if (strs[row][col] < strs[row - 1][col]) {
+                    foundInvalid = true
+                    break
+                } else if (strs[row][col] > strs[row - 1][col]) {
+                    validRows.add(row)
+                }
+            }
+            if (foundInvalid) {
+                result++
+            } else {
+                for (row in validRows) {
+                    validRow[row] = true
+                }
+            }
+        }
+        return result
+    }
 }
