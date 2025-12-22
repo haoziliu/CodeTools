@@ -3727,4 +3727,29 @@ object HardArrayCode {
         }
         return result
     }
+
+    fun minDeletionSize(strs: Array<String>): Int {
+        val length = strs[0].length
+        val chars = Array<CharArray>(strs.size) {
+            strs[it].toCharArray()
+        }
+        val dp = IntArray(length) { 1 }
+        var maxLength = 0
+        for (i in 0 until length) {
+            for (j in 0 until i) {
+                var valid = true
+                for (row in chars.indices) {
+                    if (chars[row][j] > chars[row][i]) {
+                        valid = false
+                        break
+                    }
+                }
+                if (valid) {
+                    dp[i] = maxOf(dp[i], dp[j] + 1)
+                }
+            }
+            maxLength = maxOf(maxLength, dp[i])
+        }
+        return length - maxLength
+    }
 }
