@@ -1,23 +1,23 @@
 package com.example.codetoolsnew
 
+import android.util.Log
 import com.example.codetools.ArrayCode
-import com.example.codetools.BitCode
-import com.example.codetools.MathCode
-import com.example.codetools.StringCode
 import com.example.codetools.hard.HardArrayCode
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.util.concurrent.locks.ReadWriteLock
+import java.util.concurrent.locks.ReentrantLock
 
+import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
+import kotlin.concurrent.write
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -65,6 +65,18 @@ class ExampleUnitTest {
         }.toList()
     }
 
+    private fun parseToListString(input: String): List<List<String>> {
+        // 去除首尾的方括号
+        val trimmedInput = input.trim().removePrefix("[").removeSuffix("]")
+        // 按每一行进行分割
+        return trimmedInput.split("],[").map { row ->
+            // 处理每一行，去除方括号，并将字符串分割为数字
+            row.replace("[", "").replace("]", "")
+                .split(",").map { it.trim() }
+                .toList()
+        }.toList()
+    }
+
     @Test
     fun test() {
 //        val tree1 = TreeCode.TreeNode(3).apply {
@@ -99,13 +111,11 @@ class ExampleUnitTest {
 //        println(ListCode.sortList(head).toIntArray().joinToString())
 //
 
-        println(
-            HardArrayCode.maxRunTime(
-                3, intArrayOf(10, 10, 5, 3)
-            )
-        )
 //        println(
-//            ArrayCode.minSubarrayRemoval(intArrayOf(3,1,4,2), 6)
+            HardArrayCode.latestDayToCross(5, 2, parseToIntArray("[[5,1],[1,2],[3,1],[2,2],[3,2],[1,1],[5,2],[2,1],[4,2],[4,1]]"))
+//        )
+//        println(
+//            ArrayCode.countNegatives(parseToIntArray("[[4,3,2,-1],[3,2,1,-1],[1,1,-1,-2],[-1,-1,-2,-3]]"))
 //        )
 
 //        println(
@@ -131,5 +141,58 @@ class ExampleUnitTest {
 //        println(
 //            SortCode.radixSort(intArrayOf(170, 45, 75, 90, 802, 24, 2, 66))
 //        )
+
+
+//        val lock = Any()
+//        runBlocking {
+//            var counter = 0
+//            val mutex = Mutex()
+//            val jobs = List(1000) {
+//                launch(Dispatchers.IO) {
+//                    repeat(1000) {
+//                        synchronized(lock) {
+//                            counter++
+//                        }
+//                    }
+//                }
+//            }
+//            jobs.forEach { it.join() }
+//            println("Final counter value: ${counter}")
+//        }
+    }
+}
+
+data class User(val id: String, val name: String)
+
+class UserRepository {
+    private val cache = mutableMapOf<String, User>()
+
+    val lock = ReentrantReadWriteLock()
+
+    suspend fun getUser(id: String): User? {
+        return withContext(Dispatchers.IO) {
+            lock.read {
+                cache[id]
+            }
+        }
+//        return coroutineScope {
+//            withContext(Dispatchers.IO) {
+//                val deferred = async {
+//                    lock.read {
+//                        cache[id]
+//                    }
+//                }
+//                deferred.await()
+//            }
+//        }
+
+    }
+
+    suspend fun saveUser(user: User) {
+        return withContext(Dispatchers.IO) {
+            lock.write {
+                cache[user.id] = user
+            }
+        }
     }
 }

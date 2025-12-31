@@ -3752,4 +3752,42 @@ object HardArrayCode {
         }
         return length - maxLength
     }
+
+    fun latestDayToCross(row: Int, col: Int, cells: Array<IntArray>): Int {
+        val directions =
+            arrayOf(0 to 1, 1 to 1, 1 to 0, 1 to -1, 0 to -1, -1 to -1, -1 to 0, -1 to 1)
+
+        fun toIndex(x: Int, y: Int): Int {
+            return 1 + x * col + y
+        }
+
+        val size = row * col
+        val virtualLeft = 0
+        val virtualRight = size + 1
+        val uf = UnionFind(size + 2)
+        val matrix = Array(row) { BooleanArray(col) }
+
+        for (i in cells.indices) {
+            val x = cells[i][0] - 1
+            val y = cells[i][1] - 1
+            val index = toIndex(x, y)
+            if (y == col - 1) {
+                uf.union(index, virtualRight)
+            } else if (y == 0) {
+                uf.union(index, virtualLeft)
+            }
+            matrix[x][y] = true
+            for ((dx, dy) in directions) {
+                val newX = x + dx
+                val newY = y + dy
+                if (newX in 0 until row && newY in 0 until col && matrix[newX][newY]) {
+                    uf.union(index, toIndex(newX, newY))
+                }
+            }
+            if (uf.find(virtualLeft) == uf.find(virtualRight)) {
+                return i
+            }
+        }
+        return size - 1
+    }
 }
