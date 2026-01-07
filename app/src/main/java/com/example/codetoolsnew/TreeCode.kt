@@ -1749,4 +1749,29 @@ object TreeCode {
 
         return findDeepestLeavesLCA(root, 1)
     }
+
+    fun maxProduct(root: TreeNode?): Int {
+        if (root == null) return 0
+
+        fun sumAt(node: TreeNode): Int {
+            var sum = node.`val`
+            node.left?.let { sum += sumAt(it) }
+            node.right?.let { sum += sumAt(it) }
+            return sum
+        }
+
+        val totalSum = sumAt(root!!)
+        var result = 0L
+
+        fun calc(node: TreeNode): Int {
+            var sum = node.`val`
+            node.left?.let { sum += calc(it) }
+            node.right?.let { sum += calc(it) }
+            result = maxOf(result, 1L * (totalSum - sum) * sum)
+            return sum
+        }
+
+        calc(root!!)
+        return (result % 1_000_000_007).toInt()
+    }
 }
