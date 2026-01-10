@@ -2103,4 +2103,32 @@ object StringCode {
         }
         return result
     }
+
+    fun minimumDeleteSum(s1: String, s2: String): Int {
+        val m = s1.length
+        val n = s2.length
+        val s1 = s1.toCharArray()
+        val s2 = s2.toCharArray()
+
+        val dp = Array(m + 1) { IntArray(n + 1) }
+        for (i in 1..m) {
+            dp[i][0] = dp[i - 1][0] + s1[i - 1].code
+        }
+        for (j in 1..n) {
+            dp[0][j] = dp[0][j - 1] + s2[j - 1].code
+        }
+        for (i in 1..m) {
+            for (j in 1..n) {
+                if (s1[i - 1] == s2[j - 1]) {
+                    dp[i][j] = dp[i - 1][j - 1]
+                } else {
+                    dp[i][j] = minOf(
+                        dp[i - 1][j] + s1[i - 1].code,
+                        dp[i][j - 1] + s2[j - 1].code
+                    )
+                }
+            }
+        }
+        return dp[m][n]
+    }
 }
