@@ -3,7 +3,6 @@ package com.example.codetools.hard
 import com.example.codetools.ArrayCode
 import java.util.LinkedList
 import java.util.PriorityQueue
-import java.util.Stack
 import java.util.TreeMap
 import java.util.TreeSet
 import kotlin.math.abs
@@ -241,31 +240,38 @@ object HardArrayCode {
         return sum
     }
 
-    private fun largestRectangleArea(heights: IntArray): Int {
-        var maxArea = 0
-        val stack = Stack<Int>()
-        for (i in 0..heights.size) {
-            while (stack.isNotEmpty() && (i == heights.size || heights[stack.peek()] > heights[i])) {
-                val height = heights[stack.pop()]
-                val width = if (stack.isEmpty()) i else i - stack.peek() - 1
-                maxArea = maxOf(maxArea, height * width)
-            }
-            stack.add(i)
-        }
-        return maxArea
-    }
-
     fun maximalRectangle(matrix: Array<CharArray>): Int {
-        if (matrix.isEmpty()) return 0
-        var maxArea = 0
-        val hist = IntArray(matrix[0].size)
-        for (row in matrix) {
-            for (i in row.indices) {
-                hist[i] = if (row[i] == '0') 0 else hist[i] + 1
+        val m = matrix.size
+        val n = matrix[0].size
+        val heights = IntArray(n)
+
+        fun findMaxArea(): Int {
+            var maxArea = 0
+            val stack = IntArray(n)
+            var index = -1
+            for (col in 0..n) {
+                while (index >= 0 && (col == n || heights[stack[index]] > heights[col])) {
+                    val height = heights[stack[index--]]
+                    val width = if (index < 0) col else col - stack[index] - 1
+                    maxArea = maxOf(maxArea, height * width)
+                }
+                stack[++index] = col
             }
-            maxArea = maxOf(maxArea, largestRectangleArea(hist))
+            return maxArea
         }
-        return maxArea
+
+        var result = 0
+        for (row in 0 until m) {
+            for (col in 0 until n) {
+                if (matrix[row][col] == '1') {
+                    heights[col]++
+                } else {
+                    heights[col] = 0
+                }
+            }
+            result = maxOf(result, findMaxArea())
+        }
+        return result
     }
 
     fun minFallingPathSum(grid: Array<IntArray>): Int {
