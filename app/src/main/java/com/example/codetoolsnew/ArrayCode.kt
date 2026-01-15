@@ -7824,4 +7824,31 @@ object ArrayCode {
         }
         return result
     }
+
+    fun maximizeSquareHoleArea(n: Int, m: Int, hBars: IntArray, vBars: IntArray): Int {
+        hBars.sort()
+        vBars.sort()
+        var hStart = -1
+        var hEnd = -1
+        var maxH = 0
+        for (h in hBars) {
+            if (h - hEnd != 1) {
+                hStart = h
+            }
+            hEnd = h
+            maxH = maxOf(maxH, hEnd - hStart + 2)
+        }
+        var vStart = -1
+        var vEnd = -1
+        var maxV = 0
+        for (v in vBars) {
+            if (v - vEnd != 1) {
+                vStart = v
+            }
+            vEnd = v
+            maxV = maxOf(maxV, vEnd - vStart + 2)
+        }
+        val minLength = minOf(maxH, maxV)
+        return minLength * minLength
+    }
 }
