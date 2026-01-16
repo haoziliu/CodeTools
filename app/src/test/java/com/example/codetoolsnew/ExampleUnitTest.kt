@@ -116,7 +116,7 @@ class ExampleUnitTest {
 //            HardArrayCode.latestDayToCross(5, 2, parseToIntArray("[[5,1],[1,2],[3,1],[2,2],[3,2],[1,1],[5,2],[2,1],[4,2],[4,1]]"))
 //        )
         println(
-            ArrayCode.maximizeSquareHoleArea(4,2,intArrayOf(4,2), intArrayOf(3,2))
+            ArrayCode.maximizeSquareArea(4,4,intArrayOf(2), intArrayOf(3,2))
         )
 
 //        println(

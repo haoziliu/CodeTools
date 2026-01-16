@@ -7851,4 +7851,30 @@ object ArrayCode {
         val minLength = minOf(maxH, maxV)
         return minLength * minLength
     }
+
+    fun maximizeSquareArea(m: Int, n: Int, hFences: IntArray, vFences: IntArray): Int {
+        val hMap = mutableSetOf<Int>()
+        for (i in 0..hFences.size) {
+            val border = if (i == hFences.size) m else hFences[i]
+            hMap.add(border - 1)
+            for (j in 0 until i) {
+                hMap.add(abs(border - hFences[j]))
+            }
+        }
+        var maxLength = -1
+        for (i in 0..vFences.size) {
+            val border = if (i == vFences.size) n else vFences[i]
+            if (border - 1 in hMap) {
+                maxLength = maxOf(maxLength, border - 1)
+            }
+            for (j in 0 until i) {
+                val length = abs(border - vFences[j])
+                if (length in hMap) {
+                    maxLength = maxOf(maxLength, length)
+                }
+            }
+        }
+        if (maxLength == -1) return -1
+        return ((1L * maxLength * maxLength) % 1_000_000_007).toInt()
+    }
 }
