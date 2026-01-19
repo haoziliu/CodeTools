@@ -1327,4 +1327,36 @@ object MatrixCode {
         result[index] = mat[i][j]
         return result
     }
+
+    fun maxSideLength(mat: Array<IntArray>, threshold: Int): Int {
+        val m = mat.size
+        val n = mat[0].size
+        val prefixSum = Array(m + 1) { IntArray(n + 1) }
+        for (i in 1..m) {
+            for (j in 1..n) {
+                prefixSum[i][j] = mat[i - 1][j - 1] + prefixSum[i - 1][j] + prefixSum[i][j - 1] - prefixSum[i - 1][j - 1]
+            }
+        }
+        fun check(len: Int): Boolean {
+            for (i in len .. m) {
+                for (j in len .. n) {
+                    val sum = prefixSum[i][j] - prefixSum[i][j - len] - prefixSum[i - len][j] + prefixSum[i - len][j - len]
+                    if (sum <= threshold) return true
+                }
+            }
+            return false
+        }
+
+        var left = 1
+        var right = minOf(m, n)
+        while (left <= right) {
+            val mid = (left + right) / 2
+            if (check(mid)) {
+                left = mid + 1
+            } else {
+                right = mid - 1
+            }
+        }
+        return right
+    }
 }
